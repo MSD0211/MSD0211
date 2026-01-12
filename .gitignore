@@ -1,0 +1,18 @@
+# Maven /Java build output
+target/
+build/
+out/
+
+#logs
+*.log
+#IDE
+.vscode/
+launch.json
+settings.json
+
+#OS
+.DS_Store
+Thumbs.db
+
+#Environment files (optional)
+.env

@@ -123,7 +123,7 @@ private String extractReferenceId(String json) {
         JsonNode node = mapper.readTree(json);
         System.out.println("JSON ROOT :: " + node.toString());
 
-        String[] keys = { "referenceId", "referenceNo", "refId", "ref_no" };
+        String[] keys = { "referenceId", "referenceNo", "refId", "ref_no", "referenceNumber" };
 
         // Check root level
         for (String key : keys) {

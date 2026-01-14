@@ -12,3 +12,45 @@ spring:
   profiles:
     active: dev
   
+elife:
+  api:
+    loan:
+      enquiry:
+        url: /online/loan/enquiry
+    customer:
+      authentication:
+        url: /api/Authentication/v1/client
+    agent:
+      authentication:
+        url: /api/Authentication/v1/agent
+    plan:
+      details:
+        url: /online/v1/plan/details
+    employee:
+      authentication:
+        url: /api/Authentication/v1/employee
+    premium:
+      renewal:
+        enquiry:
+          url: /policyEnquiry
+        adjustment:
+          url: /adjustAmount
+    policy:
+      customer:
+        enquiry:
+          url: /api/v1/policy/enquiry/customer
+      agent:
+        enquiry:
+          url: /api/v1/policy/enquiry/agent
+      revival:
+        quotation:
+          url: /online/polrev
+    proposal:
+      premium:
+        enquiry:
+          url: /api/v1/proposal/premium/enquiry
+      submission:
+        enquiry:
+          url: /online/proposal/enquiry
+    key: 1d29e6b3-1b74-467d-b2a6-cd3107e674d2
+    keyHeader: X-API-KEY

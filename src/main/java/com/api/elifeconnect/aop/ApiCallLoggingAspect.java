@@ -194,6 +194,7 @@ private String normalizeIp(String ip) {
 
         if (node.has("referenceId")) return node.get("referenceId").asText();
         if (node.has("referenceNo")) return node.get("referenceNo").asText();
+        if (node.has("referenceNumber")) return node.get("referenceNumber").asText();
 
         for (JsonNode child : node) {
             String ref = findReference(child);

@@ -4,7 +4,7 @@ import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,7 +33,7 @@ public class PremiumController {
         this.responseBuilder = new ApiResponseBuilder();
     }
 
-    @GetMapping("/renewal/enquiry")
+    @PostMapping("/renewal/enquiry")
     @PreAuthorize("hasAuthority('api.read')")
     @LogApiCall("RenewalPremiumEnquiryAPI")
     public ResponseEntity<ApiResponse<RenewalPremiumEnquiryResponse>> loanEnquiry(
@@ -50,7 +50,7 @@ public class PremiumController {
         return ResponseEntity.ok(body);
     }
 
-    @GetMapping("/renewal/adjustment")
+    @PostMapping("/renewal/adjustment")
     @PreAuthorize("hasAuthority('api.read')")
     @LogApiCall("RenewalPremiumAdjustmentEnquiryAPI")
     public ResponseEntity<ApiResponse<RenewalPremiumAdjustmentResponse>> loanEnquiry(

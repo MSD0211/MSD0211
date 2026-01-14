@@ -1,6 +1,5 @@
 package com.api.elifeconnect.service.policy.impl;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +10,8 @@ import com.api.elifeconnect.dto.policy.AgentPolicyEnquiryRequest;
 import com.api.elifeconnect.dto.policy.AgentPolicyEnquiryResponse;
 import com.api.elifeconnect.dto.policy.CustomerPolicyEnquiryRequest;
 import com.api.elifeconnect.dto.policy.CustomerPolicyEnquiryResponse;
-import com.api.elifeconnect.dto.policy.PolicyDetails;
+import com.api.elifeconnect.dto.policy.PolicyRevivalQuotationRequest;
+import com.api.elifeconnect.dto.policy.PolicyRevivalQuotationResponse;
 import com.api.elifeconnect.service.policy.PolicyService;
 
 @Service
@@ -27,6 +27,9 @@ public class PolicyServiceImpl implements PolicyService {
 
     @Value("${elife.api.policy.agent.enquiry.url}")
     private String eLifeApiAgentPolicyEnquiryUrl;
+
+    @Value("${elife.api.policy.revival.quotation.url}")
+    private String eLifeApiRevivalQuotationUrl;
 
     public PolicyServiceImpl(WebClientUtil client) {
         this.client = client;
@@ -53,6 +56,17 @@ public class PolicyServiceImpl implements PolicyService {
         // Call WebClientUtil (reactive) and block for MVC
         return client.post(url, req, Map.of(), AgentPolicyEnquiryResponse.class)
                 .block(); // convert Mono → object
+    }
+
+    @Override
+    public PolicyRevivalQuotationResponse fetchPolicyRevivalDetails(PolicyRevivalQuotationRequest req){
+        var url = eLifeApiBaseUrl + eLifeApiRevivalQuotationUrl;
+        System.out.println("REQUEST REFERENCE ID::" + req.referenceNo());
+        System.out.println("URL::" + url);
+
+        // Call WebClientUtil (reactive) and block for MVC
+        return client.post(url, req, Map.of(), PolicyRevivalQuotationResponse.class)
+                .block();
     }
 
 }

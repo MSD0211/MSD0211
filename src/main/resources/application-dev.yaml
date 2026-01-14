@@ -73,37 +73,4 @@ spring:
         
 elife:
   api:
-    baseurl: http://10.244.142.198:8280/eLife/elifeRestServices
-    loan:
-      enquiry:
-        url: /online/loan/enquiry
-    customer:
-      authentication:
-        url: /api/Authentication/v1/client
-    agent:
-      authentication:
-        url: /api/Authentication/v1/agent
-    plan:
-      details:
-        url: /online/v1/plan/details
-    employee:
-      authentication:
-        url: /api/Authentication/v1/employee
-    premium:
-      renewal:
-        enquiry:
-          url: /policyEnquiry
-        adjustment:
-          url: /adjustAmount
-    policy:
-      customer:
-        enquiry:
-          url: /api/v1/policy/enquiry/customer
-      agent:
-        enquiry:
-          url: /api/v1/policy/enquiry/agent
-    key: 1d29e6b3-1b74-467d-b2a6-cd3107e674d2
-    keyHeader: X-API-KEY
-
-
-     
+    baseurl: http://10.244.142.197:8380/eLife/elifeRestServices

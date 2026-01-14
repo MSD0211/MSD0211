@@ -8,7 +8,7 @@ import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,7 +40,7 @@ public class PolicyController {
         this.responseBuilder = new ApiResponseBuilder();
     }
 
-    @GetMapping("/customer")
+    @PostMapping("/customer")
     @PreAuthorize("hasAuthority('api.read')")
     @LogApiCall("CustomerPolicyEnquiryAPI")
     public ResponseEntity<ApiResponse<CustomerPolicyEnquiryResponse>> customerPolicyEnquiry(
@@ -57,7 +57,7 @@ public class PolicyController {
         return ResponseEntity.ok(body);
     }
 
-     @GetMapping("/agent")
+    @PostMapping("/agent")
     @PreAuthorize("hasAuthority('api.read')")
     @LogApiCall("CustomerPolicyEnquiryAPI")
     public ResponseEntity<ApiResponse<AgentPolicyEnquiryResponse>> agentPolicyEnquiry(

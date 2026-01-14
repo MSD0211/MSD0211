@@ -18,6 +18,8 @@ import com.api.elifeconnect.dto.proposal.ProposalPremiumEnquiryRequest;
 import com.api.elifeconnect.dto.proposal.ProposalPremiumEnquiryResponse;
 import com.api.elifeconnect.dto.proposal.ProposalSubmissionEnquiryRequest;
 import com.api.elifeconnect.dto.proposal.ProposalSubmissionEnquiryResponse;
+import com.api.elifeconnect.dto.proposal.submit.ProposalSubmitRequest;
+import com.api.elifeconnect.dto.proposal.submit.ProposalSubmitResponse;
 import com.api.elifeconnect.service.proposal.ProposalService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,23 +39,6 @@ public class ProposalController {
         this.responseBuilder = new ApiResponseBuilder();
     }
 
-    // @GetMapping("/submit")
-    // // @PreAuthorize("hasAnyRole('USER')")
-    // @PreAuthorize("hasAuthority('api.read')")
-    // @LogApiCall("Proposal Submission API")
-    // public ResponseEntity<ApiResponse<AgentAuthenticationResponse>> agentAuthentication(
-    //         @RequestBody AgentAuthenticationRequest agentAuthenticationRequest,
-    //         HttpServletRequest request) {
-                
-    //     MDC.put("apiName", "Proposal Submission API");
-    //     AgentAuthenticationResponse response = agentAuthService.agentAuthentication(agentAuthenticationRequest);
-    //     System.out.println("RESPONSE ::"+response.message());
-    //     System.out.println("RESPONSE::"+response.emailId());
-    //     ApiResponse<AgentAuthenticationResponse> body =
-    //             responseBuilder.success(request, "Agent Authentication done", response);
-
-    //     return ResponseEntity.ok(body);
-    // }
 
     @PostMapping("/premium/enquiry")
     @PreAuthorize("hasAuthority('api.read')")
@@ -90,5 +75,24 @@ public class ProposalController {
 
         return ResponseEntity.ok(body);
     }
+
+    @PostMapping("/submit")
+    @PreAuthorize("hasAuthority('api.read')")
+    @LogApiCall("Proposal Submission API")
+    public ResponseEntity<ApiResponse<ProposalSubmitResponse>> proposalSubmit(
+            @RequestBody ProposalSubmitRequest proposalSubmitRequest,
+            HttpServletRequest request) {
+                
+        MDC.put("apiName", "Proposal Submission API");
+        ProposalSubmitResponse response;
+        log.error("PROPOSAL SUBMISSION!!");
+        response = proposalService.proposalSubmit(proposalSubmitRequest);
+        log.error("RESPONSE ::"+response.message());
+        ApiResponse<ProposalSubmitResponse  > body =
+                responseBuilder.success(request, "Proposal Submission done", response);
+
+        return ResponseEntity.ok(body);
+    }
+
 
 }

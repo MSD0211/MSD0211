@@ -10,6 +10,8 @@ import com.api.elifeconnect.dto.proposal.ProposalPremiumEnquiryRequest;
 import com.api.elifeconnect.dto.proposal.ProposalPremiumEnquiryResponse;
 import com.api.elifeconnect.dto.proposal.ProposalSubmissionEnquiryRequest;
 import com.api.elifeconnect.dto.proposal.ProposalSubmissionEnquiryResponse;
+import com.api.elifeconnect.dto.proposal.submit.ProposalSubmitRequest;
+import com.api.elifeconnect.dto.proposal.submit.ProposalSubmitResponse;
 import com.api.elifeconnect.service.proposal.ProposalService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,9 @@ public class ProposalServiceImpl implements ProposalService {
 
     @Value("${elife.api.proposal.submission.enquiry.url}")
     private String eLifeApiProposalSubmissionEnquiryUrl;
+
+      @Value("${elife.api.proposal.submit.url}")
+    private String eLifeApiProposalSubmitUrl;
 
 
     public ProposalServiceImpl(WebClientUtil client) {
@@ -55,5 +60,17 @@ public class ProposalServiceImpl implements ProposalService {
         return client.post(url, req, Map.of(), ProposalSubmissionEnquiryResponse.class)
                      .block();   // convert Mono → object
     }
+    
+    @Override
+    public ProposalSubmitResponse proposalSubmit(ProposalSubmitRequest req){
+        String url = eLifeApiBaseUrl + eLifeApiProposalSubmitUrl;
+        log.error("URL::"+url);
+
+        // Call WebClientUtil (reactive) and block for MVC
+        return client.post(url, req, Map.of(), ProposalSubmitResponse.class)
+                     .block();   // convert Mono → object
+    }
+
+    
 }
 

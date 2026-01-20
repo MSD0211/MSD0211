@@ -68,7 +68,7 @@ public class GenericApiServiceImpl implements GenericApiService {
                         T requestBody,
                         Map<String, String> headers) {
 
-                return client.downloadPdfWithJson(url, requestBody, headers)
+                return client.downloadPdf(url, requestBody, headers)
                                 .doFinally(signal -> MDC.remove("apiName"))
                                 .block();
         }

@@ -1,10 +1,9 @@
 package com.api.elifeconnect.service;
 
-import com.api.elifeconnect.dto.loan.LoanEnquiryRequest;
-import com.api.elifeconnect.dto.loan.LoanEnquiryResponse;
+import com.api.elifeconnect.dto.loan.LoanQuotationRequest;
 
 public interface LoanService {
 
-    LoanEnquiryResponse loanEnquiry(LoanEnquiryRequest req);
+    byte[] generateLoanQuotation(LoanQuotationRequest loanQuotationRequest);
 
 }

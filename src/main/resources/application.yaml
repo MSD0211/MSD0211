@@ -17,6 +17,8 @@ elife:
     loan:
       enquiry:
         url: /online/loan/enquiry
+      quotation:
+        url: /api/v1/loan/quotation
     customer:
       authentication:
         url: /api/Authentication/v1/client
@@ -53,6 +55,7 @@ elife:
         enquiry:
           url: /online/proposal/enquiry
       submit:
-        url: online/proposal/submit
+        url: /online/proposal/submit
+        
     key: 1d29e6b3-1b74-467d-b2a6-cd3107e674d2
     keyHeader: X-API-KEY

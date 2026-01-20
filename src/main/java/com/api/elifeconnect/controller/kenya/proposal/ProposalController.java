@@ -84,6 +84,7 @@ public class ProposalController {
             HttpServletRequest request) {
                 
         MDC.put("apiName", "Proposal Submission API");
+        log.error("REFERENCE ID::"+proposalSubmitRequest.id());
         ProposalSubmitResponse response;
         log.error("PROPOSAL SUBMISSION!!");
         response = proposalService.proposalSubmit(proposalSubmitRequest);

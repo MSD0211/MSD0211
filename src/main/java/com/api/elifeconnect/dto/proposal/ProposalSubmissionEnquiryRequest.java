@@ -8,6 +8,8 @@ import jakarta.validation.constraints.NotBlank;
 public record ProposalSubmissionEnquiryRequest(
         
         @JsonAlias({"referenceId"})
-        @NotBlank String referenceNumber
+        @NotBlank String referenceNumber,
+        @JsonAlias({"originalReferenceId"})
+        @NotBlank String originalReferenceNumber
 ) {
 }

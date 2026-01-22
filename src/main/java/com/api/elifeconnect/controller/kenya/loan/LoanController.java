@@ -18,7 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.api.elifeconnect.aop.LogApiCall;
 import com.api.elifeconnect.common.response.ApiResponseBuilder;
 import com.api.elifeconnect.dto.loan.LoanQuotationRequest;
-import com.api.elifeconnect.service.LoanService;
+import com.api.elifeconnect.dto.loan.LoanRepaymentLetterRequest;
+import com.api.elifeconnect.service.loan.LoanService;
 
 @RestController
 @RequestMapping("/api/v1/kenya/loan")
@@ -71,6 +72,33 @@ public class LoanController {
                 .header(
                         HttpHeaders.CONTENT_DISPOSITION,
                         "attachment; filename=\"loan-quotation-" 
+                                + request.policyNumber() + ".pdf\""
+                )
+                .contentLength(pdfBytes.length)
+                .body(pdfResource);
+    }
+
+    @PostMapping(
+            value = "/repayment/letter/download",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_PDF_VALUE
+    )
+    @PreAuthorize("hasAuthority('api.read')")
+    @LogApiCall("LoanRepaymentLetterAPI")
+    public ResponseEntity<Resource> downloadLoanRepaymentLetterPdf(
+            @RequestBody LoanRepaymentLetterRequest request
+    ) throws IOException {
+
+        MDC.put("apiName", "LoanRepaymentLetterAPI");
+        byte[] pdfBytes = loanService .generateLoanRepaymentLetter(request);
+
+        ByteArrayResource pdfResource = new ByteArrayResource(pdfBytes);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_PDF)
+                .header(
+                        HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\"loan-repayment-letter-" 
                                 + request.policyNumber() + ".pdf\""
                 )
                 .contentLength(pdfBytes.length)

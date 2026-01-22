@@ -31,8 +31,8 @@ spring:
             redirectUri: http://198.168.0.100:8085/login/oauth2/code/keycloak
   datasource:
       url: jdbc:mysql://198.168.0.100:3306/lanka?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      username: feap
-      password: devfeap
+      username: elifeconnect
+      password: devFeap@123
       driver-class-name: com.mysql.cj.jdbc.Driver
 
       hikari:

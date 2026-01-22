@@ -6,10 +6,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.api.elifeconnect.dto.loan.LoanQuotationRequest;
-import com.api.elifeconnect.service.LoanService;
+import com.api.elifeconnect.service.loan.LoanService;
 import com.api.elifeconnect.Utility.WebClientUtil;
-import com.api.elifeconnect.dto.loan.LoanEnquiryRequest;
-import com.api.elifeconnect.dto.loan.LoanEnquiryResponse;
+import com.api.elifeconnect.dto.loan.LoanRepaymentLetterRequest;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,6 +24,9 @@ public class LoanServiceImpl implements LoanService{
     @Value("${elife.api.loan.quotation.url}")
     private String eLifeApiLoanQuotationUrl;
 
+    @Value("${elife.api.loan.repayment.letter.url}")
+    private String eLifeApiLoanRepaymentLetterUrl;
+
     public LoanServiceImpl(WebClientUtil client) {
         this.client = client;
     }
@@ -36,6 +38,17 @@ public class LoanServiceImpl implements LoanService{
     log.error("URL::"+url);
 
     return client.downloadPdf(url, loanQuotationRequest, Map.of()).block();
+    
+    
+    }
+
+    @Override
+    public byte[] generateLoanRepaymentLetter(LoanRepaymentLetterRequest loanRepaymentLetterRequest){
+
+    String url = eLifeApiBaseUrl + eLifeApiLoanRepaymentLetterUrl;
+    log.error("URL::"+url);
+
+    return client.downloadPdf(url, loanRepaymentLetterRequest, Map.of()).block();
     
     
     }

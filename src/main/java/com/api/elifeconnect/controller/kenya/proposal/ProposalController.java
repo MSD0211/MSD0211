@@ -71,7 +71,7 @@ public class ProposalController {
         log.error("RESPONSE ::"+response.proposalNumber());
         log.error("RESPONSE::"+response.installmentPremium());
         ApiResponse<ProposalSubmissionEnquiryResponse> body =
-                responseBuilder.success(request, "Proposal Premium Enquiry done", response);
+                responseBuilder.success(request, "Proposal Submission Enquiry done", response);
 
         return ResponseEntity.ok(body);
     }

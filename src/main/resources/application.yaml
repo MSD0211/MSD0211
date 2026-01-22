@@ -17,6 +17,9 @@ elife:
     loan:
       enquiry:
         url: /online/loan/enquiry
+      repayment:
+        letter:
+          url: /api/v1/loan/repayment/letter
       quotation:
         url: /api/v1/loan/quotation
     customer:
@@ -53,7 +56,7 @@ elife:
           url: /api/v1/proposal/premium/enquiry
       submission:
         enquiry:
-          url: /online/proposal/enquiry
+          url: /api/v1/online/proposal/enquiry
       submit:
         url: /online/proposal/submit
         

@@ -20,7 +20,7 @@ import com.api.elifeconnect.service.premium.PremiumService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-@RestController
+@RestController("lankaPremiumController")
 @RequestMapping("/api/v1/lanka/premium")
 public class PremiumController {
 

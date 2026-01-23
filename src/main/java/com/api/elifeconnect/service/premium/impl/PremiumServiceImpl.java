@@ -10,6 +10,10 @@ import com.api.elifeconnect.dto.premium.RenewalPremiumAdjustmentRequest;
 import com.api.elifeconnect.dto.premium.RenewalPremiumAdjustmentResponse;
 import com.api.elifeconnect.dto.premium.RenewalPremiumEnquiryRequest;
 import com.api.elifeconnect.dto.premium.RenewalPremiumEnquiryResponse;
+import com.api.elifeconnect.dto.premium.statement.PremiumStatementFullRequest;
+import com.api.elifeconnect.dto.premium.statement.PremiumStatementFullResponse;
+import com.api.elifeconnect.dto.premium.summary.PremiumSummaryRequest;
+import com.api.elifeconnect.dto.premium.summary.PremiumSummaryResponse;
 import com.api.elifeconnect.service.premium.PremiumService;
 
 @Service
@@ -25,6 +29,12 @@ public class PremiumServiceImpl implements PremiumService {
 
     @Value("${elife.api.premium.renewal.adjustment.url}")
     private String eLifeApiRenewalPremiumAdjustmentUrl;
+
+    @Value("${elife.api.premium.statement.full.url}")
+    private String eLifeApiPremiumStatementFullUrl;
+
+    @Value("${elife.api.premium.summary.url}")
+    private String eLifeApiPremiumSummaryUrl;
 
     public PremiumServiceImpl(WebClientUtil client) {
         this.client = client;
@@ -50,6 +60,28 @@ public class PremiumServiceImpl implements PremiumService {
         // Call WebClientUtil (reactive) and block for MVC
         return client.post(url, req, Map.of(), RenewalPremiumAdjustmentResponse.class)
                      .block();   // convert Mono → object
+    }
+
+    @Override
+    public PremiumStatementFullResponse premiumStatementFull(PremiumStatementFullRequest req){
+        String url = eLifeApiBaseUrl + eLifeApiPremiumStatementFullUrl;
+        System.out.println("REQUEST REFERENCE ID::"+req.policyNumber());
+        System.out.println("URL::"+url);
+
+        // Call WebClientUtil (reactive) and block for MVC
+        return client.post(url, req, Map.of(), PremiumStatementFullResponse.class)
+                     .block(); 
+    }
+    
+    @Override
+    public PremiumSummaryResponse premiumStatementFull(PremiumSummaryRequest req){
+              String url = eLifeApiBaseUrl + eLifeApiPremiumSummaryUrl;
+        System.out.println("REQUEST REFERENCE ID::"+req.policyNumber());
+        System.out.println("URL::"+url);
+
+        // Call WebClientUtil (reactive) and block for MVC
+        return client.post(url, req, Map.of(), PremiumSummaryResponse.class)
+                     .block(); 
     }
 }
 

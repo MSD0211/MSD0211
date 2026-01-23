@@ -43,6 +43,11 @@ elife:
           url: /policyEnquiry
         adjustment:
           url: /adjustAmount
+      statement:
+        full:
+          url: /api/v1/premium/statement/full
+      summary:
+        url: /api/v1/premium/summary
     policy:
       customer:
         enquiry:

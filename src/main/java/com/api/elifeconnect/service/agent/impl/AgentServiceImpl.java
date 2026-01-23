@@ -8,10 +8,14 @@ import org.springframework.stereotype.Service;
 import com.api.elifeconnect.Utility.WebClientUtil;
 import com.api.elifeconnect.dto.agent.AgentAuthenticationRequest;
 import com.api.elifeconnect.dto.agent.AgentAuthenticationResponse;
-import com.api.elifeconnect.service.agent.AgentAuthenticationService;
+import com.api.elifeconnect.dto.agent.CommissionStatementRequest;
+import com.api.elifeconnect.service.agent.AgentService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
-public class AgentAuthenticationServiceImpl implements AgentAuthenticationService {
+public class AgentServiceImpl implements AgentService {
 
     private final WebClientUtil client;
 
@@ -21,7 +25,10 @@ public class AgentAuthenticationServiceImpl implements AgentAuthenticationServic
     @Value("${elife.api.agent.authentication.url}")
     private String eLifeApiAgentAuthenticationUrl;
 
-    public AgentAuthenticationServiceImpl(WebClientUtil client) {
+    @Value("${elife.api.agent.commission.statement.url}")
+    private String eLifeApiAgentCommissionStatementUrl;
+
+    public AgentServiceImpl(WebClientUtil client) {
         this.client = client;
     }
 
@@ -33,6 +40,14 @@ public class AgentAuthenticationServiceImpl implements AgentAuthenticationServic
         // Call WebClientUtil (reactive) and block for MVC
         return client.post(url, req, Map.of(), AgentAuthenticationResponse.class)
                      .block();   // convert Mono → object
+    }
+
+    @Override
+    public byte[] generateCommissionStatement(CommissionStatementRequest commissionStatementRequest){
+        String url = eLifeApiBaseUrl + eLifeApiAgentCommissionStatementUrl;
+        log.error("URL::"+url);
+
+        return client.downloadPdf(url, commissionStatementRequest, Map.of()).block();
     }
 }
 

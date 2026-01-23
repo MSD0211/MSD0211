@@ -28,6 +28,9 @@ elife:
     agent:
       authentication:
         url: /api/Authentication/v1/agent
+      commission:
+        statement:
+          url: /api/v1/commission/statement
     plan:
       details:
         url: /online/v1/plan/details
@@ -59,6 +62,7 @@ elife:
           url: /api/v1/online/proposal/enquiry
       submit:
         url: /online/proposal/submit
+
         
     key: 1d29e6b3-1b74-467d-b2a6-cd3107e674d2
     keyHeader: X-API-KEY

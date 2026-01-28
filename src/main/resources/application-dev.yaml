@@ -22,7 +22,7 @@ spring:
           keycloak:
             issuer-uri: http://10.240.4.16:8085/realms/kenindia-prod
             token-uri: http://10.240.4.16:8085/realms/kenindia-prod/protocol/openid-connect/token
-            authorization-uri: http://10.240.4.16:8085/realms/kenindia-prodprotocol/openid-connect/auth
+            authorization-uri: http://10.240.4.16:8085/realms/kenindia-prod/protocol/openid-connect/auth
             user-info-uri: http://10.240.4.16:8085/realms/kenindia-prod/protocol/openid-connect/userinfo
             jwk-set-uri: http://10.240.4.16:8085/realms/kenindia-prod/protocol/openid-connect/certs
         registration:

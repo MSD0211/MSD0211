@@ -67,6 +67,11 @@ elife:
           url: /api/v1/online/proposal/enquiry
       submit:
         url: /online/proposal/submit
+    ulip:
+      fund:
+        position:
+          single:
+            url: /api/v1/fund/position/single
 
         
     key: 1d29e6b3-1b74-467d-b2a6-cd3107e674d2

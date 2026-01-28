@@ -61,6 +61,11 @@ public record PremiumStatementFullResponse(
 
         @NotNull
         @Valid
-        List<PremiumPaymentDetails> premiumPaymentDetails
+        List<PremiumPaymentDetails> premiumPaymentDetails,
+
+        String message
+
+        //String httpStatus
+
 ) {
 }

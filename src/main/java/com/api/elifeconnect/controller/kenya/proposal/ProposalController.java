@@ -26,7 +26,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RestController
+@RestController("kenyaPremiumController")
 @RequestMapping("/api/v1/kenya/proposal")
 public class ProposalController {
 

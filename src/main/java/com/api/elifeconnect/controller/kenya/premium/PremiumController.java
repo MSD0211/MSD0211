@@ -57,7 +57,7 @@ public class PremiumController {
         System.out.println("RESPONSE ::"+response.policyNumber());
         System.out.println("RESPONSE::"+response.firstPremium());
         ApiResponse<PremiumStatementFullResponse> body =
-                responseBuilder.success(request, "Proposal Premium Enquiry done", response);
+                responseBuilder.success(request, "Premium Statement generated", response);
 
         return ResponseEntity.ok(body);
     }
@@ -74,7 +74,7 @@ public class PremiumController {
         System.out.println("RESPONSE ::"+response.policyNumber());
         System.out.println("RESPONSE::"+response.sumAssured());
         ApiResponse<PremiumSummaryResponse> body =
-                responseBuilder.success(request, "Proposal Premium Enquiry done", response);
+                responseBuilder.success(request, "Premium Summary generated", response);
 
         return ResponseEntity.ok(body);
     }

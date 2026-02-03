@@ -10,6 +10,8 @@ import com.api.elifeconnect.dto.proposal.ProposalPremiumEnquiryRequest;
 import com.api.elifeconnect.dto.proposal.ProposalPremiumEnquiryResponse;
 import com.api.elifeconnect.dto.proposal.ProposalSubmissionEnquiryRequest;
 import com.api.elifeconnect.dto.proposal.ProposalSubmissionEnquiryResponse;
+import com.api.elifeconnect.dto.proposal.deposit.ProposalDepositCreationRequest;
+import com.api.elifeconnect.dto.proposal.deposit.ProposalDepositCreationResponse;
 import com.api.elifeconnect.dto.proposal.submit.ProposalSubmitRequest;
 import com.api.elifeconnect.dto.proposal.submit.ProposalSubmitResponse;
 import com.api.elifeconnect.service.proposal.ProposalService;
@@ -31,9 +33,11 @@ public class ProposalServiceImpl implements ProposalService {
     @Value("${elife.api.proposal.submission.enquiry.url}")
     private String eLifeApiProposalSubmissionEnquiryUrl;
 
-      @Value("${elife.api.proposal.submit.url}")
+    @Value("${elife.api.proposal.submit.url}")
     private String eLifeApiProposalSubmitUrl;
 
+    @Value("${elife.api.proposal.deposit.creation.url}")
+    private String eLifeApiProposalDepositCreationUrl;
 
     public ProposalServiceImpl(WebClientUtil client) {
         this.client = client;
@@ -70,6 +74,17 @@ public class ProposalServiceImpl implements ProposalService {
         return client.post(url, req, Map.of(), ProposalSubmitResponse.class)
                      .block();   // convert Mono → object
     }
+
+    @Override
+    public ProposalDepositCreationResponse createProposalDeposit(ProposalDepositCreationRequest req){
+                String url = eLifeApiBaseUrl + eLifeApiProposalDepositCreationUrl;
+        log.error("URL::"+url);
+
+        // Call WebClientUtil (reactive) and block for MVC
+        return client.post(url, req, Map.of(), ProposalDepositCreationResponse.class)
+                     .block(); 
+    }
+
 
     
 }

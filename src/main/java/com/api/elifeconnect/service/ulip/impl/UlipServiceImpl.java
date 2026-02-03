@@ -32,7 +32,7 @@ public class UlipServiceImpl implements UlipService {
     @Override
     public UlipFundPositionSingleResponse getFundPositionSingle(UlipFundPositionSingleRequest req){
         String url = eLifeApiBaseUrl + eLifeUlipFundPositionSingleUrl;
-        log.error("REQUEST REFERENCE ID::"+req.referenceId());
+        // log.error("REQUEST REFERENCE ID::"+req);
         log.error("URL::"+url);
 
         // Call WebClientUtil (reactive) and block for MVC

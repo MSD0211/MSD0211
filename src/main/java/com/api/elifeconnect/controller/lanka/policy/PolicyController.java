@@ -27,8 +27,8 @@ import com.api.elifeconnect.service.premium.PremiumService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-@RestController
-@RequestMapping("/api/v1/lanka/policy/enquiry")
+@RestController("lankaPolicyController")
+@RequestMapping("/api/v1/lanka/policy")
 public class PolicyController {
 
     private final PolicyService policyService;
@@ -40,7 +40,7 @@ public class PolicyController {
         this.responseBuilder = new ApiResponseBuilder();
     }
 
-    @PostMapping("/customer")
+    @PostMapping("/enquiry/customer")
     @PreAuthorize("hasAuthority('api.read')")
     @LogApiCall("CustomerPolicyEnquiryAPI")
     public ResponseEntity<ApiResponse<CustomerPolicyEnquiryResponse>> customerPolicyEnquiry(
@@ -57,7 +57,7 @@ public class PolicyController {
         return ResponseEntity.ok(body);
     }
 
-    @PostMapping("/agent")
+    @PostMapping("/enquiry/agent")
     @PreAuthorize("hasAuthority('api.read')")
     @LogApiCall("CustomerPolicyEnquiryAPI")
     public ResponseEntity<ApiResponse<AgentPolicyEnquiryResponse>> agentPolicyEnquiry(

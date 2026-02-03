@@ -3,16 +3,16 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://192.168.0.100:8085/realms/liclanka-prod
-          jwk-set-uri: http://192.168.0.100:8085/realms/liclanka-prod/protocol/openid-connect/certs
+          issuer-uri: http://124.43.199.226:8085/realms/liclanka-prod
+          jwk-set-uri: http://124.43.199.226:8085/realms/liclanka-prod/protocol/openid-connect/certs
       client:
         provider:
           keycloak:
-            issuer-uri: http://192.168.0.100:8085/realms/liclanka-prod
-            token-uri: http://192.168.0.100:8085/realms/liclanka-prod/protocol/openid-connect/token
-            authorization-uri: http://192.168.0.100:8085/realms/liclanka-prod/protocol/openid-connect/auth
-            user-info-uri: http://192.168.0.100:8085/realms/liclanka-prod/protocol/openid-connect/userinfo
-            jwk-set-uri: http://192.168.0.100:8085/realms/liclanka-prod/protocol/openid-connect/certs
+            issuer-uri: http://124.43.199.226:8085/realms/liclanka-prod
+            token-uri: http://124.43.199.226:8085/realms/liclanka-prod/protocol/openid-connect/token
+            authorization-uri: http://124.43.199.226:8085/realms/liclanka-prod/protocol/openid-connect/auth
+            user-info-uri: http://124.43.199.226:8085/realms/liclanka-prod/protocol/openid-connect/userinfo
+            jwk-set-uri: http://124.43.199.226:8085/realms/liclanka-prod/protocol/openid-connect/certs
         registration:
           kenya-portal-client:
             provider: keycloak
@@ -28,7 +28,7 @@ spring:
             authorizationGrantType: authorization_code
             clientAuthenticationMethod: client_secret_basic
             scope: openid,profile,email,roles
-            redirectUri: http://192.168.0.100:8085/login/oauth2/code/keycloak
+            redirectUri: http://124.43.199.226:8085/login/oauth2/code/keycloak
   datasource:
       url: jdbc:mysql://192.168.0.100:3306/lanka?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       username: elifeconnect

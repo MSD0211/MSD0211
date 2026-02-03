@@ -121,21 +121,22 @@ private String extractReferenceId(String json) {
 
     try {
         JsonNode node = mapper.readTree(json);
-        System.out.println("JSON ROOT :: " + node.toString());
+        log.info("JSON ROOT :: " + node.toString());
 
         String[] keys = { "referenceId", "referenceNo", "refId", "ref_no", "referenceNumber", "id" };
 
         // Check root level
         for (String key : keys) {
             JsonNode valueNode = node.get(key);
-            System.out.println("CHECKING KEY :: " + key);
+            log.info("VALUE NODE::"+valueNode);
+            log.info("CHECKING KEY :: " + key);
 
             if (valueNode != null && !valueNode.isNull()) {
                 String value = valueNode.asText();
-                System.out.println("VALUE :: " + value);
+                log.info("VALUE :: " + value);
 
                 if (!value.isBlank()) {
-                    System.out.println("REFERENCE ID FOUND (" + key + "): " + value);
+                    log.info("REFERENCE ID FOUND (" + key + "): " + value);
                     return value;
                 }
             }

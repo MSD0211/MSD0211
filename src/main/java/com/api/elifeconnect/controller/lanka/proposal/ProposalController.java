@@ -1,4 +1,4 @@
-package com.api.elifeconnect.controller.kenya.proposal;
+package com.api.elifeconnect.controller.lanka.proposal;
 
 
 import org.slf4j.MDC;
@@ -18,6 +18,8 @@ import com.api.elifeconnect.dto.proposal.ProposalPremiumEnquiryRequest;
 import com.api.elifeconnect.dto.proposal.ProposalPremiumEnquiryResponse;
 import com.api.elifeconnect.dto.proposal.ProposalSubmissionEnquiryRequest;
 import com.api.elifeconnect.dto.proposal.ProposalSubmissionEnquiryResponse;
+import com.api.elifeconnect.dto.proposal.deposit.ProposalDepositCreationRequest;
+import com.api.elifeconnect.dto.proposal.deposit.ProposalDepositCreationResponse;
 import com.api.elifeconnect.dto.proposal.submit.ProposalSubmitRequest;
 import com.api.elifeconnect.dto.proposal.submit.ProposalSubmitResponse;
 import com.api.elifeconnect.service.proposal.ProposalService;
@@ -26,8 +28,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@RestController("kenyaProposalController")
-@RequestMapping("/api/v1/kenya/proposal")
+@RestController("lankaProposalController")
+@RequestMapping("/api/v1/lanka/proposal")
 public class ProposalController {
 
     private final ProposalService proposalService;
@@ -90,6 +92,25 @@ public class ProposalController {
         response = proposalService.proposalSubmit(proposalSubmitRequest);
         log.error("RESPONSE ::"+response.message());
         ApiResponse<ProposalSubmitResponse  > body =
+                responseBuilder.success(request, "Proposal Submission done", response);
+
+        return ResponseEntity.ok(body);
+    }
+
+    @PostMapping("/deposit/creation")
+    @PreAuthorize("hasAuthority('api.read')")
+    @LogApiCall("Proposal Deposit Creation API")
+    public ResponseEntity<ApiResponse<ProposalDepositCreationResponse>> createProposalDeposit(
+            @RequestBody ProposalDepositCreationRequest proposalDepositCreationRequest,
+            HttpServletRequest request) {
+                
+        MDC.put("apiName", "Proposal Deposit Creation API");
+        log.error("REFERENCE ID::"+proposalDepositCreationRequest.id());
+        ProposalDepositCreationResponse response;
+        log.error("PROPOSAL SUBMISSION!!");
+        response = proposalService.createProposalDeposit(proposalDepositCreationRequest);
+        log.error("RESPONSE ::"+response.message());
+        ApiResponse<ProposalDepositCreationResponse> body =
                 responseBuilder.success(request, "Proposal Submission done", response);
 
         return ResponseEntity.ok(body);

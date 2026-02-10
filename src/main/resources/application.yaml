@@ -10,7 +10,7 @@ management:
 
 spring:
   profiles:
-    active: dev
+    active: kenya-dev
   
 elife:
   api:

@@ -45,6 +45,7 @@ public class ExternalApiDbLoggingAspect {
 
         // Extract referenceId (PK)
         String referenceId = extractReferenceId(requestBodyJson);
+        log.info("REFERENCE ID::"+referenceId);
         if (referenceId == null) {
             log.error("❌ Missing referenceId in request body. Cannot log API call.");
         }
@@ -119,6 +120,7 @@ private String extractReferenceId(String json) {
         return null;
     }
 
+    log.info("JSON ::"+json);
     try {
         JsonNode node = mapper.readTree(json);
         log.info("JSON ROOT :: " + node.toString());

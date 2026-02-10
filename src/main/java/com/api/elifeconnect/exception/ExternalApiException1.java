@@ -6,28 +6,28 @@ import lombok.Getter;
 @Getter
 public class ExternalApiException1 extends RuntimeException {
 
-    private final int statusCode;
-    private final String statusText;
+    private final int status;
+    private final String reason;
     private final HttpHeaders headers;
-    private final String responseBody;
-    private final String requestUrl;
-    private final String httpMethod;
+    private final byte[] responseBody;
+    private final String uri;
+    private final String method;
 
     public ExternalApiException1(
             String message,
-            int statusCode,
-            String statusText,
+            int status,
+            String reason,
             HttpHeaders headers,
-            byte[] responseBodyBytes,
-            String requestUrl,
-            String httpMethod) {
+            byte[] responseBody,
+            String uri,
+            String method) {
 
         super(message);
-        this.statusCode = statusCode;
-        this.statusText = statusText;
+        this.status = status;
+        this.reason = reason;
         this.headers = headers;
-        this.responseBody = responseBodyBytes != null ? new String(responseBodyBytes) : "";
-        this.requestUrl = requestUrl;
-        this.httpMethod = httpMethod;
+        this.responseBody = responseBody;
+        this.uri = uri;
+        this.method = method;
     }
 }

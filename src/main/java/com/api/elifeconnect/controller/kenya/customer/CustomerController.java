@@ -17,6 +17,7 @@ import com.api.elifeconnect.dto.customer.CustomerAuthenticationResponse;
 import com.api.elifeconnect.service.customer.CustomerAuthenticationService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/kenya/customer")
@@ -36,7 +37,7 @@ public class CustomerController {
     @PreAuthorize("hasAuthority('api.read')")
     @LogApiCall("Customer Authentication API")
     public ResponseEntity<ApiResponse<CustomerAuthenticationResponse>> customerAuthentication(
-            @RequestBody CustomerAuthenticationRequest custAuthenticationRequest,
+            @Valid @RequestBody CustomerAuthenticationRequest custAuthenticationRequest,
             HttpServletRequest request) {
                 
         MDC.put("apiName", "Customer Authentication API");

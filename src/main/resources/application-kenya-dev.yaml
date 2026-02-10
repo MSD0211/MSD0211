@@ -1,18 +1,30 @@
+logging:
+  level:
+    root: INFO
+    '[org.springframework.security]': DEBUG
+    '[org.springframework.boot.autoconfigure]': DEBUG
+    '[com.elife.connect]': TRACE
+    '[com.keycloak.elife.connect.config]': TRACE
+  file:
+    name: elife-connect.log
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
 spring:
   security:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://econnect-uat.kenindia.com:8443/realms/kenindia-prod
-          jwk-set-uri: http://econnect-uat.kenindia.com:8443/realms/kenindia-prod/protocol/openid-connect/certs
+          issuer-uri: http://10.240.4.16:8085/realms/kenindia-prod
+          jwk-set-uri: http://10.240.4.16:8085/realms/kenindia-prod/protocol/openid-connect/certs
       client:
         provider:
           keycloak:
-            issuer-uri: http://econnect-uat.kenindia.com:8443/realms/kenindia-prod
-            token-uri: http://econnect-uat.kenindia.com:8443/realms/kenindia-prod/protocol/openid-connect/token
-            authorization-uri: http://econnect-uat.kenindia.com:8443/realms/kenindia-prod/protocol/openid-connect/auth
-            user-info-uri: http://econnect-uat.kenindia.com:8443/realms/kenindia-prod/protocol/openid-connect/userinfo
-            jwk-set-uri: http://econnect-uat.kenindia.com:8443/realms/kenindia-prod/protocol/openid-connect/certs
+            issuer-uri: http://10.240.4.16:8085/realms/kenindia-prod
+            token-uri: http://10.240.4.16:8085/realms/kenindia-prod/protocol/openid-connect/token
+            authorization-uri: http://10.240.4.16:8085/realms/kenindia-prod/protocol/openid-connect/auth
+            user-info-uri: http://10.240.4.16:8085/realms/kenindia-prod/protocol/openid-connect/userinfo
+            jwk-set-uri: http://10.240.4.16:8085/realms/kenindia-prod/protocol/openid-connect/certs
         registration:
           kenya-portal-client:
             provider: keycloak
@@ -28,11 +40,11 @@ spring:
             authorizationGrantType: authorization_code
             clientAuthenticationMethod: client_secret_basic
             scope: openid,profile,email,roles
-            redirectUri: http://econnect-uat.kenindia.com:8443/login/oauth2/code/keycloak
+            redirectUri: http://10.240.4.16:8085/login/oauth2/code/keycloak
   datasource:
-      url: jdbc:mysql://192.168.6.197:3306/kenya?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      username: econnect
-      password: 6p6K:QC]q884V?
+      url: jdbc:mysql://10.244.142.198:3306/test?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      username: feap
+      password: devfeap
       driver-class-name: com.mysql.cj.jdbc.Driver
 
       hikari:
@@ -61,6 +73,4 @@ spring:
         
 elife:
   api:
-    baseurl: http://192.168.6.80:8080/eLife/elifeRestServices
-
-     
+    baseurl: http://10.244.142.197:8380/eLife/elifeRestServices

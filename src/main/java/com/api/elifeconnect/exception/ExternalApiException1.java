@@ -2,7 +2,6 @@ package com.api.elifeconnect.exception;
 
 import org.springframework.http.HttpHeaders;
 import lombok.Getter;
-
 @Getter
 public class ExternalApiException1 extends RuntimeException {
 

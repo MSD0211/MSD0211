@@ -22,6 +22,7 @@ elife:
           url: /api/v1/loan/repayment/letter
       quotation:
         url: /api/v1/loan/quotation
+
     customer:
       authentication:
         url: /api/Authentication/v1/client
@@ -31,12 +32,15 @@ elife:
       commission:
         statement:
           url: /api/v1/commission/statement
+
     plan:
       details:
         url: /online/v1/plan/details
+
     employee:
       authentication:
         url: /api/Authentication/v1/employee
+
     premium:
       renewal:
         enquiry:
@@ -48,6 +52,7 @@ elife:
           url: /api/v1/premium/statement/full
       summary:
         url: /api/v1/premium/summary
+
     policy:
       customer:
         enquiry:
@@ -58,6 +63,7 @@ elife:
       revival:
         quotation:
           url: /online/polrev
+
     proposal:
       premium:
         enquiry:
@@ -70,6 +76,7 @@ elife:
       deposit:
         creation:
           url: /online/proposaldeposit/create
+          
     ulip:
       fund:
         position:

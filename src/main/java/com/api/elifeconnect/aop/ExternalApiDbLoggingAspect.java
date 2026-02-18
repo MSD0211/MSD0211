@@ -40,7 +40,7 @@ public class ExternalApiDbLoggingAspect {
 
         String url = extractUrl(args);
         String requestBodyJson = extractPayload(args);
-        System.out.println("REQUEST BODY JSON::"+requestBodyJson);
+        log.info("REQUEST BODY JSON::"+requestBodyJson);
         String requestHeadersJson = extractHeaders(args);
 
         // Extract referenceId (PK)
@@ -122,7 +122,16 @@ private String extractReferenceId(String json) {
 
     log.info("JSON ::"+json);
     try {
-        JsonNode node = mapper.readTree(json);
+        log.info("BEFORE MAPPING!!");
+        JsonNode node = null;
+        try{
+            node = mapper.readTree(json);
+        } 
+        catch(Exception ex)
+        {
+            log.error("Node Exception ::"+ex);
+        }
+        
         log.info("JSON ROOT :: " + node.toString());
 
         String[] keys = { "referenceId", "referenceNo", "refId", "ref_no", "referenceNumber", "id" };

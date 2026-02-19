@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,10 +35,10 @@ public class PremiumController {
     }
 
     @PostMapping("/renewal/enquiry")
-    @PreAuthorize("hasAuthority('api.read')")
+    @PreAuthorize("hasAuthority('lanka.api.read')")
     @LogApiCall("RenewalPremiumEnquiryAPI")
-    public ResponseEntity<ApiResponse<RenewalPremiumEnquiryResponse>> loanEnquiry(
-            @RequestBody RenewalPremiumEnquiryRequest renewalPremiumEnqRequest,
+        public ResponseEntity<ApiResponse<RenewalPremiumEnquiryResponse>> loanEnquiry(
+            @Valid @RequestBody RenewalPremiumEnquiryRequest renewalPremiumEnqRequest,
             HttpServletRequest request) {
                 
         MDC.put("apiName", "PremiumEnquiryAPI");
@@ -51,10 +52,10 @@ public class PremiumController {
     }
 
     @PostMapping("/renewal/adjustment")
-    @PreAuthorize("hasAuthority('api.read')")
+    @PreAuthorize("hasAuthority('lanka.api.read')")
     @LogApiCall("RenewalPremiumAdjustmentEnquiryAPI")
-    public ResponseEntity<ApiResponse<RenewalPremiumAdjustmentResponse>> loanEnquiry(
-            @RequestBody RenewalPremiumAdjustmentRequest renewalPremiumAdjRequest,
+        public ResponseEntity<ApiResponse<RenewalPremiumAdjustmentResponse>> loanEnquiry(
+            @Valid @RequestBody RenewalPremiumAdjustmentRequest renewalPremiumAdjRequest,
             HttpServletRequest request) {
                 
         MDC.put("apiName", "PremiumEnquiryAPI");

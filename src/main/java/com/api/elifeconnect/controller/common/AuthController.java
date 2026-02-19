@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,7 +27,7 @@ public class AuthController {
     }
 
    @PostMapping("/token")
-public ResponseEntity<TokenResult> getToken(@RequestBody LoginRequest loginRequest) {
+public ResponseEntity<TokenResult> getToken(@Valid @RequestBody LoginRequest loginRequest) {
 
     logger.debug("Token request received for client: {}", loginRequest.getClientName());
 

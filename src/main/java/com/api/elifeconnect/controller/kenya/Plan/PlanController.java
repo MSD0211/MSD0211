@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,10 +35,10 @@ public class PlanController {
 
     @PostMapping("/details")
     // @PreAuthorize("hasAnyRole('USER')")
-    @PreAuthorize("hasAuthority('api.read')")
+    @PreAuthorize("hasAuthority('kenya.api.read')")
     @LogApiCall("Plan Details API")
-    public ResponseEntity<ApiResponse<PlanDetailsResponse>> getPlanDetails(
-            @RequestBody PlanDetailsRequest planDetailsRequest,
+        public ResponseEntity<ApiResponse<PlanDetailsResponse>> getPlanDetails(
+            @Valid @RequestBody PlanDetailsRequest planDetailsRequest,
             HttpServletRequest request) {
                 
         MDC.put("apiName", "Plan Details API");

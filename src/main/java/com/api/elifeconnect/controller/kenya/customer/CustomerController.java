@@ -34,7 +34,7 @@ public class CustomerController {
 
     @PostMapping("/authentication")
     // @PreAuthorize("hasAnyRole('USER')")
-    @PreAuthorize("hasAuthority('api.read')")
+    @PreAuthorize("hasAuthority('kenya.kenya.api.read')")
     @LogApiCall("Customer Authentication API")
     public ResponseEntity<ApiResponse<CustomerAuthenticationResponse>> customerAuthentication(
             @Valid @RequestBody CustomerAuthenticationRequest custAuthenticationRequest,

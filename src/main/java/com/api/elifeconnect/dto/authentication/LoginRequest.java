@@ -1,8 +1,15 @@
 package com.api.elifeconnect.dto.authentication;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class LoginRequest {
+    @NotBlank(message = "clientName is required")
     private String clientName;
+
+    @NotBlank(message = "username is required")
     private String username;
+
+    @NotBlank(message = "password is required")
     private String password;
 
     public String getUsername() {

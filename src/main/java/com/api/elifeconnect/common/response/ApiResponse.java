@@ -42,4 +42,17 @@ public record ApiResponse<T>(
                 errors
         );
     }
+
+    public static <T> ApiResponse<T> failureWithData(String path, int status, T data, List<String> errors) {
+        return new ApiResponse<>(
+                Instant.now().toString(),
+                path,
+                UUID.randomUUID().toString(),
+                status,
+                false,
+                "Request failed",
+                data,
+                errors
+        );
+    }
 }

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,12 +20,6 @@ import com.api.elifeconnect.dto.policy.AgentPolicyEnquiryRequest;
 import com.api.elifeconnect.dto.policy.AgentPolicyEnquiryResponse;
 import com.api.elifeconnect.dto.policy.CustomerPolicyEnquiryRequest;
 import com.api.elifeconnect.dto.policy.CustomerPolicyEnquiryResponse;
-import com.api.elifeconnect.dto.premium.RenewalPremiumAdjustmentRequest;
-import com.api.elifeconnect.dto.premium.RenewalPremiumAdjustmentResponse;
-import com.api.elifeconnect.dto.premium.RenewalPremiumEnquiryRequest;
-import com.api.elifeconnect.dto.premium.RenewalPremiumEnquiryResponse;
-import com.api.elifeconnect.service.premium.PremiumService;
-
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController("lankaPolicyController")
@@ -41,10 +36,10 @@ public class PolicyController {
     }
 
     @PostMapping("/enquiry/customer")
-    @PreAuthorize("hasAuthority('api.read')")
+    @PreAuthorize("hasAuthority('lanka.api.read')")
     @LogApiCall("CustomerPolicyEnquiryAPI")
-    public ResponseEntity<ApiResponse<CustomerPolicyEnquiryResponse>> customerPolicyEnquiry(
-            @RequestBody CustomerPolicyEnquiryRequest customerPolicyEnqRequest,
+        public ResponseEntity<ApiResponse<CustomerPolicyEnquiryResponse>> customerPolicyEnquiry(
+            @Valid @RequestBody CustomerPolicyEnquiryRequest customerPolicyEnqRequest,
             HttpServletRequest request) {
                 
         MDC.put("apiName", "CustomerPolicyEnquiryAPI");
@@ -58,10 +53,10 @@ public class PolicyController {
     }
 
     @PostMapping("/enquiry/agent")
-    @PreAuthorize("hasAuthority('api.read')")
+    @PreAuthorize("hasAuthority('lanka.api.read')")
     @LogApiCall("CustomerPolicyEnquiryAPI")
-    public ResponseEntity<ApiResponse<AgentPolicyEnquiryResponse>> agentPolicyEnquiry(
-            @RequestBody AgentPolicyEnquiryRequest agentPolicyEnqRequest,
+        public ResponseEntity<ApiResponse<AgentPolicyEnquiryResponse>> agentPolicyEnquiry(
+            @Valid @RequestBody AgentPolicyEnquiryRequest agentPolicyEnqRequest,
             HttpServletRequest request) {
                 
         MDC.put("apiName", "AgentPolicyEnquiryAPI");

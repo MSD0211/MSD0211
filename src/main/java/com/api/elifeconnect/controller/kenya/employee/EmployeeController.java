@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,10 +34,10 @@ public class EmployeeController {
 
     @PostMapping("/authentication")
     // @PreAuthorize("hasAnyRole('USER')")
-    @PreAuthorize("hasAuthority('api.read')")
+    @PreAuthorize("hasAuthority('kenya.api.read')")
     @LogApiCall("Employee Authentication API")
-    public ResponseEntity<ApiResponse<EmployeeAuthenticationResponse>> employeeAuthentication(
-            @RequestBody EmployeeAuthenticationRequest empAuthenticationRequest,
+        public ResponseEntity<ApiResponse<EmployeeAuthenticationResponse>> employeeAuthentication(
+            @Valid @RequestBody EmployeeAuthenticationRequest empAuthenticationRequest,
             HttpServletRequest request) {
                 
         MDC.put("apiName", "Employee Authentication API");

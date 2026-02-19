@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,10 +41,10 @@ public class AgentController {
 
     @PostMapping("/authentication")
     // @PreAuthorize("hasAnyRole('USER')")
-    @PreAuthorize("hasAuthority('api.read')")
+    @PreAuthorize("hasAuthority('kenya.api.read')")
     @LogApiCall("Agent Authentication API")
     public ResponseEntity<ApiResponse<AgentAuthenticationResponse>> agentAuthentication(
-            @RequestBody AgentAuthenticationRequest agentAuthenticationRequest,
+            @Valid @RequestBody AgentAuthenticationRequest agentAuthenticationRequest,
             HttpServletRequest request) {
                 
         MDC.put("apiName", "Agent Authentication API");
@@ -62,10 +63,10 @@ public class AgentController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_PDF_VALUE
     )
-    @PreAuthorize("hasAuthority('api.read')")
+    @PreAuthorize("hasAuthority('kenya.kenya.api.read')")
     @LogApiCall("CommissionStatementAPI")
     public ResponseEntity<Resource> downloadCommissionStatementPdf(
-            @RequestBody CommissionStatementRequest request
+            @Valid @RequestBody CommissionStatementRequest request
     ) throws IOException {
 
         MDC.put("apiName", "CommissionStatementAPI");

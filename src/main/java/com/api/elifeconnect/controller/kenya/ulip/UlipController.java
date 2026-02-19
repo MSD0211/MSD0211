@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,10 +37,10 @@ public class UlipController {
 
 
     @PostMapping("/fund/position/single")
-    @PreAuthorize("hasAuthority('api.read')")
+    @PreAuthorize("hasAuthority('kenya.api.read')")
     @LogApiCall("Ulip Fund Position Single API")
-    public ResponseEntity<ApiResponse<UlipFundPositionSingleResponse>> getFundPositionSingle(
-            @RequestBody UlipFundPositionSingleRequest ulipFundPositionSingleRequest,
+        public ResponseEntity<ApiResponse<UlipFundPositionSingleResponse>> getFundPositionSingle(
+            @Valid @RequestBody UlipFundPositionSingleRequest ulipFundPositionSingleRequest,
             HttpServletRequest request) {
                 
         MDC.put("apiName", "Ulip Fund Position Single API");

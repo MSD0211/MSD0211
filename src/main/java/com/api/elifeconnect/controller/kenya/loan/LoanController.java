@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,7 +36,7 @@ public class LoanController {
     }
 
     // @GetMapping("/enquiry")
-    // @PreAuthorize("hasAuthority('api.read')")
+    // @PreAuthorize("hasAuthority('kenya.api.read')")
     // @LogApiCall("LoanEnquiryAPI")
     // public ResponseEntity<ApiResponse<LoanEnquiryResponse>> loanEnquiry(
     //         @RequestBody LoanEnquiryRequest loanEnqRequest,
@@ -56,10 +57,10 @@ public class LoanController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_PDF_VALUE
     )
-    @PreAuthorize("hasAuthority('api.read')")
+    @PreAuthorize("hasAuthority('kenya.api.read')")
     @LogApiCall("LoanQuotationAPI")
     public ResponseEntity<Resource> downloadLoanQuotationPdf(
-            @RequestBody LoanQuotationRequest request
+            @Valid @RequestBody LoanQuotationRequest request
     ) throws IOException {
 
         MDC.put("apiName", "LoanQuotationAPI");
@@ -83,10 +84,10 @@ public class LoanController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_PDF_VALUE
     )
-    @PreAuthorize("hasAuthority('api.read')")
+    @PreAuthorize("hasAuthority('kenya.api.read')")
     @LogApiCall("LoanRepaymentLetterAPI")
     public ResponseEntity<Resource> downloadLoanRepaymentLetterPdf(
-            @RequestBody LoanRepaymentLetterRequest request
+            @Valid @RequestBody LoanRepaymentLetterRequest request
     ) throws IOException {
 
         MDC.put("apiName", "LoanRepaymentLetterAPI");

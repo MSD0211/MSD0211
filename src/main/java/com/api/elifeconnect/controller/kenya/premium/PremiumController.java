@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -46,10 +47,10 @@ public class PremiumController {
 
 
     @PostMapping("/statement")
-    @PreAuthorize("hasAuthority('api.read')")
+    @PreAuthorize("hasAuthority('kenya.api.read')")
     @LogApiCall("Premium Statement API")
-    public ResponseEntity<ApiResponse<PremiumStatementFullResponse>> getPremiumStatementFull(
-            @RequestBody PremiumStatementFullRequest premiumStatementFullRequest,
+        public ResponseEntity<ApiResponse<PremiumStatementFullResponse>> getPremiumStatementFull(
+            @Valid @RequestBody PremiumStatementFullRequest premiumStatementFullRequest,
             HttpServletRequest request) {
                 
         MDC.put("apiName", "Premium Statement API");
@@ -63,10 +64,10 @@ public class PremiumController {
     }
 
     @PostMapping("/summary")
-    @PreAuthorize("hasAuthority('api.read')")
+    @PreAuthorize("hasAuthority('kenya.api.read')")
     @LogApiCall("Premium Summary API")
-    public ResponseEntity<ApiResponse<PremiumSummaryResponse>> getPremiumSummary(
-            @RequestBody PremiumSummaryRequest premiumSummaryRequest,
+        public ResponseEntity<ApiResponse<PremiumSummaryResponse>> getPremiumSummary(
+            @Valid @RequestBody PremiumSummaryRequest premiumSummaryRequest,
             HttpServletRequest request) {
                 
         MDC.put("apiName", "Premium Summary API");

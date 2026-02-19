@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,10 +42,10 @@ public class ProposalController {
 
 
     @PostMapping("/premium/enquiry")
-    @PreAuthorize("hasAuthority('api.read')")
+    @PreAuthorize("hasAuthority('kenya.api.read')")
     @LogApiCall("Proposal Premium Enquiry API")
-    public ResponseEntity<ApiResponse<ProposalPremiumEnquiryResponse>> proposalPremiumEnquiry(
-            @RequestBody ProposalPremiumEnquiryRequest proposalPremiumEnquiryRequest,
+        public ResponseEntity<ApiResponse<ProposalPremiumEnquiryResponse>> proposalPremiumEnquiry(
+            @Valid @RequestBody ProposalPremiumEnquiryRequest proposalPremiumEnquiryRequest,
             HttpServletRequest request) {
                 
         MDC.put("apiName", "Proposal Premium Enquiry API");
@@ -58,10 +59,10 @@ public class ProposalController {
     }
 
     @PostMapping("/submission/enquiry")
-    @PreAuthorize("hasAuthority('api.read')")
+    @PreAuthorize("hasAuthority('kenya.api.read')")
     @LogApiCall("Proposal Submission Enquiry API")
-    public ResponseEntity<ApiResponse<ProposalSubmissionEnquiryResponse>> proposalPremiumEnquiry(
-            @RequestBody ProposalSubmissionEnquiryRequest proposalSubmissionEnquiryRequest,
+        public ResponseEntity<ApiResponse<ProposalSubmissionEnquiryResponse>> proposalPremiumEnquiry(
+            @Valid @RequestBody ProposalSubmissionEnquiryRequest proposalSubmissionEnquiryRequest,
             HttpServletRequest request) {
                 
         MDC.put("apiName", "Proposal Submission Enquiry API");
@@ -77,10 +78,10 @@ public class ProposalController {
     }
 
     @PostMapping("/submit")
-    @PreAuthorize("hasAuthority('api.read')")
+    @PreAuthorize("hasAuthority('kenya.api.read')")
     @LogApiCall("Proposal Submission API")
-    public ResponseEntity<ApiResponse<ProposalSubmitResponse>> proposalSubmit(
-            @RequestBody ProposalSubmitRequest proposalSubmitRequest,
+        public ResponseEntity<ApiResponse<ProposalSubmitResponse>> proposalSubmit(
+            @Valid @RequestBody ProposalSubmitRequest proposalSubmitRequest,
             HttpServletRequest request) {
                 
         MDC.put("apiName", "Proposal Submission API");

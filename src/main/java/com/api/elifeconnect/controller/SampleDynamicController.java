@@ -19,6 +19,8 @@ import org.springframework.core.io.ByteArrayResource;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,7 +41,7 @@ public class SampleDynamicController {
     }
 
     @PostMapping("/dynamic")
-    public Object callDynamicApi(@RequestBody SampleRequest request) {
+    public Object callDynamicApi(@Valid @RequestBody SampleRequest request) {
         String url = "https://external-api.com/process";
 
         // Define mapping: Status Code -> Response Class
@@ -150,7 +152,7 @@ public class SampleDynamicController {
     }
 
     @PostMapping("/download")
-    public ResponseEntity<byte[]> downloadPdf(@RequestBody SampleRequest request) {
+    public ResponseEntity<byte[]> downloadPdf(@Valid @RequestBody SampleRequest request) {
         String url = "https://external-api.com/download";
 
         byte[] pdfBytes = apiService.downloadFileWithJson(url, request, null);
@@ -167,6 +169,7 @@ public class SampleDynamicController {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class SampleRequest {
+        @NotBlank(message = "data is required")
         private String data;
     }
 

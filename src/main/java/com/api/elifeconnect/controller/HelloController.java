@@ -22,7 +22,7 @@ public class HelloController {
 
     @GetMapping("/api/user")
     // @PreAuthorize("hasRole('USER')")
-    @PreAuthorize("hasAuthority('api.read')")
+    @PreAuthorize("hasAuthority('kenya.api.read')")
     @Operation(summary = "This is a Test Private Endpoint for Users")
     public String userEndpoint(@AuthenticationPrincipal Jwt jwt) {
         return String.format("Hello %s! This is a USER endpoint. Your roles: %s",
@@ -31,7 +31,7 @@ public class HelloController {
     }
 
     @GetMapping("/api/manager")
-    @PreAuthorize("hasAuthority('api.read')")
+    @PreAuthorize("hasAuthority('kenya.api.read')")
     @Operation(summary = "Test Private Endpoint for Managers")
     public String managerEndpoint(@AuthenticationPrincipal Jwt jwt) {
         return String.format("Hello Manager %s! This is a MANAGER endpoint. Your roles: %s",
@@ -40,7 +40,7 @@ public class HelloController {
     }
 
     @GetMapping("/api/admin")
-     @PreAuthorize("hasAuthority('api.read')")
+     @PreAuthorize("hasAuthority('kenya.api.read')")
     @Operation(summary = "Test Private Endpoint for Admins")
     public String adminEndpoint(@AuthenticationPrincipal Jwt jwt) {
         return String.format("Hello Admin %s! This is an ADMIN endpoint. Your roles: %s",

@@ -1,6 +1,11 @@
 package com.api.elifeconnect.exception;
 
 import java.util.List;
+import java.util.Map;
+import java.util.LinkedHashMap;
+import java.util.stream.Collectors;
+
+import com.api.elifeconnect.common.response.ValidationErrorData;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,16 +47,70 @@ public class GlobalExceptionHandler {
             MethodArgumentNotValidException ex,
             HttpServletRequest request) {
 
-        List<String> errors = ex.getBindingResult()
-                                .getFieldErrors()
-                                .stream()
-                                .map(error -> error.getField() + ": " + error.getDefaultMessage())
-                                .toList();
+        Map<String, String> fieldErrors = ex.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .collect(Collectors.toMap(
+                        fe -> fe.getField(),
+                        fe -> fe.getDefaultMessage(),
+                        (a, b) -> a,
+                        LinkedHashMap::new
+                ));
 
-        ApiResponse<Object> response = ApiResponse.failure(
+        ValidationErrorData data = new ValidationErrorData(fieldErrors, List.of());
+
+        ApiResponse<Object> response = ApiResponse.failureWithData(
                 request.getRequestURI(),
                 HttpStatus.BAD_REQUEST.value(),
-                errors
+                data,
+                List.of()
+        );
+
+        return ResponseEntity.badRequest().body(response);
+    }
+
+    @ExceptionHandler(org.springframework.validation.BindException.class)
+    public ResponseEntity<ApiResponse<Object>> handleBindException(org.springframework.validation.BindException ex, HttpServletRequest request) {
+        Map<String, String> fieldErrors = ex.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .collect(Collectors.toMap(
+                        fe -> fe.getField(),
+                        fe -> fe.getDefaultMessage(),
+                        (a, b) -> a,
+                        LinkedHashMap::new
+                ));
+
+        ValidationErrorData data = new ValidationErrorData(fieldErrors, List.of());
+
+        ApiResponse<Object> response = ApiResponse.failureWithData(
+                request.getRequestURI(),
+                HttpStatus.BAD_REQUEST.value(),
+                data,
+                List.of()
+        );
+
+        return ResponseEntity.badRequest().body(response);
+    }
+
+        @ExceptionHandler(jakarta.validation.ConstraintViolationException.class)
+        public ResponseEntity<ApiResponse<Object>> handleConstraintViolation(jakarta.validation.ConstraintViolationException ex, HttpServletRequest request) {
+        Map<String, String> violations = ex.getConstraintViolations()
+                .stream()
+                .collect(Collectors.toMap(
+                        cv -> cv.getPropertyPath().toString(),
+                        cv -> cv.getMessage(),
+                        (a, b) -> a,
+                        LinkedHashMap::new
+                ));
+
+        ValidationErrorData data = new ValidationErrorData(violations, List.of());
+
+        ApiResponse<Object> response = ApiResponse.failureWithData(
+                request.getRequestURI(),
+                HttpStatus.BAD_REQUEST.value(),
+                data,
+                List.of()
         );
 
         return ResponseEntity.badRequest().body(response);

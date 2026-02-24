@@ -18,6 +18,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class DocumentUploadRequest {
     @NotBlank(message = "referenceId is required")
+    @Size(max = 30)
     private String referenceId;
 
     @NotNull(message = "fileMetadataList is required")

@@ -2,24 +2,28 @@ package com.api.elifeconnect.dto.agent;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 
 public record CommissionStatementRequest(
 
-        @NotNull(message = "referenceId must not be null")
-        @NotBlank(message = "referenceId must not be blank")
+        @NotBlank(message = "referenceId is required")
+        @Size(max = 30)
         String referenceId,
 
-        @NotNull(message = "agencyCode must not be null")
-        @NotBlank(message = "agencyCode must not be blank")
+        @NotBlank(message = "agencyCode is required")
+        @Size(max = 9)
         String agencyCode,
 
-        @NotNull(message = "billMonth must not be null")
-        @NotBlank(message = "billMonth must not be blank")
+        @NotBlank(message = "billMonth is required")
+        @Size(max = 2)
+        @Pattern(regexp = "\\d+", message = "billMonth must be numeric")
         String billMonth,
 
-        @NotNull(message = "billYear must not be null")
-        @NotBlank(message = "billYear must not be blank")
+        @NotBlank(message = "billYear is required")
+        @Size(max = 4)
+        @Pattern(regexp = "\\d+", message = "billYear must be numeric")
         String billYear
 ) {
 }

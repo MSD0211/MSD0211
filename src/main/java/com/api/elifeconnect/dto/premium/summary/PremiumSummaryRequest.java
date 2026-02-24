@@ -2,15 +2,16 @@ package com.api.elifeconnect.dto.premium.summary;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 public record PremiumSummaryRequest(
 
-        @NotNull(message = "referenceId must not be null")
-        @NotBlank(message = "referenceId must not be blank")
+        @NotBlank(message = "referenceId is required")
+        @Size(max = 30)
         String referenceId,
 
-        @NotNull(message = "policyNumber must not be null")
-        @NotBlank(message = "policyNumber must not be blank")
+        @NotBlank(message = "policyNumber is required")
+        @Size(max = 9)
         String policyNumber
 ) {
 }

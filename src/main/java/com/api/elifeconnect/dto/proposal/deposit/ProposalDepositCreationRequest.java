@@ -10,19 +10,23 @@ import java.time.LocalDate;
 public record ProposalDepositCreationRequest(
 
         @NotBlank(message = "Reference ID is required")
+        @Size(max = 30)
         @JsonAlias({ "referenceId" })
         String id,
 
         @NotBlank(message = "Agency code is required")
+        @Size(max = 9)
         @JsonAlias({ "agencyCode" })
         String agencyCode,
 
         @NotBlank(message = "Customer name is required")
         @JsonAlias({ "customerName" })
+        @Size(max = 100)
         String customerName,
 
         @NotBlank(message = "National Id is required")
         @JsonAlias({ "nationalId","uid" })
+        @Size(max = 20)
         String nid,
 
         @Pattern(regexp = "^[6-9]\\d{9}$", message = "Invalid mobile number")

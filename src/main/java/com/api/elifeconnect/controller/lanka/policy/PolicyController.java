@@ -20,6 +20,12 @@ import com.api.elifeconnect.dto.policy.AgentPolicyEnquiryRequest;
 import com.api.elifeconnect.dto.policy.AgentPolicyEnquiryResponse;
 import com.api.elifeconnect.dto.policy.CustomerPolicyEnquiryRequest;
 import com.api.elifeconnect.dto.policy.CustomerPolicyEnquiryResponse;
+import com.api.elifeconnect.dto.premium.RenewalPremiumAdjustmentRequest;
+import com.api.elifeconnect.dto.premium.RenewalPremiumAdjustmentResponse;
+import com.api.elifeconnect.dto.premium.RenewalPremiumEnquiryRequest;
+import com.api.elifeconnect.dto.premium.RenewalPremiumEnquiryResponse;
+import com.api.elifeconnect.service.premium.PremiumService;
+
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController("lankaPolicyController")

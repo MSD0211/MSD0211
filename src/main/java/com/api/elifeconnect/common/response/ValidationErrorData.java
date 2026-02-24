@@ -7,7 +7,6 @@ import java.util.Map;
  * Structured validation error payload returned in ApiResponse.data
  */
 public record ValidationErrorData(
-        Map<String, String> fieldErrors,
-        List<String> violations
-) {
+                Map<String, String> fieldErrors,
+                Map<String, String> violations) {
 }

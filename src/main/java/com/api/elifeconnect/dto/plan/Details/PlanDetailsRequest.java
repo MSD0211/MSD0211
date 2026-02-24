@@ -39,8 +39,8 @@ public record PlanDetailsRequest(
         /* Age Proof – Mandatory, Allowed values */
         @NotBlank(message = "ageProof is required")
         @Pattern(
-            regexp = "M|S|D|E|R|P|C|L|N",
-            message = "ageProof must be one of M,S,D,E,R,P,C,L,N"
+            regexp = "I|N|B|P|S|A|C",
+            message = "ageProof must be one of I,N,B,P,S,A,C"
         )
         @Size(max = 1)
         String ageProof

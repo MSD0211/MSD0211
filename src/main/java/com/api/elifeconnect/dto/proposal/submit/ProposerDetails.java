@@ -1,7 +1,11 @@
 
 package com.api.elifeconnect.dto.proposal.submit;
 
+import com.api.elifeconnect.validation.groups.KenyaGroup;
+import com.api.elifeconnect.validation.groups.LankaGroup;
+
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -25,13 +29,20 @@ public record ProposerDetails(
         String gender,
 
         @NotBlank(message = "Email ID is mandatory")
+        @Email(message = "Invalid Email !!")
         @Size(max = 150)
         String email_id,
 
         @NotBlank(message = "Age proof is mandatory")
         @Pattern(
             regexp = "M|S|D|E|R|P|C|L|N",
-            message = "Age proof must be one of M,S,D,E,R,P,C,L,N"
+            message = "ageProof must be one of M,S,D,E,R,P,C,L,N",
+            groups = KenyaGroup.class
+        )
+        @Pattern(
+            regexp = "N|Y|G|P|L|M|B|D|I|O|T|S|F|U|A|C|R",
+            message = "ageProof must be one of N,Y,G,P,L,M,B,D,I,O,T,S,F,U,A,C,R",
+            groups = LankaGroup.class
         )
         @Size(max = 3)
         String age_proof,
@@ -46,10 +57,16 @@ public record ProposerDetails(
 
         @NotBlank(message = "Occupation is mandatory")
         @Pattern(
-            regexp = "10|60|63|70",
-            message = "Occupation must be one of 10,60,63,70"
+            regexp = "10|20|30|40|50",
+            message = "Occupation must be one of 10,20,30,40,50",
+            groups = KenyaGroup.class
         )
-        @Size(max = 60)
+        @Pattern(
+            regexp = "(2[0-7])|(3[0-8])|(4[1-9])|50|(6[0-9])|(7[1-8])",
+            message = "Invalid occupation code",
+            groups = LankaGroup.class
+        )
+        @Size(max = 2)
         String occupation,
 
         @NotBlank(message = "Customer ID is mandatory")

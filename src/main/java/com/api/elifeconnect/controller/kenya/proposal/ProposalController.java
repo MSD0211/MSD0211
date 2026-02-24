@@ -5,10 +5,13 @@ import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
 import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,8 +25,10 @@ import com.api.elifeconnect.dto.proposal.ProposalSubmissionEnquiryResponse;
 import com.api.elifeconnect.dto.proposal.submit.ProposalSubmitRequest;
 import com.api.elifeconnect.dto.proposal.submit.ProposalSubmitResponse;
 import com.api.elifeconnect.service.proposal.ProposalService;
+import com.api.elifeconnect.validation.groups.KenyaGroup;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.groups.Default;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -81,7 +86,7 @@ public class ProposalController {
     @PreAuthorize("hasAuthority('kenya.api.read')")
     @LogApiCall("Proposal Submission API")
         public ResponseEntity<ApiResponse<ProposalSubmitResponse>> proposalSubmit(
-            @Valid @RequestBody ProposalSubmitRequest proposalSubmitRequest,
+            @Validated({Default.class, KenyaGroup.class}) @RequestBody ProposalSubmitRequest proposalSubmitRequest,
             HttpServletRequest request) {
                 
         MDC.put("apiName", "Proposal Submission API");

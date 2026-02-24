@@ -1,14 +1,16 @@
 package com.api.elifeconnect.controller.lanka.proposal;
 
-
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import jakarta.validation.Valid;
+import jakarta.validation.groups.Default;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,6 +26,7 @@ import com.api.elifeconnect.dto.proposal.deposit.ProposalDepositCreationResponse
 import com.api.elifeconnect.dto.proposal.submit.ProposalSubmitRequest;
 import com.api.elifeconnect.dto.proposal.submit.ProposalSubmitResponse;
 import com.api.elifeconnect.service.proposal.ProposalService;
+import com.api.elifeconnect.validation.groups.LankaGroup;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -42,20 +45,19 @@ public class ProposalController {
         this.responseBuilder = new ApiResponseBuilder();
     }
 
-
     @PostMapping("/premium/enquiry")
     @PreAuthorize("hasAuthority('lanka.api.read')")
     @LogApiCall("Proposal Premium Enquiry API")
-        public ResponseEntity<ApiResponse<ProposalPremiumEnquiryResponse>> proposalPremiumEnquiry(
+    public ResponseEntity<ApiResponse<ProposalPremiumEnquiryResponse>> proposalPremiumEnquiry(
             @Valid @RequestBody ProposalPremiumEnquiryRequest proposalPremiumEnquiryRequest,
             HttpServletRequest request) {
-                
+
         MDC.put("apiName", "Proposal Premium Enquiry API");
         ProposalPremiumEnquiryResponse response = proposalService.proposalPremiumEnquiry(proposalPremiumEnquiryRequest);
-        System.out.println("RESPONSE ::"+response.proposalNumber());
-        System.out.println("RESPONSE::"+response.installmentPremium());
-        ApiResponse<ProposalPremiumEnquiryResponse> body =
-                responseBuilder.success(request, "Proposal Premium Enquiry done", response);
+        System.out.println("RESPONSE ::" + response.proposalNumber());
+        System.out.println("RESPONSE::" + response.installmentPremium());
+        ApiResponse<ProposalPremiumEnquiryResponse> body
+                = responseBuilder.success(request, "Proposal Premium Enquiry done", response);
 
         return ResponseEntity.ok(body);
     }
@@ -63,18 +65,18 @@ public class ProposalController {
     @PostMapping("/submission/enquiry")
     @PreAuthorize("hasAuthority('lanka.api.read')")
     @LogApiCall("Proposal Submission Enquiry API")
-        public ResponseEntity<ApiResponse<ProposalSubmissionEnquiryResponse>> proposalPremiumEnquiry(
+    public ResponseEntity<ApiResponse<ProposalSubmissionEnquiryResponse>> proposalPremiumEnquiry(
             @Valid @RequestBody ProposalSubmissionEnquiryRequest proposalSubmissionEnquiryRequest,
             HttpServletRequest request) {
-                
+
         MDC.put("apiName", "Proposal Submission Enquiry API");
         ProposalSubmissionEnquiryResponse response;
         log.error("PROPOSAL SUBMISSION!!");
         response = proposalService.proposalSubmissionEnquiry(proposalSubmissionEnquiryRequest);
-        log.error("RESPONSE ::"+response.proposalNumber());
-        log.error("RESPONSE::"+response.installmentPremium());
-        ApiResponse<ProposalSubmissionEnquiryResponse> body =
-                responseBuilder.success(request, "Proposal Submission Enquiry done", response);
+        log.error("RESPONSE ::" + response.proposalNumber());
+        log.error("RESPONSE::" + response.installmentPremium());
+        ApiResponse<ProposalSubmissionEnquiryResponse> body
+                = responseBuilder.success(request, "Proposal Submission Enquiry done", response);
 
         return ResponseEntity.ok(body);
     }
@@ -82,18 +84,18 @@ public class ProposalController {
     @PostMapping("/submit")
     @PreAuthorize("hasAuthority('lanka.api.read')")
     @LogApiCall("Proposal Submission API")
-        public ResponseEntity<ApiResponse<ProposalSubmitResponse>> proposalSubmit(
-            @Valid @RequestBody ProposalSubmitRequest proposalSubmitRequest,
+    public ResponseEntity<ApiResponse<ProposalSubmitResponse>> proposalSubmit(
+            @Validated({Default.class, LankaGroup.class}) @RequestBody ProposalSubmitRequest proposalSubmitRequest,
             HttpServletRequest request) {
-                
+
         MDC.put("apiName", "Proposal Submission API");
-        log.error("REFERENCE ID::"+proposalSubmitRequest.id());
+        log.error("REFERENCE ID::" + proposalSubmitRequest.id());
         ProposalSubmitResponse response;
         log.error("PROPOSAL SUBMISSION!!");
         response = proposalService.proposalSubmit(proposalSubmitRequest);
-        log.error("RESPONSE ::"+response.message());
-        ApiResponse<ProposalSubmitResponse  > body =
-                responseBuilder.success(request, "Proposal Submission done", response);
+        log.error("RESPONSE ::" + response.message());
+        ApiResponse<ProposalSubmitResponse> body
+                = responseBuilder.success(request, "Proposal Submission done", response);
 
         return ResponseEntity.ok(body);
     }
@@ -101,21 +103,20 @@ public class ProposalController {
     @PostMapping("/deposit/creation")
     @PreAuthorize("hasAuthority('lanka.api.read')")
     @LogApiCall("Proposal Deposit Creation API")
-        public ResponseEntity<ApiResponse<ProposalDepositCreationResponse>> createProposalDeposit(
+    public ResponseEntity<ApiResponse<ProposalDepositCreationResponse>> createProposalDeposit(
             @Valid @RequestBody ProposalDepositCreationRequest proposalDepositCreationRequest,
             HttpServletRequest request) {
-                
+
         MDC.put("apiName", "Proposal Deposit Creation API");
-        log.error("REFERENCE ID::"+proposalDepositCreationRequest.id());
+        log.error("REFERENCE ID::" + proposalDepositCreationRequest.id());
         ProposalDepositCreationResponse response;
         log.error("PROPOSAL SUBMISSION!!");
         response = proposalService.createProposalDeposit(proposalDepositCreationRequest);
-        log.error("RESPONSE ::"+response.message());
-        ApiResponse<ProposalDepositCreationResponse> body =
-                responseBuilder.success(request, "Proposal Submission done", response);
+        log.error("RESPONSE ::" + response.message());
+        ApiResponse<ProposalDepositCreationResponse> body
+                = responseBuilder.success(request, "Proposal Submission done", response);
 
         return ResponseEntity.ok(body);
     }
-
 
 }

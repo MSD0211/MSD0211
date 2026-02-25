@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -68,21 +69,17 @@ public class ApiCallLoggingAspect {
         try {
             result = pjp.proceed();
 
-            String responseBody = safe(() -> {
-                try {
-                    return mapper.writeValueAsString(result);
-                } catch (Exception ex) {
-                    return null;
-                }
-            });
+            // ✅ Split ResponseEntity into headers + body
+            ResponseParts parts = extractResponseParts(result);
 
             // ✅ Extract requestId from our ApiResponse wrapper
-            String requestId = extractRequestIdFromResponse(result, responseBody);
+            String requestId = extractRequestIdFromResponse(result, parts.body);
 
-            logEntry.setResponsePayload(responseBody);
+            logEntry.setResponseHeaders(parts.headers);
+            logEntry.setResponsePayload(parts.body);
             logEntry.setRequestId(requestId);
             logEntry.setSuccess(true);
-            logEntry.setHttpStatus(200);
+            logEntry.setHttpStatus(parts.status);
 
         } catch (Exception ex) {
 
@@ -259,6 +256,32 @@ public class ApiCallLoggingAspect {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    // ===================== RESPONSE PARTS =========================
+
+    /**
+     * Splits a ResponseEntity (or any result) into its component parts for logging.
+     * - headers → JSON string of HTTP response headers
+     * - body → JSON string of the response body only
+     * - status → HTTP status code
+     */
+    private ResponseParts extractResponseParts(Object result) {
+        if (result instanceof ResponseEntity<?> re) {
+            String headersJson = safe(() -> mapper.writeValueAsString(re.getHeaders()));
+            String bodyJson = safe(() -> re.getBody() != null
+                    ? mapper.writeValueAsString(re.getBody())
+                    : null);
+            int status = re.getStatusCode().value();
+            return new ResponseParts(headersJson, bodyJson, status);
+        }
+        // Not a ResponseEntity — serialize the whole result as the body
+        String bodyJson = safe(() -> result != null ? mapper.writeValueAsString(result) : null);
+        return new ResponseParts(null, bodyJson, 200);
+    }
+
+    /** Simple container for split response parts */
+    private record ResponseParts(String headers, String body, int status) {
     }
 
     @FunctionalInterface

@@ -41,7 +41,7 @@ public class ApiCallLoggingAspect {
         String apiName = logApiCall.value();
         String httpMethod = request.getMethod();
         String url = request.getRequestURI();
-        String clientId = extractClientIdFromJwt();
+        String clientId = extractClientIdFromJwt(); 
 
         // ⭐ NEW: Extract client IP
         String clientIp = getClientIp();

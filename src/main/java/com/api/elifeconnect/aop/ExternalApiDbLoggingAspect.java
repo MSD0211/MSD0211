@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.apache.commons.logging.Log;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -26,13 +27,18 @@ public class ExternalApiDbLoggingAspect {
     private final ExternalApiLogRepository repo;
     private final ObjectMapper mapper = new ObjectMapper();
 
+    /**
+     * @param joinPoint
+     * @param logExternalCall
+     * @return
+     * @throws Throwable
+     */
     @Around("@annotation(logExternalCall)")
     public Object logExternalApi(ProceedingJoinPoint joinPoint,
                                  LogExternalCall logExternalCall) throws Throwable {
 
         LocalDateTime startTime = LocalDateTime.now();
 
-        // String apiName = logExternalCall.value();
         String apiNameTmp = MDC.get("apiName");
         String apiName = (apiNameTmp != null) ? apiNameTmp : "UnknownAPI";
 
@@ -195,6 +201,7 @@ private String extractReferenceId(String json) {
 
     private String toJson(Object data) {
         try {
+            log.info("VALUE AS STRING::"+mapper.writeValueAsString(data));
             return mapper.writeValueAsString(data);
         } catch (Exception e) {
             return String.valueOf(data);

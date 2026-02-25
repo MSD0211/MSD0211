@@ -8,6 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
 import jakarta.validation.Valid;
 import jakarta.validation.groups.Default;
 
@@ -21,12 +22,14 @@ import com.api.elifeconnect.dto.proposal.ProposalPremiumEnquiryRequest;
 import com.api.elifeconnect.dto.proposal.ProposalPremiumEnquiryResponse;
 import com.api.elifeconnect.dto.proposal.ProposalSubmissionEnquiryRequest;
 import com.api.elifeconnect.dto.proposal.ProposalSubmissionEnquiryResponse;
-import com.api.elifeconnect.dto.proposal.deposit.ProposalDepositCreationRequest;
-import com.api.elifeconnect.dto.proposal.deposit.ProposalDepositCreationResponse;
+import com.api.elifeconnect.dto.proposal.deposit.ProposalDepositCreateRequest;
+import com.api.elifeconnect.dto.proposal.deposit.ProposalDepositCreateResponse;
 import com.api.elifeconnect.dto.proposal.submit.ProposalSubmitRequest;
 import com.api.elifeconnect.dto.proposal.submit.ProposalSubmitResponse;
 import com.api.elifeconnect.service.proposal.ProposalService;
 import com.api.elifeconnect.validation.groups.LankaGroup;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +41,9 @@ public class ProposalController {
 
     private final ProposalService proposalService;
     private final ApiResponseBuilder responseBuilder;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Autowired
     public ProposalController(ProposalService proposalService) {
@@ -100,21 +106,25 @@ public class ProposalController {
         return ResponseEntity.ok(body);
     }
 
-    @PostMapping("/deposit/creation")
+    @PostMapping("/deposit/create")
     @PreAuthorize("hasAuthority('lanka.api.read')")
-    @LogApiCall("Proposal Deposit Creation API")
-    public ResponseEntity<ApiResponse<ProposalDepositCreationResponse>> createProposalDeposit(
-            @Valid @RequestBody ProposalDepositCreationRequest proposalDepositCreationRequest,
-            HttpServletRequest request) {
+    @LogApiCall("Proposal Deposit Create API")
+    public ResponseEntity<ApiResponse<ProposalDepositCreateResponse>> proposalSubmit(
+            @Valid @RequestBody ProposalDepositCreateRequest proposalDepositCreateRequest,
+            HttpServletRequest request) throws JsonProcessingException {
 
-        MDC.put("apiName", "Proposal Deposit Creation API");
-        log.error("REFERENCE ID::" + proposalDepositCreationRequest.id());
-        ProposalDepositCreationResponse response;
+        log.info(
+                "REQUEST BODY JSON: {}",
+                objectMapper.writeValueAsString(proposalDepositCreateRequest)
+        );
+        MDC.put("apiName", "Proposal Submission API");
+        log.error("REFERENCE ID::" + proposalDepositCreateRequest.id());
+        ProposalDepositCreateResponse response;
         log.error("PROPOSAL SUBMISSION!!");
-        response = proposalService.createProposalDeposit(proposalDepositCreationRequest);
+        response = proposalService.createProposalDeposit(proposalDepositCreateRequest);
         log.error("RESPONSE ::" + response.message());
-        ApiResponse<ProposalDepositCreationResponse> body
-                = responseBuilder.success(request, "Proposal Submission done", response);
+        ApiResponse<ProposalDepositCreateResponse> body
+                = responseBuilder.success(request, "Proposal Deposit Creation done", response);
 
         return ResponseEntity.ok(body);
     }

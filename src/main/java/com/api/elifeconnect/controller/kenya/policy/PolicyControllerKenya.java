@@ -1,6 +1,5 @@
 package com.api.elifeconnect.controller.kenya.policy;
 
-
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.api.elifeconnect.aop.ApiShortNames;
 import com.api.elifeconnect.aop.LogApiCall;
 import com.api.elifeconnect.common.response.ApiResponse;
 import com.api.elifeconnect.common.response.ApiResponseBuilder;
@@ -35,17 +35,18 @@ public class PolicyControllerKenya {
     @PostMapping("/revival/quotation")
     // @PreAuthorize("hasAnyRole('USER')")
     @PreAuthorize("hasAuthority('kenya.api.read')")
-    @LogApiCall("Revival Quotation API")
-        public ResponseEntity<ApiResponse<PolicyRevivalQuotationResponse>> fetchPolicyRevivalDetails(
-             @RequestBody PolicyRevivalQuotationRequest policyRevivalQuotationRequest,
+    @LogApiCall(value = "Revival Quotation API", shortName = ApiShortNames.POLICY_REVIVAL_QUOT)
+    public ResponseEntity<ApiResponse<PolicyRevivalQuotationResponse>> fetchPolicyRevivalDetails(
+            @RequestBody PolicyRevivalQuotationRequest policyRevivalQuotationRequest,
             HttpServletRequest request) {
-                
+
         MDC.put("apiName", "Revival Quotation API");
-        PolicyRevivalQuotationResponse response = policyService.fetchPolicyRevivalDetails(policyRevivalQuotationRequest);
-        System.out.println("RESPONSE ::"+response.policyNumber());
-        System.out.println("RESPONSE::"+response.durationOfPremiumPaid());
-        ApiResponse<PolicyRevivalQuotationResponse> body =
-                responseBuilder.success(request, "Policy Revival Quotation done", response);
+        PolicyRevivalQuotationResponse response = policyService
+                .fetchPolicyRevivalDetails(policyRevivalQuotationRequest);
+        System.out.println("RESPONSE ::" + response.policyNumber());
+        System.out.println("RESPONSE::" + response.durationOfPremiumPaid());
+        ApiResponse<PolicyRevivalQuotationResponse> body = responseBuilder.success(request,
+                "Policy Revival Quotation done", response);
 
         return ResponseEntity.ok(body);
     }

@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.api.elifeconnect.aop.ApiShortNames;
 import com.api.elifeconnect.aop.LogApiCall;
 import com.api.elifeconnect.common.response.ApiResponse;
 import com.api.elifeconnect.common.response.ApiResponseBuilder;
@@ -18,7 +19,6 @@ import com.api.elifeconnect.dto.plan.Details.PlanDetailsResponse;
 import com.api.elifeconnect.service.plan.PlanDetailsService;
 
 import jakarta.servlet.http.HttpServletRequest;
-
 
 @RestController
 @RequestMapping("/api/v1/kenya/plan")
@@ -36,17 +36,16 @@ public class PlanController {
     @PostMapping("/details")
     // @PreAuthorize("hasAnyRole('USER')")
     @PreAuthorize("hasAuthority('kenya.api.read')")
-    @LogApiCall("Plan Details API")
-        public ResponseEntity<ApiResponse<PlanDetailsResponse>> getPlanDetails(
+    @LogApiCall(value = "Plan Details API", shortName = ApiShortNames.PLAN_DETAILS)
+    public ResponseEntity<ApiResponse<PlanDetailsResponse>> getPlanDetails(
             @Valid @RequestBody PlanDetailsRequest planDetailsRequest,
             HttpServletRequest request) {
-                
+
         MDC.put("apiName", "Plan Details API");
         PlanDetailsResponse response = planDetailsService.getPlanDetails(planDetailsRequest);
-        System.out.println("RESPONSE ::"+response.message());
-        System.out.println("RESPONSE::"+response.plans());
-        ApiResponse<PlanDetailsResponse> body =
-                responseBuilder.success(request, "Plan Details Successful", response);
+        System.out.println("RESPONSE ::" + response.message());
+        System.out.println("RESPONSE::" + response.plans());
+        ApiResponse<PlanDetailsResponse> body = responseBuilder.success(request, "Plan Details Successful", response);
 
         return ResponseEntity.ok(body);
     }

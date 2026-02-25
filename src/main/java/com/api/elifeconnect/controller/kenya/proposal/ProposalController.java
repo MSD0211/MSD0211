@@ -1,6 +1,5 @@
 package com.api.elifeconnect.controller.kenya.proposal;
 
-
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +14,7 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.api.elifeconnect.aop.ApiShortNames;
 import com.api.elifeconnect.aop.LogApiCall;
 import com.api.elifeconnect.common.response.ApiResponse;
 import com.api.elifeconnect.common.response.ApiResponseBuilder;
@@ -45,61 +45,59 @@ public class ProposalController {
         this.responseBuilder = new ApiResponseBuilder();
     }
 
-
     @PostMapping("/premium/enquiry")
     @PreAuthorize("hasAuthority('kenya.api.read')")
-    @LogApiCall("Proposal Premium Enquiry API")
-        public ResponseEntity<ApiResponse<ProposalPremiumEnquiryResponse>> proposalPremiumEnquiry(
+    @LogApiCall(value = "Proposal Premium Enquiry API", shortName = ApiShortNames.PROPOSAL_PREMIUM_ENQ)
+    public ResponseEntity<ApiResponse<ProposalPremiumEnquiryResponse>> proposalPremiumEnquiry(
             @Valid @RequestBody ProposalPremiumEnquiryRequest proposalPremiumEnquiryRequest,
             HttpServletRequest request) {
-                
+
         MDC.put("apiName", "Proposal Premium Enquiry API");
         ProposalPremiumEnquiryResponse response = proposalService.proposalPremiumEnquiry(proposalPremiumEnquiryRequest);
-        System.out.println("RESPONSE ::"+response.proposalNumber());
-        System.out.println("RESPONSE::"+response.installmentPremium());
-        ApiResponse<ProposalPremiumEnquiryResponse> body =
-                responseBuilder.success(request, "Proposal Premium Enquiry done", response);
+        System.out.println("RESPONSE ::" + response.proposalNumber());
+        System.out.println("RESPONSE::" + response.installmentPremium());
+        ApiResponse<ProposalPremiumEnquiryResponse> body = responseBuilder.success(request,
+                "Proposal Premium Enquiry done", response);
 
         return ResponseEntity.ok(body);
     }
 
     @PostMapping("/submission/enquiry")
     @PreAuthorize("hasAuthority('kenya.api.read')")
-    @LogApiCall("Proposal Submission Enquiry API")
-        public ResponseEntity<ApiResponse<ProposalSubmissionEnquiryResponse>> proposalPremiumEnquiry(
+    @LogApiCall(value = "Proposal Submission Enquiry API", shortName = ApiShortNames.PROPOSAL_SUBMISSION_ENQ)
+    public ResponseEntity<ApiResponse<ProposalSubmissionEnquiryResponse>> proposalPremiumEnquiry(
             @Valid @RequestBody ProposalSubmissionEnquiryRequest proposalSubmissionEnquiryRequest,
             HttpServletRequest request) {
-                
+
         MDC.put("apiName", "Proposal Submission Enquiry API");
         ProposalSubmissionEnquiryResponse response;
         log.error("PROPOSAL SUBMISSION!!");
         response = proposalService.proposalSubmissionEnquiry(proposalSubmissionEnquiryRequest);
-        log.error("RESPONSE ::"+response.proposalNumber());
-        log.error("RESPONSE::"+response.installmentPremium());
-        ApiResponse<ProposalSubmissionEnquiryResponse> body =
-                responseBuilder.success(request, "Proposal Submission Enquiry done", response);
+        log.error("RESPONSE ::" + response.proposalNumber());
+        log.error("RESPONSE::" + response.installmentPremium());
+        ApiResponse<ProposalSubmissionEnquiryResponse> body = responseBuilder.success(request,
+                "Proposal Submission Enquiry done", response);
 
         return ResponseEntity.ok(body);
     }
 
     @PostMapping("/submit")
     @PreAuthorize("hasAuthority('kenya.api.read')")
-    @LogApiCall("Proposal Submission API")
-        public ResponseEntity<ApiResponse<ProposalSubmitResponse>> proposalSubmit(
-            @Validated({Default.class, KenyaGroup.class}) @RequestBody ProposalSubmitRequest proposalSubmitRequest,
+    @LogApiCall(value = "Proposal Submission API", shortName = ApiShortNames.PROPOSAL_SUBMISSION)
+    public ResponseEntity<ApiResponse<ProposalSubmitResponse>> proposalSubmit(
+            @Validated({ Default.class, KenyaGroup.class }) @RequestBody ProposalSubmitRequest proposalSubmitRequest,
             HttpServletRequest request) {
-                
+
         MDC.put("apiName", "Proposal Submission API");
-        log.error("REFERENCE ID::"+proposalSubmitRequest.id());
+        log.error("REFERENCE ID::" + proposalSubmitRequest.id());
         ProposalSubmitResponse response;
         log.error("PROPOSAL SUBMISSION!!");
         response = proposalService.proposalSubmit(proposalSubmitRequest);
-        log.error("RESPONSE ::"+response.message());
-        ApiResponse<ProposalSubmitResponse  > body =
-                responseBuilder.success(request, "Proposal Submission done", response);
+        log.error("RESPONSE ::" + response.message());
+        ApiResponse<ProposalSubmitResponse> body = responseBuilder.success(request, "Proposal Submission done",
+                response);
 
         return ResponseEntity.ok(body);
     }
-
 
 }

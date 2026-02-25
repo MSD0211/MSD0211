@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.api.elifeconnect.aop.ApiShortNames;
 import com.api.elifeconnect.aop.LogApiCall;
 import com.api.elifeconnect.common.response.ApiResponse;
 import com.api.elifeconnect.common.response.ApiResponseBuilder;
@@ -35,17 +36,17 @@ public class EmployeeController {
     @PostMapping("/authentication")
     // @PreAuthorize("hasAnyRole('USER')")
     @PreAuthorize("hasAuthority('kenya.api.read')")
-    @LogApiCall("Employee Authentication API")
-        public ResponseEntity<ApiResponse<EmployeeAuthenticationResponse>> employeeAuthentication(
+    @LogApiCall(value = "Employee Authentication API", shortName = ApiShortNames.EMPLOYEE_AUTH)
+    public ResponseEntity<ApiResponse<EmployeeAuthenticationResponse>> employeeAuthentication(
             @Valid @RequestBody EmployeeAuthenticationRequest empAuthenticationRequest,
             HttpServletRequest request) {
-                
+
         MDC.put("apiName", "Employee Authentication API");
         EmployeeAuthenticationResponse response = custAuthService.employeeAuthentication(empAuthenticationRequest);
-        System.out.println("RESPONSE ::"+response.message());
-        System.out.println("RESPONSE::"+response.emailId());
-        ApiResponse<EmployeeAuthenticationResponse> body =
-                responseBuilder.success(request, "Employee Authentication done", response);
+        System.out.println("RESPONSE ::" + response.message());
+        System.out.println("RESPONSE::" + response.emailId());
+        ApiResponse<EmployeeAuthenticationResponse> body = responseBuilder.success(request,
+                "Employee Authentication done", response);
 
         return ResponseEntity.ok(body);
     }

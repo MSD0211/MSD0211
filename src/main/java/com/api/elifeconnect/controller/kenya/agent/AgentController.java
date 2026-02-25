@@ -16,6 +16,7 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.api.elifeconnect.aop.ApiShortNames;
 import com.api.elifeconnect.aop.LogApiCall;
 import com.api.elifeconnect.common.response.ApiResponse;
 import com.api.elifeconnect.common.response.ApiResponseBuilder;
@@ -43,7 +44,7 @@ public class AgentController {
         @PostMapping("/authentication")
         // @PreAuthorize("hasAnyRole('USER')")
         @PreAuthorize("hasAuthority('kenya.api.read')")
-        @LogApiCall("Agent Authentication API")
+        @LogApiCall(value = "Agent Authentication API", shortName = ApiShortNames.AGENT_AUTH)
         public ResponseEntity<ApiResponse<AgentAuthenticationResponse>> agentAuthentication(
                         @Valid @RequestBody AgentAuthenticationRequest agentAuthenticationRequest,
                         HttpServletRequest request) {
@@ -60,7 +61,7 @@ public class AgentController {
 
         @PostMapping(value = "/commission/statement/download", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_PDF_VALUE)
         @PreAuthorize("hasAuthority('kenya.api.read')")
-        @LogApiCall("CommissionStatementAPI")
+        @LogApiCall(value = "CommissionStatementAPI", shortName = ApiShortNames.AGENT_COMMISSION_STMT)
         public ResponseEntity<Resource> downloadCommissionStatementPdf(
                         @Valid @RequestBody CommissionStatementRequest request) throws IOException {
 

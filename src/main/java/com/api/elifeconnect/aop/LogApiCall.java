@@ -6,5 +6,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface LogApiCall {
-    String value() default "";   // API Name
+    String value() default ""; // Full API Name e.g. "Agent Authentication API"
+
+    String shortName() default ""; // Short API code e.g. "AGNTAUTH"
 }

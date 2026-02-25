@@ -1,5 +1,6 @@
 package com.api.elifeconnect.aop;
 
+import com.api.elifeconnect.common.response.ApiResponse;
 import com.api.elifeconnect.entity.ApiCallLog;
 import com.api.elifeconnect.repository.ApiCallLogRepository;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -10,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.slf4j.MDC;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -34,16 +34,15 @@ public class ApiCallLoggingAspect {
 
     @Around("@annotation(logApiCall)")
     public Object logApiCall(ProceedingJoinPoint pjp,
-                             LogApiCall logApiCall) throws Throwable {
+            LogApiCall logApiCall) throws Throwable {
 
         Instant startTime = Instant.now();
 
         String apiName = logApiCall.value();
+        String apiShortName = logApiCall.shortName();
         String httpMethod = request.getMethod();
         String url = request.getRequestURI();
-        String clientId = extractClientIdFromJwt(); 
-
-        // ⭐ NEW: Extract client IP
+        String clientId = extractClientIdFromJwt();
         String clientIp = getClientIp();
 
         String requestHeaders = safe(this::extractHeaders);
@@ -52,10 +51,11 @@ public class ApiCallLoggingAspect {
 
         ApiCallLog logEntry = ApiCallLog.builder()
                 .apiName(apiName)
+                .apiShortName(apiShortName.isBlank() ? null : apiShortName)
                 .httpMethod(httpMethod)
                 .url(url)
                 .clientId(clientId)
-                .clientIp(clientIp)  // ⭐ NEW FIELD
+                .clientIp(clientIp)
                 .referenceId(referenceId)
                 .requestHeaders(requestHeaders)
                 .requestPayload(requestPayload)
@@ -76,7 +76,11 @@ public class ApiCallLoggingAspect {
                 }
             });
 
+            // ✅ Extract requestId from our ApiResponse wrapper
+            String requestId = extractRequestIdFromResponse(result, responseBody);
+
             logEntry.setResponsePayload(responseBody);
+            logEntry.setRequestId(requestId);
             logEntry.setSuccess(true);
             logEntry.setHttpStatus(200);
 
@@ -101,67 +105,105 @@ public class ApiCallLoggingAspect {
 
     // ===================== UTILITIES =========================
 
+    /**
+     * Extracts the requestId generated in our ApiResponse wrapper.
+     * Falls back to scanning raw JSON for common request-id field names.
+     */
+    private String extractRequestIdFromResponse(Object result, String responseJson) {
+
+        // Fast path: if the method returned an ApiResponse or
+        // ResponseEntity<ApiResponse>,
+        // unwrap it directly to avoid JSON serialization overhead.
+        if (result instanceof ApiResponse<?> apiResp) {
+            return apiResp.requestId();
+        }
+
+        // Fallback: parse serialized JSON and look for common field names
+        if (responseJson == null)
+            return null;
+        try {
+            JsonNode root = mapper.readTree(responseJson);
+
+            // Direct fields on the response root
+            for (String key : new String[] { "requestId", "request_id", "reqId", "req_id",
+                    "transactionId", "txnId", "traceId" }) {
+                JsonNode node = root.get(key);
+                if (node != null && !node.isNull() && !node.asText().isBlank()) {
+                    return node.asText();
+                }
+            }
+
+            // Check inside a nested "body" / "data" node (ResponseEntity wrapping)
+            for (String wrapper : new String[] { "body", "data" }) {
+                JsonNode inner = root.get(wrapper);
+                if (inner != null && inner.isObject()) {
+                    for (String key : new String[] { "requestId", "request_id", "reqId" }) {
+                        JsonNode node = inner.get(key);
+                        if (node != null && !node.isNull() && !node.asText().isBlank()) {
+                            return node.asText();
+                        }
+                    }
+                }
+            }
+        } catch (Exception ignored) {
+        }
+
+        return null;
+    }
+
     private String extractClientIdFromJwt() {
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             if (auth != null && auth.getPrincipal() instanceof Jwt jwt) {
                 return jwt.getClaimAsString("azp");
             }
-        } catch (Exception ignored) { }
+        } catch (Exception ignored) {
+        }
         return null;
     }
 
-    // ⭐ NEW — Extract client IP safely (supports proxies)
     private String getClientIp() {
-    String[] HEADERS = {
-            "X-Forwarded-For",
-            "X-Real-IP",
-            "Proxy-Client-IP",
-            "WL-Proxy-Client-IP",
-            "HTTP_X_FORWARDED_FOR",
-            "HTTP_X_FORWARDED",
-            "HTTP_X_CLUSTER_CLIENT_IP",
-            "HTTP_CLIENT_IP",
-            "HTTP_FORWARDED_FOR",
-            "HTTP_FORWARDED",
-            "HTTP_VIA",
-            "REMOTE_ADDR"
-    };
+        String[] HEADERS = {
+                "X-Forwarded-For",
+                "X-Real-IP",
+                "Proxy-Client-IP",
+                "WL-Proxy-Client-IP",
+                "HTTP_X_FORWARDED_FOR",
+                "HTTP_X_FORWARDED",
+                "HTTP_X_CLUSTER_CLIENT_IP",
+                "HTTP_CLIENT_IP",
+                "HTTP_FORWARDED_FOR",
+                "HTTP_FORWARDED",
+                "HTTP_VIA",
+                "REMOTE_ADDR"
+        };
 
-    for (String header : HEADERS) {
-        String ip = request.getHeader(header);
-        if (ip != null && !ip.isEmpty() && !"unknown".equalsIgnoreCase(ip)) {
-            ip = ip.split(",")[0].trim();
-            return normalizeIp(ip);
+        for (String header : HEADERS) {
+            String ip = request.getHeader(header);
+            if (ip != null && !ip.isEmpty() && !"unknown".equalsIgnoreCase(ip)) {
+                return normalizeIp(ip.split(",")[0].trim());
+            }
         }
+        return normalizeIp(request.getRemoteAddr());
     }
 
-    return normalizeIp(request.getRemoteAddr());
-}
-
-private String normalizeIp(String ip) {
-    if (ip == null) return null;
-
-    // Convert IPv6 localhost → IPv4
-    if ("0:0:0:0:0:0:0:1".equals(ip) || "::1".equals(ip)) {
-        return "127.0.0.1";
+    private String normalizeIp(String ip) {
+        if (ip == null)
+            return null;
+        if ("0:0:0:0:0:0:0:1".equals(ip) || "::1".equals(ip))
+            return "127.0.0.1";
+        return ip;
     }
-
-    return ip;
-}
-
 
     private String extractHeaders() {
         try {
             Map<String, String> map = new HashMap<>();
             Enumeration<String> headerNames = request.getHeaderNames();
-
             while (headerNames.hasMoreElements()) {
                 String name = headerNames.nextElement();
                 map.put(name, request.getHeader(name));
             }
             return mapper.writeValueAsString(map);
-
         } catch (Exception e) {
             return null;
         }
@@ -174,13 +216,14 @@ private String normalizeIp(String ip) {
                     return mapper.writeValueAsString(arg);
                 }
             }
-        } catch (Exception ignored) { }
+        } catch (Exception ignored) {
+        }
         return null;
     }
 
     private String extractReferenceIdDeep(String json) {
-        if (json == null) return null;
-
+        if (json == null)
+            return null;
         try {
             JsonNode node = mapper.readTree(json);
             return findReference(node);
@@ -190,16 +233,22 @@ private String normalizeIp(String ip) {
     }
 
     private String findReference(JsonNode node) {
-        if (node == null) return null;
+        if (node == null)
+            return null;
 
-        if (node.has("referenceId")) return node.get("referenceId").asText();
-        if (node.has("referenceNo")) return node.get("referenceNo").asText();
-        if (node.has("referenceNumber")) return node.get("referenceNumber").asText();
-        if (node.has("id")) return node.get("id").asText();
+        if (node.has("referenceId"))
+            return node.get("referenceId").asText();
+        if (node.has("referenceNo"))
+            return node.get("referenceNo").asText();
+        if (node.has("referenceNumber"))
+            return node.get("referenceNumber").asText();
+        if (node.has("id"))
+            return node.get("id").asText();
 
         for (JsonNode child : node) {
             String ref = findReference(child);
-            if (ref != null) return ref;
+            if (ref != null)
+                return ref;
         }
         return null;
     }

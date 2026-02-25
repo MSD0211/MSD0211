@@ -1,6 +1,5 @@
 package com.api.elifeconnect.controller.kenya.ulip;
 
-
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +10,7 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.api.elifeconnect.aop.ApiShortNames;
 import com.api.elifeconnect.aop.LogApiCall;
 import com.api.elifeconnect.common.response.ApiResponse;
 import com.api.elifeconnect.common.response.ApiResponseBuilder;
@@ -35,20 +35,19 @@ public class UlipController {
         this.responseBuilder = new ApiResponseBuilder();
     }
 
-
     @PostMapping("/fund/position/single")
     @PreAuthorize("hasAuthority('kenya.api.read')")
-    @LogApiCall("Ulip Fund Position Single API")
-        public ResponseEntity<ApiResponse<UlipFundPositionSingleResponse>> getFundPositionSingle(
+    @LogApiCall(value = "Ulip Fund Position Single API", shortName = ApiShortNames.ULIP_FUND_POSITION)
+    public ResponseEntity<ApiResponse<UlipFundPositionSingleResponse>> getFundPositionSingle(
             @Valid @RequestBody UlipFundPositionSingleRequest ulipFundPositionSingleRequest,
             HttpServletRequest request) {
-                
+
         MDC.put("apiName", "Ulip Fund Position Single API");
         UlipFundPositionSingleResponse response = ulipService.getFundPositionSingle(ulipFundPositionSingleRequest);
-        System.out.println("RESPONSE ::"+response.policyNumber());
-        System.out.println("RESPONSE::"+response.fundAsOn());
-        ApiResponse<UlipFundPositionSingleResponse> body =
-                responseBuilder.success(request, "Ulip Fund Position Single done", response);
+        System.out.println("RESPONSE ::" + response.policyNumber());
+        System.out.println("RESPONSE::" + response.fundAsOn());
+        ApiResponse<UlipFundPositionSingleResponse> body = responseBuilder.success(request,
+                "Ulip Fund Position Single done", response);
 
         return ResponseEntity.ok(body);
     }

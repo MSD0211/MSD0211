@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.api.elifeconnect.aop.ApiShortNames;
 import com.api.elifeconnect.aop.LogApiCall;
 import com.api.elifeconnect.common.response.ApiResponse;
 import com.api.elifeconnect.common.response.ApiResponseBuilder;
@@ -35,17 +36,17 @@ public class CustomerController {
     @PostMapping("/authentication")
     // @PreAuthorize("hasAnyRole('USER')")
     @PreAuthorize("hasAuthority('kenya.api.read')")
-    @LogApiCall("Customer Authentication API")
+    @LogApiCall(value = "Customer Authentication API", shortName = ApiShortNames.CUSTOMER_AUTH)
     public ResponseEntity<ApiResponse<CustomerAuthenticationResponse>> customerAuthentication(
             @Valid @RequestBody CustomerAuthenticationRequest custAuthenticationRequest,
             HttpServletRequest request) {
-                
+
         MDC.put("apiName", "Customer Authentication API");
         CustomerAuthenticationResponse response = custAuthService.customerAuthentication(custAuthenticationRequest);
-        System.out.println("RESPONSE ::"+response.message());
-        System.out.println("RESPONSE::"+response.mobileNo());
-        ApiResponse<CustomerAuthenticationResponse> body =
-                responseBuilder.success(request, "Customer Authentication done", response);
+        System.out.println("RESPONSE ::" + response.message());
+        System.out.println("RESPONSE::" + response.mobileNo());
+        ApiResponse<CustomerAuthenticationResponse> body = responseBuilder.success(request,
+                "Customer Authentication done", response);
 
         return ResponseEntity.ok(body);
     }

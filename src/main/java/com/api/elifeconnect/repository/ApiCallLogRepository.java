@@ -4,15 +4,14 @@ import com.api.elifeconnect.entity.ApiCallLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface ApiCallLogRepository extends JpaRepository<ApiCallLog, String> {
 
-    // Optionally: find by clientId if needed later
-    // List<ApiCallLog> findByClientId(String clientId);
+    // Look up a log row by the requestId returned to the caller (support/debugging)
+    Optional<ApiCallLog> findByRequestId(String requestId);
 
-    // Optionally: find by apiName
-    // List<ApiCallLog> findByApiName(String apiName);
-
-    // Optionally: find by referenceId (already primary key)
-    // ApiCallLog findByReferenceId(String referenceId);
+    // Optionally: find by business referenceId from the request body
+    // List<ApiCallLog> findByReferenceId(String referenceId);
 }

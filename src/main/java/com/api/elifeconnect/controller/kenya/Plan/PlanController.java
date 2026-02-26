@@ -48,5 +48,6 @@ public class PlanController {
         ApiResponse<PlanDetailsResponse> body = responseBuilder.success(request, "Plan Details Successful", response);
 
         return ResponseEntity.ok(body);
+        
     }
 }

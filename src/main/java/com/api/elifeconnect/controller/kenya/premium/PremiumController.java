@@ -4,7 +4,6 @@ import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import jakarta.validation.Valid;
@@ -19,15 +18,7 @@ import com.api.elifeconnect.dto.premium.statement.PremiumStatementFullRequest;
 import com.api.elifeconnect.dto.premium.statement.PremiumStatementFullResponse;
 import com.api.elifeconnect.dto.premium.summary.PremiumSummaryRequest;
 import com.api.elifeconnect.dto.premium.summary.PremiumSummaryResponse;
-import com.api.elifeconnect.dto.proposal.ProposalPremiumEnquiryRequest;
-import com.api.elifeconnect.dto.proposal.ProposalPremiumEnquiryResponse;
-import com.api.elifeconnect.dto.proposal.ProposalSubmissionEnquiryRequest;
-import com.api.elifeconnect.dto.proposal.ProposalSubmissionEnquiryResponse;
-import com.api.elifeconnect.dto.proposal.submit.ProposalSubmitRequest;
-import com.api.elifeconnect.dto.proposal.submit.ProposalSubmitResponse;
 import com.api.elifeconnect.service.premium.PremiumService;
-import com.api.elifeconnect.service.proposal.ProposalService;
-
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 

@@ -89,6 +89,8 @@ public record ProposerDetails(
         @Size(max = 40)
         String employer_name,
 
+        String marital_status,
+
         @NotBlank(message = "Place of birth is mandatory")
         @Size(max = 60)
         String place_of_birth,
@@ -96,10 +98,22 @@ public record ProposerDetails(
         @Valid
         PassportDetails passport_details,
 
+        String length_of_service,
+
         @NotBlank(message = "Proposer full name is mandatory")
         @Size(max = 75)
         String proposer_full_name,
 
+        String proposer_last_name,
+        String proposer_first_name,
+        String proposer_middle_name,
+        String usual_state_of_health,
+        String exact_nature_of_duties,
+        String is_politically_exposed,
+        String national_id_expiry_date,
+
         @Valid
-        AddressOfCommunication address_of_communication
+        AddressOfCommunication address_of_communication,
+        String annual_income_from_all_sources,
+        String source_of_income_for_payment_of_premium
 ) {}

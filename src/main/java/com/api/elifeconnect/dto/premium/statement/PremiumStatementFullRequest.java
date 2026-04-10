@@ -1,7 +1,6 @@
 package com.api.elifeconnect.dto.premium.statement;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record PremiumStatementFullRequest(

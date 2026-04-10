@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,6 +20,7 @@ import com.api.elifeconnect.dto.premium.RenewalPremiumEnquiryResponse;
 import com.api.elifeconnect.service.premium.PremiumService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 @RestController("lankaPremiumController")
 @RequestMapping("/api/v1/lanka/premium")
@@ -59,7 +59,7 @@ public class PremiumController {
             @Valid @RequestBody RenewalPremiumAdjustmentRequest renewalPremiumAdjRequest,
             HttpServletRequest request) {
 
-        MDC.put("apiName", "PremiumEnquiryAPI");
+        MDC.put("apiName", "PremiumAdjustmentAPI");
         RenewalPremiumAdjustmentResponse response = premiumService.renewalPremiumAdjustment(renewalPremiumAdjRequest);
         System.out.println("RESPONSE ::" + response.httpStatus());
         System.out.println("RESPONSE::" + response.fup());

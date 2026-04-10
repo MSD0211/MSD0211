@@ -22,7 +22,11 @@ elife:
           url: /api/v1/loan/repayment/letter
       quotation:
         url: /api/v1/loan/quotation
-
+    
+    gp:
+      member:
+        statement:
+          url: /api/v1/gp/member/statement
     customer:
       authentication:
         url: /api/Authentication/v1/client

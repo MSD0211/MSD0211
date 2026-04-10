@@ -3,20 +3,20 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://124.43.199.226:8085/realms/liclanka-prod
-          jwk-set-uri: http://124.43.199.226:8085/realms/liclanka-prod/protocol/openid-connect/certs
+          issuer-uri: https://auth.liclanka.com/realms/liclanka-prod
+          jwk-set-uri: https://auth.liclanka.com/realms/liclanka-prod/protocol/openid-connect/certs
       client:
         provider:
           keycloak:
-            issuer-uri: http://124.43.199.226:8085/realms/liclanka-prod
-            token-uri: http://124.43.199.226:8085/realms/liclanka-prod/protocol/openid-connect/token
-            authorization-uri: http://124.43.199.226:8085/realms/liclanka-prodprotocol/openid-connect/auth
-            user-info-uri: http://124.43.199.226:8085/realms/liclanka-prod/protocol/openid-connect/userinfo
-            jwk-set-uri: http://124.43.199.226:8085/realms/liclanka-prod/protocol/openid-connect/certs
+            issuer-uri: https://auth.liclanka.com/realms/liclanka-prod
+            token-uri: https://auth.liclanka.com/realms/liclanka-prod/protocol/openid-connect/token
+            authorization-uri: https://auth.liclanka.com/realms/liclanka-prod/protocol/openid-connect/auth
+            user-info-uri: https://auth.liclanka.com/realms/liclanka-prod/protocol/openid-connect/userinfo
+            jwk-set-uri: https://auth.liclanka.com/realms/liclanka-prod/protocol/openid-connect/certs
         registration:
           kenya-portal-client:
             provider: keycloak
-            clientId: kenya-portal-client
+            clientId: lanka-portal-client
             clientSecret: AduQvfB8jpYkAYyUqhegSMQ2dylsMuW5
             authorizationGrantType: client_credentials
             clientAuthenticationMethod: client_secret_basic
@@ -28,13 +28,12 @@ spring:
             authorizationGrantType: authorization_code
             clientAuthenticationMethod: client_secret_basic
             scope: openid,profile,email,roles
-            redirectUri: http://124.43.199.226:8085/login/oauth2/code/keycloak
+            redirectUri: https://auth.liclanka.com/login/oauth2/code/keycloak
   datasource:
       url: jdbc:mysql://192.168.0.100:3306/lanka?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      username: feap
-      password: devfeap
+      username: elifeconnect
+      password: devFeap@123
       driver-class-name: com.mysql.cj.jdbc.Driver
-
       hikari:
         maximum-pool-size: 20
         minimum-idle: 5
@@ -44,12 +43,10 @@ spring:
         max-lifetime: 1800000          # 30 min
         validation-timeout: 5000
         leak-detection-threshold: 20000
-
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: none               # Use 'none' in PROD
-
     show-sql: false
     properties:
       hibernate:
@@ -61,7 +58,4 @@ spring:
         
 elife:
   api:
-    baseurl: http://192.168.0.33:8080/eLife/elifeRestServices
-
-
-     
+    baseurl: http://192.168.100.1:8080/eLife/elifeRestServices

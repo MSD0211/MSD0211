@@ -28,7 +28,7 @@ spring:
             authorizationGrantType: authorization_code
             clientAuthenticationMethod: client_secret_basic
             scope: openid,profile,email,roles
-            redirectUri: https://econnect-uat.kenindia.com:8443/login/oauth2/code/keycloak
+            redirectUri: https://192.168.6.197:8443/login/oauth2/code/keycloak
   datasource:
       url: jdbc:mysql://192.168.6.197:3306/kenya?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       username: econnect

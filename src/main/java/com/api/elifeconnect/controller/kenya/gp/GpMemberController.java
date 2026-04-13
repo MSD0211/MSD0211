@@ -23,7 +23,7 @@ import com.api.elifeconnect.service.gp.MemberService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v1/gp/member")
+@RequestMapping("/api/v1/kenya/gp/member")
 public class GpMemberController {
 
     private final MemberService memberService;
@@ -33,7 +33,7 @@ public class GpMemberController {
         this.memberService = memberService;
     }
 
-    @PostMapping(value = "/statement", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_PDF_VALUE)
+    @PostMapping(value = "/statement/download", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_PDF_VALUE)
     @PreAuthorize("hasAuthority('kenya.api.read')")
     @LogApiCall(value = "MemberStatementAPI", shortName = ApiShortNames.MEMBER_STATEMENT)
     public ResponseEntity<Resource> downloadMemberStatement(

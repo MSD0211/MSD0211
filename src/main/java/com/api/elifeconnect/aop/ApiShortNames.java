@@ -32,6 +32,7 @@ package com.api.elifeconnect.aop;
  * │ PRBENQ      │ Proposal Submission Enquiry API         │ ProposalController POST /kenya/proposal/submission/..│
  * │ PRBSUB      │ Proposal Submission API                 │ ProposalController POST /kenya/proposal/submit       │
  * │ ULIPFPS     │ Ulip Fund Position Single API           │ UlipController   POST /kenya/ulip/fund/position/...  │
+ * │ GPMBSMT     │ GP Member Statement API                 │ GpMemberController POST /kenya/gp/member/statement   │
  * ├─────────────┼─────────────────────────────────────────┼──────────────────────────────────────────────────────┤
  * │ RNWENQ      │ Renewal Premium Enquiry API             │ PremiumController POST /lanka/premium/renewal/enquiry│
  * │ RNWADJ      │ Renewal Premium Adjustment API          │ PremiumController POST /lanka/premium/renewal/...    │
@@ -91,6 +92,9 @@ public final class ApiShortNames {
 
     /** ULIP Fund Position Single */
     public static final String ULIP_FUND_POSITION = "ULIPFPS";
+
+    /** GP Member Statement */
+    public static final String MEMBER_STATEMENT = "GPMBSMT";
 
     // ─── Lanka ────────────────────────────────────────────────────────────────
 

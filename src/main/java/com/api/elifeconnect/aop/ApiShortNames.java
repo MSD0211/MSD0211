@@ -96,6 +96,8 @@ public final class ApiShortNames {
     /** GP Member Statement */
     public static final String MEMBER_STATEMENT = "GPMBSMT";
 
+    /** GP ContributionRecord */
+    public static final String CONTRIBUTION_RECORD = "ContributionRecord";
     // ─── Lanka ────────────────────────────────────────────────────────────────
 
     /** Renewal Premium Enquiry */
@@ -109,4 +111,5 @@ public final class ApiShortNames {
 
     /** Proposal Deposit Create */
     public static final String PROPOSAL_DEPOSIT_CREATE = "PRPDEP";
+    
 }

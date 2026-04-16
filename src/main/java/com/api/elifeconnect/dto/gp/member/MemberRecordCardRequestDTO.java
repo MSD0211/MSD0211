@@ -2,10 +2,10 @@ package com.api.elifeconnect.dto.gp.member;
 
 import jakarta.validation.constraints.*;
 
-public record ContributionRecordRequestDTO(
+public record MemberRecordCardRequestDTO(
 
     @NotBlank(message = "referenceId is required")
-    @Size(max = 50)
+    @Size(max = 30)
     String referenceId,
 
     @NotBlank(message = "schemeNumber is required")

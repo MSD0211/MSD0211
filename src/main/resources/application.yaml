@@ -27,9 +27,9 @@ elife:
       member:
         statement:
           url: /api/v1/gp/member/statement
-      contribution:
         record:
-          url: /api/v1/gp/contributionrecord/statement/download    
+          card:
+            url: /api/v1/gp/member/record/card
     customer:
       authentication:
         url: /api/Authentication/v1/client

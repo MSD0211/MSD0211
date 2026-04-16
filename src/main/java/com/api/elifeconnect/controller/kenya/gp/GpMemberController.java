@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.api.elifeconnect.aop.ApiShortNames;
 import com.api.elifeconnect.aop.LogApiCall;
+import com.api.elifeconnect.dto.gp.member.MemberRecordCardRequestDTO;
 import com.api.elifeconnect.dto.gp.member.MemberStatementRequestDTO;
+import com.api.elifeconnect.service.gp.MemberRecordCardService;
 import com.api.elifeconnect.service.gp.MemberService;
 
 import jakarta.validation.Valid;
@@ -27,10 +29,13 @@ import jakarta.validation.Valid;
 public class GpMemberController {
 
     private final MemberService memberService;
+    private final MemberRecordCardService memberRecordCardService;
 
     @Autowired
-    public GpMemberController(MemberService memberService) {
+    public GpMemberController(MemberService memberService,
+                              MemberRecordCardService memberRecordCardService) {
         this.memberService = memberService;
+        this.memberRecordCardService = memberRecordCardService;
     }
 
     @PostMapping(value = "/statement/download", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_PDF_VALUE)
@@ -49,6 +54,28 @@ public class GpMemberController {
                 .header(
                         HttpHeaders.CONTENT_DISPOSITION,
                         "attachment; filename=\"member-statement-"
+                                + request.schemeNumber() + "-"
+                                + request.memberId() + ".pdf\"")
+                .contentLength(pdfBytes.length)
+                .body(pdfResource);
+    }
+
+    @PostMapping(value = "/record/card/statement/download", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_PDF_VALUE)
+    @PreAuthorize("hasAuthority('kenya.api.read')")
+    @LogApiCall(value = "MemberRecordCardAPI", shortName = ApiShortNames.MEMBER_RECORD_CARD)
+    public ResponseEntity<Resource> downloadMemberRecordCard(
+            @Valid @RequestBody MemberRecordCardRequestDTO request) throws IOException {
+
+        MDC.put("apiName", "MemberRecordCardAPI");
+        byte[] pdfBytes = memberRecordCardService.generateMemberRecordCard(request);
+
+        ByteArrayResource pdfResource = new ByteArrayResource(pdfBytes);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_PDF)
+                .header(
+                        HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\"member-record-card-"
                                 + request.schemeNumber() + "-"
                                 + request.memberId() + ".pdf\"")
                 .contentLength(pdfBytes.length)

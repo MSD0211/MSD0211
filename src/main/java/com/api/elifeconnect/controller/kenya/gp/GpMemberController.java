@@ -60,7 +60,7 @@ public class GpMemberController {
                 .body(pdfResource);
     }
 
-    @PostMapping(value = "/record/card/statement/download", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_PDF_VALUE)
+    @PostMapping(value = "/record/card/download", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_PDF_VALUE)
     @PreAuthorize("hasAuthority('kenya.api.read')")
     @LogApiCall(value = "MemberRecordCardAPI", shortName = ApiShortNames.MEMBER_RECORD_CARD)
     public ResponseEntity<Resource> downloadMemberRecordCard(

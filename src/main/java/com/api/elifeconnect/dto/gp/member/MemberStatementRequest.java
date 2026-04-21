@@ -3,7 +3,7 @@ package com.api.elifeconnect.dto.gp.member;
 
 import jakarta.validation.constraints.*;
 
-public record MemberStatementRequestDTO(
+public record MemberStatementRequest(
 
     @NotBlank(message = "referenceId is required")
     @Size(max = 30)

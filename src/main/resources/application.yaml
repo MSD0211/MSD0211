@@ -30,6 +30,9 @@ elife:
         record:
           card:
             url: /api/v1/gp/member/record/card
+        fund:
+          summary:
+            url: /api/v1/gp/member/fund/summary
     customer:
       authentication:
         url: /api/Authentication/v1/client

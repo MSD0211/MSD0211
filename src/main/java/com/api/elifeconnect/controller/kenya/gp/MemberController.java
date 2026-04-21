@@ -17,32 +17,35 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.api.elifeconnect.aop.ApiShortNames;
 import com.api.elifeconnect.aop.LogApiCall;
-import com.api.elifeconnect.dto.gp.member.MemberRecordCardRequestDTO;
-import com.api.elifeconnect.dto.gp.member.MemberStatementRequestDTO;
-import com.api.elifeconnect.service.gp.MemberRecordCardService;
+import com.api.elifeconnect.common.response.ApiResponse;
+import com.api.elifeconnect.common.response.ApiResponseBuilder;
+import com.api.elifeconnect.dto.gp.member.MemberFundSummaryRequest;
+import com.api.elifeconnect.dto.gp.member.MemberFundSummaryResponse;
+import com.api.elifeconnect.dto.gp.member.MemberRecordCardRequest;
+import com.api.elifeconnect.dto.gp.member.MemberStatementRequest;
 import com.api.elifeconnect.service.gp.MemberService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/kenya/gp/member")
-public class GpMemberController {
+public class MemberController {
 
     private final MemberService memberService;
-    private final MemberRecordCardService memberRecordCardService;
+    private final ApiResponseBuilder responseBuilder;
 
     @Autowired
-    public GpMemberController(MemberService memberService,
-                              MemberRecordCardService memberRecordCardService) {
+    public MemberController(MemberService memberService) {
         this.memberService = memberService;
-        this.memberRecordCardService = memberRecordCardService;
+        this.responseBuilder = new ApiResponseBuilder();
     }
 
     @PostMapping(value = "/statement/download", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_PDF_VALUE)
     @PreAuthorize("hasAuthority('kenya.api.read')")
     @LogApiCall(value = "MemberStatementAPI", shortName = ApiShortNames.MEMBER_STATEMENT)
     public ResponseEntity<Resource> downloadMemberStatement(
-            @Valid @RequestBody MemberStatementRequestDTO request) throws IOException {
+            @Valid @RequestBody MemberStatementRequest request) throws IOException {
 
         MDC.put("apiName", "MemberStatementAPI");
         byte[] pdfBytes = memberService.generateMemberStatement(request);
@@ -64,10 +67,10 @@ public class GpMemberController {
     @PreAuthorize("hasAuthority('kenya.api.read')")
     @LogApiCall(value = "MemberRecordCardAPI", shortName = ApiShortNames.MEMBER_RECORD_CARD)
     public ResponseEntity<Resource> downloadMemberRecordCard(
-            @Valid @RequestBody MemberRecordCardRequestDTO request) throws IOException {
+            @Valid @RequestBody MemberRecordCardRequest request) throws IOException {
 
         MDC.put("apiName", "MemberRecordCardAPI");
-        byte[] pdfBytes = memberRecordCardService.generateMemberRecordCard(request);
+        byte[] pdfBytes = memberService.generateMemberRecordCard(request);
 
         ByteArrayResource pdfResource = new ByteArrayResource(pdfBytes);
 
@@ -80,5 +83,20 @@ public class GpMemberController {
                                 + request.memberId() + ".pdf\"")
                 .contentLength(pdfBytes.length)
                 .body(pdfResource);
+    }
+
+    @PostMapping("/fund/summary")
+    @PreAuthorize("hasAuthority('kenya.api.read')")
+    @LogApiCall(value = "Member Fund Summary API", shortName = ApiShortNames.PREMIUM_STATEMENT)
+    public ResponseEntity<ApiResponse<MemberFundSummaryResponse>> getMemberFundSummary(
+            @Valid @RequestBody MemberFundSummaryRequest memberFundSummaryRequest,
+            HttpServletRequest request) {
+
+        MDC.put("apiName", "Member Fund Summary API");
+        MemberFundSummaryResponse response = memberService.generateMemberFundSummary(memberFundSummaryRequest);
+        ApiResponse<MemberFundSummaryResponse> body = responseBuilder.success(request, "Member Fund Summary generated",
+                response);
+
+        return ResponseEntity.ok(body);
     }
 }

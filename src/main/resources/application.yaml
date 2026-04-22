@@ -33,6 +33,10 @@ elife:
         fund:
           summary:
             url: /api/v1/gp/member/fund/summary
+      scheme:
+        fund:
+          balance:
+            url: /api/v1/gp/scheme/fund/balance
     customer:
       authentication:
         url: /api/Authentication/v1/client

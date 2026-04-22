@@ -87,7 +87,7 @@ public class MemberController {
 
     @PostMapping("/fund/summary")
     @PreAuthorize("hasAuthority('kenya.api.read')")
-    @LogApiCall(value = "Member Fund Summary API", shortName = ApiShortNames.PREMIUM_STATEMENT)
+    @LogApiCall(value = "Member Fund Summary API", shortName = ApiShortNames.MEMBER_FUND_SUMMARY)
     public ResponseEntity<ApiResponse<MemberFundSummaryResponse>> getMemberFundSummary(
             @Valid @RequestBody MemberFundSummaryRequest memberFundSummaryRequest,
             HttpServletRequest request) {

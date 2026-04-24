@@ -17,10 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.api.elifeconnect.aop.ApiShortNames;
 import com.api.elifeconnect.aop.LogApiCall;
+import com.api.elifeconnect.common.response.ApiResponse;
 import com.api.elifeconnect.common.response.ApiResponseBuilder;
 import com.api.elifeconnect.dto.gp.scheme.SchemeFundBalanceRequest;
+import com.api.elifeconnect.dto.gp.scheme.SchemeProfileInformationRequest;
+import com.api.elifeconnect.dto.gp.scheme.SchemeProfileInformationResponse;
 import com.api.elifeconnect.service.gp.SchemeService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @RestController
@@ -56,5 +60,20 @@ public class SchemeController {
                                 +  ".pdf\"")
                 .contentLength(pdfBytes.length)
                 .body(pdfResource);
+    }
+
+    @PostMapping("/profile/information")
+    @PreAuthorize("hasAuthority('kenya.api.read')")
+    @LogApiCall(value = "Scheme Profile Information API", shortName = ApiShortNames.SCHEME_PROFILE_INFORMATION)
+    public ResponseEntity<ApiResponse<SchemeProfileInformationResponse>> getSchemeProfileInformation(
+            @Valid @RequestBody SchemeProfileInformationRequest schemeProfileInformationRequest,
+            HttpServletRequest request) {
+
+        MDC.put("apiName", "Scheme Profile Information API");
+        SchemeProfileInformationResponse response = schemeService.getSchemeProfileInformation(schemeProfileInformationRequest);
+        ApiResponse<SchemeProfileInformationResponse> body = responseBuilder.success(request, "Scheme Profile Information generated",
+                response);
+
+        return ResponseEntity.ok(body);
     }
 }

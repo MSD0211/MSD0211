@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.api.elifeconnect.dto.gp.scheme.SchemeFundBalanceRequest;
+import com.api.elifeconnect.dto.gp.scheme.SchemeProfileInformationRequest;
+import com.api.elifeconnect.dto.gp.scheme.SchemeProfileInformationResponse;
 import com.api.elifeconnect.service.gp.SchemeService;
 import com.api.elifeconnect.Utility.WebClientUtil;
 
@@ -23,6 +25,10 @@ public class SchemeServiceImpl implements SchemeService{
     @Value("${elife.api.gp.scheme.fund.balance.url}")
     private String eLifeApiSchemeFundBalanceUrl;
 
+    @Value("${elife.api.gp.scheme.profile.information.url}")
+    private String eLifeApiSchemeProfileInformationUrl;
+    
+
     public SchemeServiceImpl(WebClientUtil client) {
         this.client = client;
     }
@@ -36,6 +42,13 @@ public class SchemeServiceImpl implements SchemeService{
 
     return client.downloadPdf(url, request, Map.of()).block();
 
+    }
+
+    @Override
+    public SchemeProfileInformationResponse getSchemeProfileInformation(SchemeProfileInformationRequest request) {
+        String url = eLifeApiBaseUrl + eLifeApiSchemeProfileInformationUrl;
+        log.error("URL::"+url);
+        return client.post(url, request, Map.of(), SchemeProfileInformationResponse.class).block();
     }
 
 }

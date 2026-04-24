@@ -118,5 +118,8 @@ public final class ApiShortNames {
 
     /** Proposal Deposit Create */
     public static final String PROPOSAL_DEPOSIT_CREATE = "PRPDEP";
-    
+
+    /** Scheme Profile Information */
+    public static final String SCHEME_PROFILE_INFORMATION = "SCHEMEPROF";
+
 }

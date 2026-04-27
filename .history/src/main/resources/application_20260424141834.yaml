@@ -11,13 +11,18 @@ management:
 spring:
   profiles:
     active: kenya-dev
-
+  
 elife:
   api:
-    baseurl:
-    key: 1d29e6b3-1b74-467d-b2a6-cd3107e674d2
-    keyHeader: X-API-KEY
-
+    loan:
+      enquiry:
+        url: /online/loan/enquiry
+      repayment:
+        letter:
+          url: /api/v1/loan/repayment/letter
+      quotation:
+        url: /api/v1/loan/quotation
+    
     gp:
       member:
         statement:
@@ -28,8 +33,6 @@ elife:
         fund:
           summary:
             url: /api/v1/gp/member/fund/summary
-        details:
-          url: /api/v1/gp/member/details
       scheme:
         fund:
           balance:
@@ -37,24 +40,9 @@ elife:
         profile:
           information:
             url: /api/v1/gp/scheme/profile/information
-          url: /api/v1/gp/scheme/profile
-        member:
-          details:
-            url: /api/v1/gp/scheme/member/details
-
-    loan:
-      enquiry:
-        url: /online/loan/enquiry
-      repayment:
-        letter:
-          url: /api/v1/loan/repayment/letter
-      quotation:
-        url: /api/v1/loan/quotation
-
     customer:
       authentication:
         url: /api/Authentication/v1/client
-
     agent:
       authentication:
         url: /api/Authentication/v1/agent
@@ -62,13 +50,13 @@ elife:
         statement:
           url: /api/v1/commission/statement
 
-    employee:
-      authentication:
-        url: /api/Authentication/v1/employee
-
     plan:
       details:
         url: /online/v1/plan/details
+
+    employee:
+      authentication:
+        url: /api/Authentication/v1/employee
 
     premium:
       renewal:
@@ -105,9 +93,13 @@ elife:
       deposit:
         creation:
           url: /online/proposaldeposit/create
-
+          
     ulip:
       fund:
         position:
           single:
             url: /online/fundstat
+
+        
+    key: 1d29e6b3-1b74-467d-b2a6-cd3107e674d2
+    keyHeader: X-API-KEY

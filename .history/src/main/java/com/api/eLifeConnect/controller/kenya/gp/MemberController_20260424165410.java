@@ -25,8 +25,7 @@ import com.api.elifeconnect.dto.gp.member.MemberRecordCardRequest;
 import com.api.elifeconnect.dto.gp.member.MemberStatementRequest;
 import com.api.elifeconnect.service.gp.MemberService;
 import com.api.elifeconnect.dto.gp.member.MemberDetailsRequest;
-import com.api.elifeconnect.dto.gp.member.MemberDetailsResponse;
-
+import com.api.elifeconnect.dto.gp.member.MemberDetailsResponse
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -111,7 +110,7 @@ public class MemberController {
             HttpServletRequest httpRequest) {
 
         MDC.put("apiName", "Member Details API");
-        MemberDetailsResponse data = memberService.getMemberDetails(request); 
+        MemberDetailsResponse data = gpMemberService.getMemberDetails(request);
         ApiResponse<MemberDetailsResponse> body = responseBuilder.success(httpRequest,
                 "Member Details retrieved successfully", data);
         return ResponseEntity.ok(body);

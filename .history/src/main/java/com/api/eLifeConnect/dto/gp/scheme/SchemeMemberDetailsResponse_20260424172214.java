@@ -1,0 +1,11 @@
+package com.api.elifeconnect.dto.gp.scheme;
+ 
+public record SchemeMemberDetailsResponse(
+ 
+        String referenceId,
+        String memberId,
+        String names,
+        String status
+ 
+) {}
+ 

@@ -23,10 +23,6 @@ import com.api.elifeconnect.dto.gp.scheme.SchemeFundBalanceRequest;
 import com.api.elifeconnect.dto.gp.scheme.SchemeProfileInformationRequest;
 import com.api.elifeconnect.dto.gp.scheme.SchemeProfileInformationResponse;
 import com.api.elifeconnect.service.gp.SchemeService;
-import com.api.elifeconnect.dto.gp.scheme.SchemeProfileRequest;
-import com.api.elifeconnect.dto.gp.scheme.SchemeProfileResponse;
-import com.api.elifeconnect.dto.gp.scheme.SchemeMemberDetailsRequest;
-import com.api.elifeconnect.dto.gp.scheme.SchemeMemberDetailsResponse;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -78,33 +74,6 @@ public class SchemeController {
         ApiResponse<SchemeProfileInformationResponse> body = responseBuilder.success(request, "Scheme Profile Information generated",
                 response);
 
-        return ResponseEntity.ok(body);
-    }
-       @PostMapping("/profile")
-    @PreAuthorize("hasAuthority('kenya.api.read')")
-    @LogApiCall(value = "Scheme Profile API", shortName = ApiShortNames.SCHEME_PROFILE)
-    public ResponseEntity<ApiResponse<SchemeProfileResponse>> getSchemeProfile(
-            @Valid @RequestBody SchemeProfileRequest request,
-            HttpServletRequest httpRequest) {
-
-        MDC.put("apiName", "Scheme Profile API");
-        SchemeProfileResponse data = schemeService.getSchemeProfile(request);
-        ApiResponse<SchemeProfileResponse> body = responseBuilder.success(httpRequest,
-                "Scheme Profile retrieved successfully", data);
-        return ResponseEntity.ok(body);
-    }
-
-    @PostMapping("/member/details")
-    @PreAuthorize("hasAuthority('kenya.api.read')")
-    @LogApiCall(value = "Scheme Member Details API", shortName = ApiShortNames.SCHEME_MEMBER_DETAILS)
-    public ResponseEntity<ApiResponse<SchemeMemberDetailsResponse>> getSchemeMemberDetails(
-            @Valid @RequestBody SchemeMemberDetailsRequest request,
-            HttpServletRequest httpRequest) {
-
-        MDC.put("apiName", "Scheme Member Details API");
-        SchemeMemberDetailsResponse data = schemeService.getSchemeMemberDetails(request);
-        ApiResponse<SchemeMemberDetailsResponse> body = responseBuilder.success(httpRequest,
-                "Scheme Member Details retrieved successfully", data);
         return ResponseEntity.ok(body);
     }
 }

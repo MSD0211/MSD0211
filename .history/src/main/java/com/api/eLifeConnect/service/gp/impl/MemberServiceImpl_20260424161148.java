@@ -5,8 +5,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.api.elifeconnect.dto.gp.member.MemberDetailsRequest;
-import com.api.elifeconnect.dto.gp.member.MemberDetailsResponse;
 import com.api.elifeconnect.dto.gp.member.MemberFundSummaryRequest;
 import com.api.elifeconnect.dto.gp.member.MemberFundSummaryResponse;
 import com.api.elifeconnect.dto.gp.member.MemberRecordCardRequest;
@@ -18,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class MemberServiceImpl implements MemberService {
+public class MemberServiceImpl implements MemberService{
 
     private final WebClientUtil client;
 
@@ -34,40 +32,38 @@ public class MemberServiceImpl implements MemberService {
     @Value("${elife.api.gp.member.fund.summary.url}")
     private String eLifeApiMemberFundSummaryUrl;
 
-    @Value("${elife.api.gp.member.details.url}")
-    private String eLifeApiMemberDetailsUrl;
-
     public MemberServiceImpl(WebClientUtil client) {
         this.client = client;
     }
 
+ 
     @Override
     public byte[] generateMemberStatement(MemberStatementRequest request) {
-        String url = eLifeApiBaseUrl + eLifeApiGpMemberStatementUrl;
-        log.error("URL::" + url);
-        return client.downloadPdf(url, request, Map.of()).block();
+
+    String url = eLifeApiBaseUrl + eLifeApiGpMemberStatementUrl;
+    log.error("URL::"+url);
+
+    return client.downloadPdf(url, request, Map.of()).block();
+
     }
 
     @Override
-    public byte[] generateMemberRecordCard(MemberRecordCardRequest request) {
-        String url = eLifeApiBaseUrl + eLifeApiMemberRecordCardUrl;
+    public byte[] generateMemberRecordCard(MemberRecordCardRequest request){
+
+         String url = eLifeApiBaseUrl + eLifeApiMemberRecordCardUrl;
         log.info("MemberRecordCard URL::" + url);
         return client.downloadPdf(url, request, Map.of()).block();
     }
 
     @Override
     public MemberFundSummaryResponse generateMemberFundSummary(MemberFundSummaryRequest request) {
-        String url = eLifeApiBaseUrl + eLifeApiMemberFundSummaryUrl;
-        log.info("REQUEST REFERENCE ID::" + request.referenceId());
-        log.info("URL::" + url);
-        return client.post(url, request, Map.of(), MemberFundSummaryResponse.class).block();
-    }
+                String url = eLifeApiBaseUrl + eLifeApiMemberFundSummaryUrl;
+        log.info("REQUEST REFERENCE ID::"+request.referenceId());
+        log.info("URL::"+url);
 
-    @Override
-    public MemberDetailsResponse getMemberDetails(MemberDetailsRequest request) {
-        String url = eLifeApiBaseUrl + eLifeApiMemberDetailsUrl;
-        log.info("URL::" + url);
-        return client.post(url, request, Map.of(), MemberDetailsResponse.class).block();
+        // Call WebClientUtil (reactive) and block for MVC
+        return client.post(url, request, Map.of(), MemberFundSummaryResponse.class)
+                     .block();   
     }
 
 }

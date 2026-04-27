@@ -1,7 +1,5 @@
 package com.api.elifeconnect.service.gp;
 
-import com.api.elifeconnect.dto.gp.member.MemberDetailsRequest;
-import com.api.elifeconnect.dto.gp.member.MemberDetailsResponse;
 import com.api.elifeconnect.dto.gp.member.MemberFundSummaryRequest;
 import com.api.elifeconnect.dto.gp.member.MemberFundSummaryResponse;
 import com.api.elifeconnect.dto.gp.member.MemberRecordCardRequest;

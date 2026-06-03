@@ -30,6 +30,10 @@ elife:
             url: /api/v1/gp/member/fund/summary
         details:
           url: /api/v1/gp/member/details
+      trustee:
+        details:
+          url: /api/v1/gp/trustee/details
+
       scheme:
         fund:
           balance:

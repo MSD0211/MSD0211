@@ -5,15 +5,15 @@ import jakarta.validation.constraints.Size;
 
 public record BankDetails(
         
-        @NotBlank(message = "Bank name is mandatory")
+        // @NotBlank(message = "Bank name is mandatory")
         @Size(max = 270)
         String name,
 
-        @NotBlank(message = "Bank branch is mandatory")
+        // @NotBlank(message = "Bank branch is mandatory")
         @Size(max = 75)
         String branch,
 
-        @NotBlank(message = "Bank account number is mandatory")
+        // @NotBlank(message = "Bank account number is mandatory")
         @Size(max = 75)
         String account_number,
 

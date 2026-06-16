@@ -105,20 +105,6 @@ public final class ApiShortNames {
     /** GP Scheme Fund Balance */
     public static final String SCHEME_FUND_BALANCE = "SCHEMEFUND";
 
-    // ─── Lanka ────────────────────────────────────────────────────────────────
-
-    /** Renewal Premium Enquiry */
-    public static final String RENEWAL_PREMIUM_ENQ = "RNWENQ";
-
-    /** Renewal Premium Adjustment */
-    public static final String RENEWAL_PREMIUM_ADJ = "RNWADJ";
-
-    /** Customer / Agent Policy Enquiry */
-    public static final String POLICY_ENQUIRY = "PLCENQ";
-
-    /** Proposal Deposit Create */
-    public static final String PROPOSAL_DEPOSIT_CREATE = "PRPDEP";
-
     /** Scheme Profile Information */
     public static final String SCHEME_PROFILE_INFORMATION = "SCHEMEPROF";
 
@@ -140,4 +126,22 @@ public final class ApiShortNames {
     /** GP Admin Schemes */
     public static final String SCHEME_ADMIN = "SCHADM";
 
+    // ─── Lanka ────────────────────────────────────────────────────────────────
+
+    /** Renewal Premium Enquiry */
+    public static final String RENEWAL_PREMIUM_ENQ = "RNWENQ";
+
+    /** Renewal Premium Adjustment */
+    public static final String RENEWAL_PREMIUM_ADJ = "RNWADJ";
+
+    /** Customer / Agent Policy Enquiry */
+    public static final String POLICY_ENQUIRY = "PLCENQ";
+
+    /** Proposal Deposit Create */
+    public static final String PROPOSAL_DEPOSIT_CREATE = "PRPDEP";
+
+    // ─── Nepal ────────────────────────────────────────────────────────────────
+
+    /** Proposal Deposit Create */
+    public static final String POLICY_DETAILS = "POLDTLS";
 }

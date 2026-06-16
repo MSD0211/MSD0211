@@ -94,6 +94,8 @@ elife:
         url: /api/v1/premium/summary
 
     policy:
+      details:
+        url: /api/v1/policy/details
       customer:
         enquiry:
           url: /api/v1/policy/enquiry/customer

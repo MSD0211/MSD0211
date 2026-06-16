@@ -1,0 +1,64 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://10.240.4.16:8085/realms/kenindia-prod
+          jwk-set-uri: http://10.240.4.16:8085/realms/kenindia-prod/protocol/openid-connect/certs
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://10.240.4.16:8085/realms/kenindia-prod
+            token-uri: http://10.240.4.16:8085/realms/kenindia-prod/protocol/openid-connect/token
+            authorization-uri: http://10.240.4.16:8085/realms/kenindia-prodprotocol/openid-connect/auth
+            user-info-uri: http://10.240.4.16:8085/realms/kenindia-prod/protocol/openid-connect/userinfo
+            jwk-set-uri: http://10.240.4.16:8085/realms/kenindia-prod/protocol/openid-connect/certs
+        registration:
+          kenya-portal-client:
+            provider: keycloak
+            clientId: kenya-portal-client
+            clientSecret: AduQvfB8jpYkAYyUqhegSMQ2dylsMuW5
+            authorizationGrantType: client_credentials
+            clientAuthenticationMethod: client_secret_basic
+            scope: openid,profile,email,roles
+          ui-client:
+            provider: keycloak
+            clientId: spring-ui-client
+            clientSecret: Jx8vbiyRGigvJjUCJeWB8sEhOue8v0xD
+            authorizationGrantType: authorization_code
+            clientAuthenticationMethod: client_secret_basic
+            scope: openid,profile,email,roles
+            redirectUri: http://10.240.4.16:8085/login/oauth2/code/keycloak
+  datasource:
+      url: jdbc:mysql://10.244.142.198:3306/test?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      username: econnect
+      password: 6p6K:QC]q884V?
+      driver-class-name: com.mysql.cj.jdbc.Driver
+
+      hikari:
+        maximum-pool-size: 20
+        minimum-idle: 5
+        pool-name: eLifeConnectApiHikariCP
+        connection-timeout: 30000      # 30 sec
+        idle-timeout: 600000           # 10 min
+        max-lifetime: 1800000          # 30 min
+        validation-timeout: 5000
+        leak-detection-threshold: 20000
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: none               # Use 'none' in PROD
+
+    show-sql: false
+    properties:
+      hibernate:
+        '[format_sql]': true         # Clean, warning-free escaping
+        jdbc:
+          '[time_zone]': UTC
+        '[globally_quoted_identifiers]': true
+      
+        
+elife:
+  api:
+    baseurl: http://192.168.6.80:8080/eLife/elifeRestServices

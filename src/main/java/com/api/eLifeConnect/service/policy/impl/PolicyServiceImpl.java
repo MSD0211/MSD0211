@@ -12,6 +12,8 @@ import com.api.elifeconnect.dto.policy.CustomerPolicyEnquiryRequest;
 import com.api.elifeconnect.dto.policy.CustomerPolicyEnquiryResponse;
 import com.api.elifeconnect.dto.policy.PolicyRevivalQuotationRequest;
 import com.api.elifeconnect.dto.policy.PolicyRevivalQuotationResponse;
+import com.api.elifeconnect.dto.policy.PolicyDetailsRequest;
+import com.api.elifeconnect.dto.policy.PolicyDetailsResponse;
 import com.api.elifeconnect.service.policy.PolicyService;
 
 @Service
@@ -31,13 +33,15 @@ public class PolicyServiceImpl implements PolicyService {
     @Value("${elife.api.policy.revival.quotation.url}")
     private String eLifeApiRevivalQuotationUrl;
 
+    @Value("${elife.api.policy.details.url}")
+    private String eLifeApiPolicyDetailsUrl;
+
     public PolicyServiceImpl(WebClientUtil client) {
         this.client = client;
     }
 
-
     @Override
-    public CustomerPolicyEnquiryResponse customerPolicyEnquiry(CustomerPolicyEnquiryRequest req){
+    public CustomerPolicyEnquiryResponse customerPolicyEnquiry(CustomerPolicyEnquiryRequest req) {
         String url = eLifeApiBaseUrl + eLifeApiCustomerPolicyEnquiryUrl;
         System.out.println("REQUEST REFERENCE ID::" + req.referenceId());
         System.out.println("URL::" + url);
@@ -48,7 +52,7 @@ public class PolicyServiceImpl implements PolicyService {
     }
 
     @Override
-    public AgentPolicyEnquiryResponse agentPolicyEnquiry(AgentPolicyEnquiryRequest req){
+    public AgentPolicyEnquiryResponse agentPolicyEnquiry(AgentPolicyEnquiryRequest req) {
         String url = eLifeApiBaseUrl + eLifeApiAgentPolicyEnquiryUrl;
         System.out.println("REQUEST REFERENCE ID::" + req.referenceId());
         System.out.println("URL::" + url);
@@ -59,13 +63,24 @@ public class PolicyServiceImpl implements PolicyService {
     }
 
     @Override
-    public PolicyRevivalQuotationResponse fetchPolicyRevivalDetails(PolicyRevivalQuotationRequest req){
+    public PolicyRevivalQuotationResponse fetchPolicyRevivalDetails(PolicyRevivalQuotationRequest req) {
         var url = eLifeApiBaseUrl + eLifeApiRevivalQuotationUrl;
         System.out.println("REQUEST REFERENCE ID::" + req.referenceNo());
         System.out.println("URL::" + url);
 
         // Call WebClientUtil (reactive) and block for MVC
         return client.post(url, req, Map.of(), PolicyRevivalQuotationResponse.class)
+                .block();
+    }
+
+    @Override
+    public PolicyDetailsResponse fetchPolicyDetails(PolicyDetailsRequest req) {
+        var url = eLifeApiBaseUrl + eLifeApiPolicyDetailsUrl;
+        System.out.println("REQUEST REFERENCE ID::" + req.referenceId());
+        System.out.println("URL::" + url);
+
+        // Call WebClientUtil (reactive) and block for MVC
+        return client.post(url, req, Map.of(), PolicyDetailsResponse.class)
                 .block();
     }
 

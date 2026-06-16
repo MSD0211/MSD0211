@@ -4,7 +4,9 @@ public record Schemes(
 
         String schemeId,
         String schemeName,
-        String memberId
+        String memberId,
+        String memberName,
+        String memberStatus
 
 ) {
 }

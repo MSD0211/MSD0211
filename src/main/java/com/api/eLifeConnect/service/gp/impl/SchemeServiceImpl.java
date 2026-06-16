@@ -5,6 +5,12 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.api.elifeconnect.dto.gp.scheme.AdminSchemesRequest;
+import com.api.elifeconnect.dto.gp.scheme.AdminSchemesResponse;
+import com.api.elifeconnect.dto.gp.scheme.PensionerSchemesRequest;
+import com.api.elifeconnect.dto.gp.scheme.PensionerSchemesResponse;
+import com.api.elifeconnect.dto.gp.scheme.SchemeDetailsRequest;
+import com.api.elifeconnect.dto.gp.scheme.SchemeDetailsResponse;
 import com.api.elifeconnect.dto.gp.scheme.SchemeFundBalanceRequest;
 import com.api.elifeconnect.dto.gp.scheme.SchemeProfileInformationRequest;
 import com.api.elifeconnect.dto.gp.scheme.SchemeProfileInformationResponse;
@@ -38,6 +44,15 @@ public class SchemeServiceImpl implements SchemeService {
     @Value("${elife.api.gp.scheme.member.details.url}")
     private String eLifeApiSchemeMemberDetailsUrl;
 
+    @Value("${elife.api.gp.scheme.details.url}")
+    private String eLifeApiSchemeDetailsUrl;
+
+    @Value("${elife.api.gp.scheme.pensioner.url}")
+    private String eLifeApiPensionerSchemesUrl;
+
+    @Value("${elife.api.gp.scheme.admin.url}")
+    private String eLifeApiAdminSchemesUrl;
+
     public SchemeServiceImpl(WebClientUtil client) {
         this.client = client;
     }
@@ -68,6 +83,27 @@ public class SchemeServiceImpl implements SchemeService {
         String url = eLifeApiBaseUrl + eLifeApiSchemeMemberDetailsUrl;
         log.info("URL::" + url);
         return client.post(url, request, Map.of(), SchemeMemberDetailsResponse.class).block();
+    }
+
+    @Override
+    public SchemeDetailsResponse getSchemeDetails(SchemeDetailsRequest request) {
+        String url = eLifeApiBaseUrl + eLifeApiSchemeDetailsUrl;
+        log.info("URL::" + url);
+        return client.post(url, request, Map.of(), SchemeDetailsResponse.class).block();
+    }
+
+    @Override
+    public PensionerSchemesResponse getPensionerSchemes(PensionerSchemesRequest request) {
+        String url = eLifeApiBaseUrl + eLifeApiPensionerSchemesUrl;
+        log.info("URL::" + url);
+        return client.post(url, request, Map.of(), PensionerSchemesResponse.class).block();
+    }
+
+    @Override
+    public AdminSchemesResponse getAdminSchemes(AdminSchemesRequest request) {
+        String url = eLifeApiBaseUrl + eLifeApiAdminSchemesUrl;
+        log.info("URL::" + url);
+        return client.post(url, request, Map.of(), AdminSchemesResponse.class).block();
     }
 
 }

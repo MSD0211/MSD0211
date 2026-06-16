@@ -1,7 +1,6 @@
 server:
   port: 8082
 
-
 management:
   endpoints:
     web:
@@ -39,9 +38,17 @@ elife:
           balance:
             url: /api/v1/gp/scheme/fund/balance
         profile:
+          url: /api/v1/gp/scheme/profile
           information:
             url: /api/v1/gp/scheme/profile/information
-          url: /api/v1/gp/scheme/profile
+
+        admin:
+          url: /api/v1/gp/scheme/admin
+
+        pensioner:
+          url: /api/v1/gp/scheme/pensioner
+        details:
+          url: /api/v1/gp/scheme/details
         member:
           details:
             url: /api/v1/gp/scheme/member/details

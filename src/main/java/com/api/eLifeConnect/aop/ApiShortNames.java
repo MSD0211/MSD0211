@@ -96,7 +96,7 @@ public final class ApiShortNames {
     /** GP Member Statement */
     public static final String MEMBER_STATEMENT = "GPMBSMT";
 
-    /** GP Member ContributionRecord Card */    
+    /** GP Member ContributionRecord Card */
     public static final String MEMBER_RECORD_CARD = "MEMRECCRD";
 
     /** GP Member Fund Summary */
@@ -121,14 +121,23 @@ public final class ApiShortNames {
 
     /** Scheme Profile Information */
     public static final String SCHEME_PROFILE_INFORMATION = "SCHEMEPROF";
-    
-        /** GP Scheme Profile */
+
+    /** GP Scheme Profile */
     public static final String SCHEME_PROFILE = "SCHPRF";
+
+    /** GP Scheme Details */
+    public static final String SCHEME_DETAILS = "SCHDTLS";
 
     /** GP Scheme Member Details */
     public static final String SCHEME_MEMBER_DETAILS = "SCMMBRDET";
 
     /** GP Member Details */
     public static final String MEMBER_DETAILS = "MBRDET";
+
+    /** GP Pensioner Schemes */
+    public static final String SCHEME_PENSIONER = "SCHPENS";
+
+    /** GP Admin Schemes */
+    public static final String SCHEME_ADMIN = "SCHADM";
 
 }

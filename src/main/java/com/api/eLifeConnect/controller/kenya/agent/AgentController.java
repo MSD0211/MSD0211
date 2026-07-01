@@ -26,10 +26,13 @@ import com.api.elifeconnect.dto.agent.CommissionStatementRequest;
 import com.api.elifeconnect.service.agent.AgentService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/v1/kenya/agent")
 @org.springframework.validation.annotation.Validated
+@Tag(name = "Kenya Agent Controller", description = "Endpoints for Kenya Agent authentication and commission statement download")
 public class AgentController {
 
         private final AgentService agentService;
@@ -45,6 +48,13 @@ public class AgentController {
         // @PreAuthorize("hasAnyRole('USER')")
         @PreAuthorize("hasAuthority('kenya.api.read')")
         @LogApiCall(value = "Agent Authentication API", shortName = ApiShortNames.AGENT_AUTH)
+        @Operation(summary = "Agent Authentication", description = "Authenticates an agent and returns agent profile details.")
+        @io.swagger.v3.oas.annotations.responses.ApiResponses(value = {
+                        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Agent successfully authenticated"),
+                        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid request payload"),
+                        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized request"),
+                        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal server error")
+        })
         public ResponseEntity<ApiResponse<AgentAuthenticationResponse>> agentAuthentication(
                         @Valid @RequestBody AgentAuthenticationRequest agentAuthenticationRequest,
                         HttpServletRequest request) {
@@ -62,6 +72,13 @@ public class AgentController {
         @PostMapping(value = "/commission/statement/download", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_PDF_VALUE)
         @PreAuthorize("hasAuthority('kenya.api.read')")
         @LogApiCall(value = "CommissionStatementAPI", shortName = ApiShortNames.AGENT_COMMISSION_STMT)
+        @Operation(summary = "Download Commission Statement PDF", description = "Generates and downloads the commission statement PDF for the specified agent and billing period.")
+        @io.swagger.v3.oas.annotations.responses.ApiResponses(value = {
+                        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Commission statement PDF file generated successfully"),
+                        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid request payload"),
+                        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized request"),
+                        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal server error")
+        })
         public ResponseEntity<Resource> downloadCommissionStatementPdf(
                         @Valid @RequestBody CommissionStatementRequest request) throws IOException {
 

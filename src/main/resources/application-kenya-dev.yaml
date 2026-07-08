@@ -1,10 +1,10 @@
 logging:
   level:
     root: INFO
-    '[org.springframework.security]': DEBUG
-    '[org.springframework.boot.autoconfigure]': DEBUG
-    '[com.elife.connect]': TRACE
-    '[com.keycloak.elife.connect.config]': TRACE
+    "[org.springframework.security]": DEBUG
+    "[org.springframework.boot.autoconfigure]": DEBUG
+    "[com.elife.connect]": TRACE
+    "[com.keycloak.elife.connect.config]": TRACE
   file:
     name: elife-connect.log
   pattern:
@@ -42,35 +42,34 @@ spring:
             scope: openid,profile,email,roles
             redirectUri: http://10.240.4.16:8085/login/oauth2/code/keycloak
   datasource:
-      url: jdbc:mysql://10.244.142.198:3306/test?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      username: feap
-      password: devfeap
-      driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://10.244.142.198:3306/test?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: feap
+    password: devfeap
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
-      hikari:
-        maximum-pool-size: 20
-        minimum-idle: 5
-        pool-name: eLifeConnectApiHikariCP
-        connection-timeout: 30000      # 30 sec
-        idle-timeout: 600000           # 10 min
-        max-lifetime: 1800000          # 30 min
-        validation-timeout: 5000
-        leak-detection-threshold: 20000
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      pool-name: eLifeConnectApiHikariCP
+      connection-timeout: 30000 # 30 sec
+      idle-timeout: 600000 # 10 min
+      max-lifetime: 1800000 # 30 min
+      validation-timeout: 5000
+      leak-detection-threshold: 20000
 
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: none               # Use 'none' in PROD
+      ddl-auto: none # Use 'none' in PROD
 
     show-sql: false
     properties:
       hibernate:
-        '[format_sql]': true         # Clean, warning-free escaping
+        "[format_sql]": true # Clean, warning-free escaping
         jdbc:
-          '[time_zone]': UTC
-        '[globally_quoted_identifiers]': true
-      
-        
+          "[time_zone]": UTC
+        "[globally_quoted_identifiers]": true
+
 elife:
   api:
     baseurl: http://10.244.142.197:8380/eLife/elifeRestServices

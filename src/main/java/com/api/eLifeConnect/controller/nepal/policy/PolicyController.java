@@ -1,4 +1,4 @@
-package com.api.elifeconnect.controller.lanka.policy;
+package com.api.elifeconnect.controller.nepal.policy;
 
 import com.api.elifeconnect.common.response.ApiResponseBuilder;
 import com.api.elifeconnect.service.policy.PolicyService;

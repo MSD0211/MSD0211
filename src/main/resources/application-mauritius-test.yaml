@@ -30,7 +30,7 @@ spring:
             scope: openid,profile,email,roles
             redirectUri: https://41.222.103.246:8445/login/oauth2/code/keycloak
   datasource:
-    url: jdbc:mysql://192.168.100.243:3306/nepal?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    url: jdbc:mysql://10.0.0.8:3306/mau?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
     username: econnect
     password: 6p6K:QC]q884V?
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -60,4 +60,4 @@ spring:
 
 elife:
   api:
-    baseurl: http://192.168.100.114:8080/eLife/elifeRestServices
+    baseurl: http://10.0.0.9:8080/eLife/elifeRestServices

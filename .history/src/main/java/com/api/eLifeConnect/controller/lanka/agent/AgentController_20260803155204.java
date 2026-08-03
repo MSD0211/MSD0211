@@ -23,9 +23,9 @@ import com.api.elifeconnect.dto.agent.LapseListResponse;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-@RestController("lankaAgentController")
+@RestController
 @RequestMapping("/api/v1/lanka/agent")
-public class AgentController {
+public class LankaAgentController {
 
     private final AgentListService agentListService;
     private final ApiResponseBuilder responseBuilder;

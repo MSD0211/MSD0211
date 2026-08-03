@@ -65,6 +65,10 @@ elife:
       commission:
         statement:
           url: /api/v1/commission/statement
+      duelist:
+        url: /api/v1/agent/duelist
+      lapselist:
+        url: /api/v1/agent/lapselist
 
     employee:
       authentication:

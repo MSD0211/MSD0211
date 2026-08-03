@@ -131,4 +131,10 @@ public final class ApiShortNames {
     /** GP Member Details */
     public static final String MEMBER_DETAILS = "MBRDET";
 
+    /** Agent Due List */
+      public static final String AGENT_DUE_LIST = "AGDUELST";
+
+      /** Agent Lapse List */
+      public static final String AGENT_LAPSE_LIST = "AGLAPLST";
+
 }

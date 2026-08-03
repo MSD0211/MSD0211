@@ -121,5 +121,20 @@ public final class ApiShortNames {
 
     /** Scheme Profile Information */
     public static final String SCHEME_PROFILE_INFORMATION = "SCHEMEPROF";
+    
+        /** GP Scheme Profile */
+    public static final String SCHEME_PROFILE = "SCHPRF";
+
+    /** GP Scheme Member Details */
+    public static final String SCHEME_MEMBER_DETAILS = "SCMMBRDET";
+
+    /** GP Member Details */
+    public static final String MEMBER_DETAILS = "MBRDET";
+
+    /** Agent Due List */
+      public static final String AGENT_DUE_LIST = "AGDUELST";
+
+      /** Agent Lapse List */
+      public static final String AGENT_LAPSE_LIST = "AGLAPLST";
 
 }

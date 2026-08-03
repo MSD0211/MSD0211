@@ -121,5 +121,5 @@ elife:
             url: /online/fundstat
 
             logging:
-                 level:
-                     org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: TRACE
+     level:
+       org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: TRACE

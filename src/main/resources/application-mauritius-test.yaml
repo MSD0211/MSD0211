@@ -31,7 +31,7 @@ spring:
             redirectUri: https://41.222.103.246:8445/login/oauth2/code/keycloak
   datasource:
     url: jdbc:mysql://10.0.0.8:3306/mau?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-    username: econnect
+    username: elifeconnect
     password: 6p6K:QC]q884V?
     driver-class-name: com.mysql.cj.jdbc.Driver
 

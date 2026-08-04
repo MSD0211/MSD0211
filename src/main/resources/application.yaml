@@ -72,6 +72,10 @@ elife:
       commission:
         statement:
           url: /api/v1/commission/statement
+      duelist:
+        url: /api/v1/agent/duelist
+      lapselist:
+        url: /api/v1/agent/lapselist
 
     employee:
       authentication:
@@ -124,3 +128,7 @@ elife:
         position:
           single:
             url: /online/fundstat
+
+            logging:
+                 level:
+                     org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: TRACE

@@ -144,4 +144,9 @@ public final class ApiShortNames {
 
     /** Proposal Deposit Create */
     public static final String POLICY_DETAILS = "POLDTLS";
+    /** Agent Due List */
+    public static final String AGENT_DUE_LIST = "AGDUELST";
+    /** Agent Lapse List */
+    public static final String AGENT_LAPSE_LIST = "AGLAPLST";
+
 }

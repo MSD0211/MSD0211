@@ -1,0 +1,56 @@
+# SpringDoc OpenAPI Configuration
+
+springdoc:
+  # Swagger UI configuration
+  swagger-ui:
+    # Enable Swagger UI (default: true)
+    enabled: true
+    # Set path for Swagger UI
+    path: /swagger-ui.html
+    # Enable operations sort
+    operations-sorter: method
+    # Enable tags sort
+    tags-sorter: alpha
+    # Display request headers
+    display-request-duration: true
+    # Persist authorization data
+    persist-authorization: true
+    # URL to CSS theme
+    # configUrl: https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.min.css
+
+  # OpenAPI Documentation configuration
+  api-docs:
+    # Set path for OpenAPI JSON documentation
+    path: /v3/api-docs
+    # Enable OpenAPI JSON documentation
+    enabled: true
+
+  # Server configuration
+  swagger-ui:
+    servers:
+      - url: http://localhost:8080
+        description: Local Development
+      - url: https://api.example.com
+        description: Production
+
+  # Custom documentation properties
+  show-actuator: false
+  cache:
+    disabled: true
+
+  # Group documentation endpoints
+  group-configs:
+    - group: public
+      paths-to-match:
+        - /api/public/**
+      paths-to-exclude:
+        - /api/admin/**
+    - group: admin
+      paths-to-match:
+        - /api/admin/**
+
+# Application version (can be referenced in OpenAPI config)
+app:
+  version: 1.0.0
+  name: Spring Boot API
+  description: API documentation for Spring Boot application

@@ -11,18 +11,13 @@ management:
 spring:
   profiles:
     active: kenya-dev
-  
+
 elife:
   api:
-    loan:
-      enquiry:
-        url: /online/loan/enquiry
-      repayment:
-        letter:
-          url: /api/v1/loan/repayment/letter
-      quotation:
-        url: /api/v1/loan/quotation
-    
+    baseurl:
+    key: 1d29e6b3-1b74-467d-b2a6-cd3107e674d2
+    keyHeader: X-API-KEY
+
     gp:
       member:
         statement:
@@ -33,6 +28,12 @@ elife:
         fund:
           summary:
             url: /api/v1/gp/member/fund/summary
+        details:
+          url: /api/v1/gp/member/details
+      trustee:
+        details:
+          url: /api/v1/gp/trustee/details
+
       scheme:
         fund:
           balance:
@@ -40,23 +41,42 @@ elife:
         profile:
           information:
             url: /api/v1/gp/scheme/profile/information
+          url: /api/v1/gp/scheme/profile
+        member:
+          details:
+            url: /api/v1/gp/scheme/member/details
+
+    loan:
+      enquiry:
+        url: /online/loan/enquiry
+      repayment:
+        letter:
+          url: /api/v1/loan/repayment/letter
+      quotation:
+        url: /api/v1/loan/quotation
+
     customer:
       authentication:
         url: /api/Authentication/v1/client
+
     agent:
       authentication:
         url: /api/Authentication/v1/agent
       commission:
         statement:
           url: /api/v1/commission/statement
-
-    plan:
-      details:
-        url: /online/v1/plan/details
+      duelist:
+        url: /api/v1/agent/duelist
+      lapselist:
+        url: /api/v1/agent/lapselist
 
     employee:
       authentication:
         url: /api/Authentication/v1/employee
+
+    plan:
+      details:
+        url: /online/v1/plan/details
 
     premium:
       renewal:
@@ -93,13 +113,9 @@ elife:
       deposit:
         creation:
           url: /online/proposaldeposit/create
-          
+
     ulip:
       fund:
         position:
           single:
             url: /online/fundstat
-
-        
-    key: 1d29e6b3-1b74-467d-b2a6-cd3107e674d2
-    keyHeader: X-API-KEY

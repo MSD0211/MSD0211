@@ -31,8 +31,8 @@ spring:
             redirectUri: https://tportal.licnepal.com.np/login/oauth2/code/keycloak
   datasource:
     url: jdbc:mysql://192.168.100.243:3306/nepal?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-    username: econnect
-    password: 6p6K:QC]q884V?
+    username: elifeconnect
+    password: L!c@123$test
     driver-class-name: com.mysql.cj.jdbc.Driver
 
     hikari:

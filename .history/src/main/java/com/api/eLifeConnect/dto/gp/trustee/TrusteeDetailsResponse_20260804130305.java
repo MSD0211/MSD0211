@@ -8,7 +8,6 @@ public record TrusteeDetailsResponse(
         // String nationalId,
         String dob,
         String status,
-        List<AddressDetails> addresses,
-        List<TrusteeScheme> schemes
+        List<AddressDetails> addresses
 ) {
 }

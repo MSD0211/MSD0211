@@ -3,16 +3,16 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: https://41.222.103.246:8445/realms/licnepal-test
-          jwk-set-uri: https://41.222.103.246:8445/realms/licnepal-test/protocol/openid-connect/certs
+          issuer-uri: https://41.222.103.246:8445/realms/licmauritius-test
+          jwk-set-uri: https://41.222.103.246:8445/realms/licmauritius-test/protocol/openid-connect/certs
       client:
         provider:
           keycloak:
-            issuer-uri: https://41.222.103.246:8445/realms/licnepal-test
-            token-uri: https://41.222.103.246:8445/realms/licnepal-test/protocol/openid-connect/token
-            authorization-uri: https://41.222.103.246:8445/realms/licnepal-test/protocol/openid-connect/auth
-            user-info-uri: https://41.222.103.246:8445/realms/licnepal-test/protocol/openid-connect/userinfo
-            jwk-set-uri: https://41.222.103.246:8445/realms/licnepal-test/protocol/openid-connect/certs
+            issuer-uri: https://41.222.103.246:8445/realms/licmauritius-test
+            token-uri: https://41.222.103.246:8445/realms/licmauritius-test/protocol/openid-connect/token
+            authorization-uri: https://41.222.103.246:8445/realms/licmauritius-test/protocol/openid-connect/auth
+            user-info-uri: https://41.222.103.246:8445/realms/licmauritius-test/protocol/openid-connect/userinfo
+            jwk-set-uri: https://41.222.103.246:8445/realms/licmauritius-test/protocol/openid-connect/certs
         registration:
           kenya-portal-client:
             provider: keycloak
@@ -32,7 +32,7 @@ spring:
   datasource:
     url: jdbc:mysql://10.0.0.8:3306/mau?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
     username: elifeconnect
-    password: 6p6K:QC]q884V?
+    password: elifeconnect
     driver-class-name: com.mysql.cj.jdbc.Driver
 
     hikari:

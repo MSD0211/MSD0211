@@ -16,7 +16,7 @@ public record TrusteeScheme(
         String schemeStatus,
 
         @NotBlank(message = "Scheme Type is required")
-        String schemeType,
+        String schemeType
 
          Integer productId
 

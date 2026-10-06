@@ -133,7 +133,7 @@ public class SchemeController {
                 return ResponseEntity.ok(body);
         }
 
-        @PostMapping("/pensioner/email")
+        @PostMapping("/pensioner")
         @PreAuthorize("hasAuthority('kenya.api.read')")
         @LogApiCall(value = "Pensioner Schemes API", shortName = ApiShortNames.SCHEME_PENSIONER)
         public ResponseEntity<ApiResponse<PensionerSchemesResponse>> getPensionerSchemes(
@@ -160,24 +160,4 @@ public class SchemeController {
                                 "Scheme Details retrieved successfully", data);
                 return ResponseEntity.ok(body);
         }
-
-        // @PostMapping("/pensioner/nationalid")
-        // @PreAuthorize("hasAuthority('kenya.api.read')")
-        // @LogApiCall(value = "Scheme Pensioner National Id API", shortName = ApiShortNames.SCHEME_PENSIONER)
-        //  public ResponseEntity<ApiResponse<NationalIdSchemesResponse>> getPensionerSchemesByNationalId(
-        // @Valid @RequestBody NationalIdSchemesRequest request,
-        // HttpServletRequest httpRequest) {
-
-        // MDC.put("apiName", "Scheme Pensioner National Id API");
-        //         NationalIdSchemesResponse data =
-        //     schemeService.getPensionerSchemesByNationalId(request);
-
-        // ApiResponse<NationalIdSchemesResponse> body =
-        //     responseBuilder.success(
-        //             httpRequest,
-        //             "Scheme Pensioner details retrieved successfully",
-        //             data);
-
-        // return ResponseEntity.ok(body);
-//  }
 }

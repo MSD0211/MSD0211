@@ -20,8 +20,6 @@ import com.api.elifeconnect.dto.gp.scheme.SchemeMemberDetailsRequest;
 import com.api.elifeconnect.dto.gp.scheme.SchemeMemberDetailsResponse;
 import com.api.elifeconnect.service.gp.SchemeService;
 import com.api.elifeconnect.Utility.WebClientUtil;
-import com.api.elifeconnect.dto.gp.scheme.NationalIdSchemesRequest;
-import com.api.elifeconnect.dto.gp.scheme.NationalIdSchemesResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -111,14 +109,4 @@ public class SchemeServiceImpl implements SchemeService {
         return client.post(url, request, Map.of(), AdminSchemesResponse.class).block();
     }
 
-    @Override
-public NationalIdSchemesResponse getPensionerSchemesByNationalId(NationalIdSchemesRequest request) {
-
-    String url =
-            eLifeApiBaseUrl + eLifeApiSchemePensionerNationalIdUrl;
-
-    log.info("URL::" + url);
-
-    return client.post(url,request,Map.of(),NationalIdSchemesResponse.class).block();
-}
 }

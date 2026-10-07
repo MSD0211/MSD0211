@@ -14,21 +14,22 @@ spring:
             user-info-uri: https://41.222.103.246:8445/realms/licmauritius-test/protocol/openid-connect/userinfo
             jwk-set-uri: https://41.222.103.246:8445/realms/licmauritius-test/protocol/openid-connect/certs
         registration:
-          kenya-portal-client:
+          api-client:
             provider: keycloak
-            clientId: kenya-portal-client
-            clientSecret: AduQvfB8jpYkAYyUqhegSMQ2dylsMuW5
+            clientId: api-client
+            clientSecret: hCSnPf36ClwMRj9M1K8cIdhaI2iE3jVt
             authorizationGrantType: client_credentials
             clientAuthenticationMethod: client_secret_basic
             scope: openid,profile,email,roles
           ui-client:
             provider: keycloak
-            clientId: spring-ui-client
-            clientSecret: Jx8vbiyRGigvJjUCJeWB8sEhOue8v0xD
+            clientId: mauritius-portal-customer
+            clientSecret: GA5p2lP36GcyNRYTwNSvM5rsYm4DzxTp
             authorizationGrantType: authorization_code
             clientAuthenticationMethod: client_secret_basic
             scope: openid,profile,email,roles
-            redirectUri: https://41.222.103.246:8445/login/oauth2/code/keycloak
+            redirectUri: https://10.0.0.8:8445/login/oauth2/code/keycloak
+
   datasource:
     url: jdbc:mysql://10.0.0.8:3306/mau?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
     username: elifeconnect
@@ -39,21 +40,20 @@ spring:
       maximum-pool-size: 20
       minimum-idle: 5
       pool-name: eLifeConnectApiHikariCP
-      connection-timeout: 30000 # 30 sec
-      idle-timeout: 600000 # 10 min
-      max-lifetime: 1800000 # 30 min
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
       validation-timeout: 5000
       leak-detection-threshold: 20000
 
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: none # Use 'none' in PROD
-
+      ddl-auto: none
     show-sql: false
     properties:
       hibernate:
-        "[format_sql]": true # Clean, warning-free escaping
+        "[format_sql]": true
         jdbc:
           "[time_zone]": UTC
         "[globally_quoted_identifiers]": true

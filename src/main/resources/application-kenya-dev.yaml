@@ -72,4 +72,4 @@ spring:
 
 elife:
   api:
-    baseurl: http://10.244.142.197:8380/eLife/elifeRestServices
+    baseurl: http://10.244.142.198:8280/eLife/elifeRestServices

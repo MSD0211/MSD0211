@@ -13,6 +13,8 @@ import com.api.elifeconnect.dto.gp.scheme.SchemeProfileRequest;
 import com.api.elifeconnect.dto.gp.scheme.SchemeProfileResponse;
 import com.api.elifeconnect.dto.gp.scheme.SchemeMemberDetailsRequest;
 import com.api.elifeconnect.dto.gp.scheme.SchemeMemberDetailsResponse;
+import com.api.elifeconnect.dto.gp.scheme.NationalIdSchemesRequest;
+import com.api.elifeconnect.dto.gp.scheme.NationalIdSchemesResponse;
 
 public interface SchemeService {
     byte[] generateSchemeFundBalance(SchemeFundBalanceRequest request);
@@ -28,4 +30,6 @@ public interface SchemeService {
     PensionerSchemesResponse getPensionerSchemes(PensionerSchemesRequest request);
 
     AdminSchemesResponse getAdminSchemes(AdminSchemesRequest request);
+
+    NationalIdSchemesResponse getPensionerSchemesByNationalId(NationalIdSchemesRequest request);
 }

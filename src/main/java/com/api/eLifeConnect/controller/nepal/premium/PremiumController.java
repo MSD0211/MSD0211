@@ -38,7 +38,7 @@ public class PremiumController {
     @PostMapping("/renewal/enquiry")
     @PreAuthorize("hasAuthority('nepal.api.read')")
     @LogApiCall(value = "RenewalPremiumEnquiryAPI", shortName = ApiShortNames.RENEWAL_PREMIUM_ENQ)
-    public ResponseEntity<ApiResponse<RenewalPremiumEnquiryResponse>> loanEnquiry(
+    public ResponseEntity<ApiResponse<RenewalPremiumEnquiryResponse>> RenewalPremiumEnquiry(
             @Valid @RequestBody RenewalPremiumEnquiryRequest renewalPremiumEnqRequest,
             HttpServletRequest request) {
 
@@ -55,7 +55,7 @@ public class PremiumController {
     @PostMapping("/renewal/adjustment")
     @PreAuthorize("hasAuthority('nepal.api.read')")
     @LogApiCall(value = "RenewalPremiumAdjustmentEnquiryAPI", shortName = ApiShortNames.RENEWAL_PREMIUM_ADJ)
-    public ResponseEntity<ApiResponse<RenewalPremiumAdjustmentResponse>> loanEnquiry(
+    public ResponseEntity<ApiResponse<RenewalPremiumAdjustmentResponse>> RenewalPremiumAdjustment(
             @Valid @RequestBody RenewalPremiumAdjustmentRequest renewalPremiumAdjRequest,
             HttpServletRequest request) {
 

@@ -4,7 +4,7 @@ import java.util.List;
 
 public record AdminSchemesResponse(
 
-        List<Schemes> schemes
+        List<AdminScheme> schemes
 
 ) {
 }

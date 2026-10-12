@@ -46,7 +46,9 @@ elife:
           url: /api/v1/gp/scheme/admin
 
         pensioner:
-          url: /api/v1/gp/scheme/pensioner
+          url: /api/v1/gp/scheme/pensioner/email
+          nationalid:
+            url: /api/v1/gp/scheme/pensioner/nationalid
         details:
           url: /api/v1/gp/scheme/details
         member:

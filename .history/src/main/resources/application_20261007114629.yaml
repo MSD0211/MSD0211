@@ -1,7 +1,6 @@
 server:
   port: 8082
 
-
 management:
   endpoints:
     web:
@@ -10,7 +9,7 @@ management:
 
 spring:
   profiles:
-    active: kenya-dev
+    active: lanka-dev
 
 elife:
   api:
@@ -39,9 +38,19 @@ elife:
           balance:
             url: /api/v1/gp/scheme/fund/balance
         profile:
+          url: /api/v1/gp/scheme/profile
           information:
             url: /api/v1/gp/scheme/profile/information
-          url: /api/v1/gp/scheme/profile
+
+        admin:
+          url: /api/v1/gp/scheme/admin
+
+        pensioner:
+          url: /api/v1/gp/scheme/pensioner/email
+          nationalid:
+            url: /api/v1/gp/scheme/pensioner/nationalid
+        details:
+          url: /api/v1/gp/scheme/details
         member:
           details:
             url: /api/v1/gp/scheme/member/details
@@ -91,6 +100,8 @@ elife:
         url: /api/v1/premium/summary
 
     policy:
+      details:
+        url: /api/v1/policy/details
       customer:
         enquiry:
           url: /api/v1/policy/enquiry/customer
@@ -119,3 +130,7 @@ elife:
         position:
           single:
             url: /online/fundstat
+
+            logging:
+              level:
+                org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: TRACE

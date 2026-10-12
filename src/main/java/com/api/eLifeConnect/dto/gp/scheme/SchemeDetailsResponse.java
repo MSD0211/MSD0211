@@ -18,7 +18,8 @@ public record SchemeDetailsResponse(
         String investmentType,
         String rbaCertNo,
         String kraCertNo,
-        String totalFundValue
+        String totalFundValue,
+        Integer productId 
 
 ) {
 }

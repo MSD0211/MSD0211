@@ -6,7 +6,8 @@ public record Schemes(
         String schemeName,
         String memberId,
         String memberName,
-        String memberStatus
+        String memberStatus,
+        Integer productId
 
 ) {
 }

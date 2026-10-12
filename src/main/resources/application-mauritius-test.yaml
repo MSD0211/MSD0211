@@ -3,16 +3,16 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: https://10.0.0.8:8445/realms/licmauritius-prod
-          jwk-set-uri: https://10.0.0.8:8445/realms/licmauritius-prod/protocol/openid-connect/certs
+          issuer-uri: https://41.222.103.246:8445/realms/licmauritius-test
+          jwk-set-uri: https://41.222.103.246:8445/realms/licmauritius-test/protocol/openid-connect/certs
       client:
         provider:
           keycloak:
-            issuer-uri: https://10.0.0.8:8445/realms/licmauritius-prod
-            token-uri: https://10.0.0.8:8445/realms/licmauritius-prod/protocol/openid-connect/token
-            authorization-uri: https://10.0.0.8:8445/realms/licmauritius-prod/protocol/openid-connect/auth
-            user-info-uri: https://10.0.0.8:8445/realms/licmauritius-prod/protocol/openid-connect/userinfo
-            jwk-set-uri: https://10.0.0.8:8445/realms/licmauritius-prod/protocol/openid-connect/certs
+            issuer-uri: https://41.222.103.246:8445/realms/licmauritius-test
+            token-uri: https://41.222.103.246:8445/realms/licmauritius-test/protocol/openid-connect/token
+            authorization-uri: https://41.222.103.246:8445/realms/licmauritius-test/protocol/openid-connect/auth
+            user-info-uri: https://41.222.103.246:8445/realms/licmauritius-test/protocol/openid-connect/userinfo
+            jwk-set-uri: https://41.222.103.246:8445/realms/licmauritius-test/protocol/openid-connect/certs
         registration:
           api-client:
             provider: keycloak

@@ -20,3 +20,6 @@ Thumbs.db
 #Environment files (optional)
 .env
 elife-connect-src.zip
+
+#History files
+.history/

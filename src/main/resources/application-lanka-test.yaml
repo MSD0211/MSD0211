@@ -1,3 +1,5 @@
+server:
+  port: 8083
 spring:
   security:
     oauth2:
@@ -30,35 +32,34 @@ spring:
             scope: openid,profile,email,roles
             redirectUri: https://auth.liclanka.com/login/oauth2/code/keycloak
   datasource:
-      url: jdbc:mysql://192.168.0.100:3306/lanka?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      username: elifeconnect
-      password: devFeap@123
-      driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.0.100:3306/lanka?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: elifeconnect
+    password: devFeap@123
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
-      hikari:
-        maximum-pool-size: 20
-        minimum-idle: 5
-        pool-name: eLifeConnectApiHikariCP
-        connection-timeout: 30000      # 30 sec
-        idle-timeout: 600000           # 10 min
-        max-lifetime: 1800000          # 30 min
-        validation-timeout: 5000
-        leak-detection-threshold: 20000
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      pool-name: eLifeConnectApiHikariCP
+      connection-timeout: 30000 # 30 sec
+      idle-timeout: 600000 # 10 min
+      max-lifetime: 1800000 # 30 min
+      validation-timeout: 5000
+      leak-detection-threshold: 20000
 
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: none               # Use 'none' in PROD
+      ddl-auto: none # Use 'none' in PROD
 
     show-sql: false
     properties:
       hibernate:
-        '[format_sql]': true         # Clean, warning-free escaping
+        "[format_sql]": true # Clean, warning-free escaping
         jdbc:
-          '[time_zone]': UTC
-        '[globally_quoted_identifiers]': true
-      
-        
+          "[time_zone]": UTC
+        "[globally_quoted_identifiers]": true
+
 elife:
   api:
     baseurl: http://192.168.0.33:8080/eLife/elifeRestServices

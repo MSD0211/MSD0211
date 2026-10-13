@@ -5,14 +5,13 @@ package com.api.elifeconnect.aop;
  * {@link LogApiCall#shortName()}.
  *
  * <p>
- * Convention: max 8 characters, all uppercase, no spaces.
- * Format: [DOMAIN][ACTION] — e.g. AGNT (agent) + AUTH (authentication) =
- * AGNTAUTH
+ * Convention: max 8 characters, all uppercase, no spaces. Format:
+ * [DOMAIN][ACTION] — e.g. AGNT (agent) + AUTH (authentication) = AGNTAUTH
  *
  * <p>
  * Every constant here must match exactly one
- * {@code @LogApiCall(shortName = ...)} in a controller.
- * This class is the single source of truth — add new codes here first.
+ * {@code @LogApiCall(shortName = ...)} in a controller. This class is the
+ * single source of truth — add new codes here first.
  *
  * <pre>
  * ┌─────────────┬─────────────────────────────────────────┬──────────────────────────────────────────────────────┐
@@ -50,103 +49,173 @@ public final class ApiShortNames {
         /* utility class — no instances */ }
 
     // ─── Kenya ────────────────────────────────────────────────────────────────
-
-    /** Agent Authentication */
+    /**
+     * Agent Authentication
+     */
     public static final String AGENT_AUTH = "AGNTAUTH";
 
-    /** Agent Commission Statement */
+    /**
+     * Agent Commission Statement
+     */
     public static final String AGENT_COMMISSION_STMT = "COMSMT";
 
-    /** Customer Authentication */
+    /**
+     * Customer Authentication
+     */
     public static final String CUSTOMER_AUTH = "CUSTAUTH";
 
-    /** Employee Authentication */
+    /**
+     * Employee Authentication
+     */
     public static final String EMPLOYEE_AUTH = "EMPAUTH";
 
-    /** Policy Revival Quotation */
+    /**
+     * Policy Revival Quotation
+     */
     public static final String POLICY_REVIVAL_QUOT = "REVQOT";
 
-    /** Plan Details */
+    /**
+     * Plan Details
+     */
     public static final String PLAN_DETAILS = "PLNDET";
 
-    /** Loan Quotation */
+    /**
+     * Loan Quotation
+     */
     public static final String LOAN_QUOTATION = "LNQOT";
 
-    /** Loan Repayment Letter */
+    /**
+     * Loan Repayment Letter
+     */
     public static final String LOAN_REPAYMENT_LETTER = "LNRPL";
 
-    /** Premium Statement */
+    /**
+     * Premium Statement
+     */
     public static final String PREMIUM_STATEMENT = "PRMSMT";
 
-    /** Premium Summary */
+    /**
+     * Premium Summary
+     */
     public static final String PREMIUM_SUMMARY = "PRMSMY";
 
-    /** Proposal Premium Enquiry */
+    /**
+     * Proposal Premium Enquiry
+     */
     public static final String PROPOSAL_PREMIUM_ENQ = "PRPENQ";
 
-    /** Proposal Submission Enquiry */
+    /**
+     * Proposal Submission Enquiry
+     */
     public static final String PROPOSAL_SUBMISSION_ENQ = "PRBENQ";
 
-    /** Proposal Submission */
+    /**
+     * Proposal Submission
+     */
     public static final String PROPOSAL_SUBMISSION = "PRBSUB";
 
-    /** ULIP Fund Position Single */
+    /**
+     * ULIP Fund Position Single
+     */
     public static final String ULIP_FUND_POSITION = "ULIPFPS";
 
-    /** GP Member Statement */
+    /**
+     * GP Member Statement
+     */
     public static final String MEMBER_STATEMENT = "GPMBSMT";
 
-    /** GP Member ContributionRecord Card */
+    /**
+     * GP Member ContributionRecord Card
+     */
     public static final String MEMBER_RECORD_CARD = "MEMRECCRD";
 
-    /** GP Member Fund Summary */
+    /**
+     * GP Member Fund Summary
+     */
     public static final String MEMBER_FUND_SUMMARY = "MEMFUNDSMY";
 
-    /** GP Scheme Fund Balance */
+    /**
+     * GP Scheme Fund Balance
+     */
     public static final String SCHEME_FUND_BALANCE = "SCHEMEFUND";
 
-    /** Scheme Profile Information */
+    /**
+     * Scheme Profile Information
+     */
     public static final String SCHEME_PROFILE_INFORMATION = "SCHEMEPROF";
 
-    /** GP Scheme Profile */
+    /**
+     * GP Scheme Profile
+     */
     public static final String SCHEME_PROFILE = "SCHPRF";
 
-    /** GP Scheme Details */
+    /**
+     * GP Scheme Details
+     */
     public static final String SCHEME_DETAILS = "SCHDTLS";
 
-    /** GP Scheme Member Details */
+    /**
+     * GP Scheme Member Details
+     */
     public static final String SCHEME_MEMBER_DETAILS = "SCMMBRDET";
 
-    /** GP Member Details */
+    /**
+     * GP Member Details
+     */
     public static final String MEMBER_DETAILS = "MBRDET";
 
-    /** GP Pensioner Schemes */
+    /**
+     * GP Pensioner Schemes
+     */
     public static final String SCHEME_PENSIONER = "SCHPENS";
 
-    /** GP Admin Schemes */
+    /**
+     * GP Admin Schemes
+     */
     public static final String SCHEME_ADMIN = "SCHADM";
 
     // ─── Lanka ────────────────────────────────────────────────────────────────
-
-    /** Renewal Premium Enquiry */
+    /**
+     * Renewal Premium Enquiry
+     */
     public static final String RENEWAL_PREMIUM_ENQ = "RNWENQ";
 
-    /** Renewal Premium Adjustment */
+    /**
+     * Renewal Premium Adjustment
+     */
     public static final String RENEWAL_PREMIUM_ADJ = "RNWADJ";
 
-    /** Customer / Agent Policy Enquiry */
+    /**
+     * Customer / Agent Policy Enquiry
+     */
     public static final String POLICY_ENQUIRY = "PLCENQ";
 
-    /** Proposal Deposit Create */
+    /**
+     * Proposal Deposit Create
+     */
     public static final String PROPOSAL_DEPOSIT_CREATE = "PRPDEP";
 
     // ─── Nepal ────────────────────────────────────────────────────────────────
-
-    /** Proposal Deposit Create */
+    /**
+     * Proposal Deposit Create
+     */
     public static final String POLICY_DETAILS = "POLDTLS";
-    /** Agent Due List */
+    /**
+     * Agent Due List
+     */
     public static final String AGENT_DUE_LIST = "AGDUELST";
-    /** Agent Lapse List */
+    /**
+     * Agent Lapse List
+     */
     public static final String AGENT_LAPSE_LIST = "AGLAPLST";
 
+    /**
+     * Loan Enquiry 
+     *
+     */
+    public static final String LOAN_ENQUIRY = "LNENQ";
+    /**
+     * Loan Repayment
+     */
+    public static final String LOAN_REPAYMENT = "LNRPY";
 }

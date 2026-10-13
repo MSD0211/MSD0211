@@ -61,6 +61,8 @@ elife:
       repayment:
         letter:
           url: /api/v1/loan/repayment/letter
+        online:
+          url: /online/loan/repayment
       quotation:
         url: /api/v1/loan/quotation
 

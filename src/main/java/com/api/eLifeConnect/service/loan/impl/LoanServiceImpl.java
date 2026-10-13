@@ -10,11 +10,16 @@ import com.api.elifeconnect.service.loan.LoanService;
 import com.api.elifeconnect.Utility.WebClientUtil;
 import com.api.elifeconnect.dto.loan.LoanRepaymentLetterRequest;
 
+import com.api.elifeconnect.dto.loan.LoanEnquiryRequest;
+import com.api.elifeconnect.dto.loan.LoanEnquiryResponse;
+import com.api.elifeconnect.dto.loan.LoanRepaymentRequest;
+import com.api.elifeconnect.dto.loan.LoanRepaymentResponse;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class LoanServiceImpl implements LoanService{
+public class LoanServiceImpl implements LoanService {
 
     private final WebClientUtil client;
 
@@ -27,30 +32,46 @@ public class LoanServiceImpl implements LoanService{
     @Value("${elife.api.loan.repayment.letter.url}")
     private String eLifeApiLoanRepaymentLetterUrl;
 
+    @Value("${elife.api.loan.enquiry.url}")
+    private String eLifeApiLoanEnquiryUrl;
+
+    @Value("${elife.api.loan.repayment.online.url}")
+    private String eLifeApiLoanRepaymentUrl;
+
     public LoanServiceImpl(WebClientUtil client) {
         this.client = client;
     }
 
     @Override
-    public byte[] generateLoanQuotation(LoanQuotationRequest loanQuotationRequest){
+    public byte[] generateLoanQuotation(LoanQuotationRequest loanQuotationRequest) {
 
-    String url = eLifeApiBaseUrl + eLifeApiLoanQuotationUrl;
-    log.error("URL::"+url);
+        String url = eLifeApiBaseUrl + eLifeApiLoanQuotationUrl;
+        log.error("URL::" + url);
 
-    return client.downloadPdf(url, loanQuotationRequest, Map.of()).block();
-    
-    
+        return client.downloadPdf(url, loanQuotationRequest, Map.of()).block();
+
     }
 
     @Override
-    public byte[] generateLoanRepaymentLetter(LoanRepaymentLetterRequest loanRepaymentLetterRequest){
+    public byte[] generateLoanRepaymentLetter(LoanRepaymentLetterRequest loanRepaymentLetterRequest) {
 
-    String url = eLifeApiBaseUrl + eLifeApiLoanRepaymentLetterUrl;
-    log.error("URL::"+url);
+        String url = eLifeApiBaseUrl + eLifeApiLoanRepaymentLetterUrl;
+        log.error("URL::" + url);
 
-    return client.downloadPdf(url, loanRepaymentLetterRequest, Map.of()).block();
-    
-    
+        return client.downloadPdf(url, loanRepaymentLetterRequest, Map.of()).block();
+
+    }
+
+    @Override
+    public LoanEnquiryResponse loanEnquiry(LoanEnquiryRequest req) {
+        String url = eLifeApiBaseUrl + eLifeApiLoanEnquiryUrl;
+        return client.post(url, req, Map.of(), LoanEnquiryResponse.class).block();
+    }
+
+    @Override
+    public LoanRepaymentResponse loanRepayment(LoanRepaymentRequest req) {
+        String url = eLifeApiBaseUrl + eLifeApiLoanRepaymentUrl;
+        return client.post(url, req, Map.of(), LoanRepaymentResponse.class).block();
     }
 
 }

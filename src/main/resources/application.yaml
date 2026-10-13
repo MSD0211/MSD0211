@@ -57,10 +57,12 @@ elife:
 
     loan:
       enquiry:
-        url: /online/loan/enquiry
+        url: /api/v1/loan/enquiry
       repayment:
         letter:
           url: /api/v1/loan/repayment/letter
+        online:
+          url: /api/v1/loan/repayment
       quotation:
         url: /api/v1/loan/quotation
 

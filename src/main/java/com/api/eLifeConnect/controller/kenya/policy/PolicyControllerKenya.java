@@ -18,9 +18,12 @@ import com.api.elifeconnect.dto.policy.PolicyRevivalQuotationResponse;
 import com.api.elifeconnect.service.policy.PolicyService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/v1/kenya/policy")
+@Tag(name = "Policy Management", description = "Endpoints for Kenya policy revival quotation and policy details")
 public class PolicyControllerKenya {
 
     private final PolicyService policyService;
@@ -36,6 +39,14 @@ public class PolicyControllerKenya {
     // @PreAuthorize("hasAnyRole('USER')")
     @PreAuthorize("hasAuthority('kenya.api.read')")
     @LogApiCall(value = "Revival Quotation API", shortName = ApiShortNames.POLICY_REVIVAL_QUOT)
+    @Operation(summary = "Policy Revival Quotation", description = "Calculates revival quotation and details for a lapsed Kenya policy.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Policy revival details retrieved successfully"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid request payload"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized request"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "Forbidden - insufficient permissions"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public ResponseEntity<ApiResponse<PolicyRevivalQuotationResponse>> fetchPolicyRevivalDetails(
             @RequestBody PolicyRevivalQuotationRequest policyRevivalQuotationRequest,
             HttpServletRequest request) {

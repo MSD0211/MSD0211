@@ -32,7 +32,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping("/api/v1/kenya/agent")
 @org.springframework.validation.annotation.Validated
-@Tag(name = "Kenya Agent Controller", description = "Endpoints for Kenya Agent authentication and commission statement download")
+@Tag(name = "Agent Services", description = "Endpoints for Kenya Agent authentication and commission statement download")
 public class AgentController {
 
         private final AgentService agentService;

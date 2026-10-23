@@ -22,8 +22,12 @@ import com.api.elifeconnect.service.premium.PremiumService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController("lankaPremiumController")
 @RequestMapping("/api/v1/lanka/premium")
+@Tag(name = "Premium Services", description = "Endpoints for Lanka premium enquiry and renewal adjustments")
 public class PremiumController {
 
     private final PremiumService premiumService;
@@ -38,6 +42,14 @@ public class PremiumController {
     @PostMapping("/renewal/enquiry")
     @PreAuthorize("hasAuthority('lanka.api.read')")
     @LogApiCall(value = "RenewalPremiumEnquiryAPI", shortName = ApiShortNames.RENEWAL_PREMIUM_ENQ)
+    @Operation(summary = "Renewal Premium Enquiry", description = "Retrieves renewal premium calculation and policy amount details.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Renewal premium enquiry successful"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid request payload"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized request"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "Forbidden - insufficient permissions"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public ResponseEntity<ApiResponse<RenewalPremiumEnquiryResponse>> PremiumEnquiry(
             @Valid @RequestBody RenewalPremiumEnquiryRequest renewalPremiumEnqRequest,
             HttpServletRequest request) {
@@ -55,6 +67,14 @@ public class PremiumController {
     @PostMapping("/renewal/adjustment")
     @PreAuthorize("hasAuthority('lanka.api.read')")
     @LogApiCall(value = "RenewalPremiumAdjustmentEnquiryAPI", shortName = ApiShortNames.RENEWAL_PREMIUM_ADJ)
+    @Operation(summary = "Renewal Premium Adjustment", description = "Calculates and adjusts renewal premium amount and FUP date.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Renewal premium adjustment successful"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid request payload"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized request"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "Forbidden - insufficient permissions"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public ResponseEntity<ApiResponse<RenewalPremiumAdjustmentResponse>> RenewalPremiumAdjustment(
             @Valid @RequestBody RenewalPremiumAdjustmentRequest renewalPremiumAdjRequest,
             HttpServletRequest request) {

@@ -19,9 +19,12 @@ import com.api.elifeconnect.service.customer.CustomerAuthenticationService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/v1/kenya/customer")
+@Tag(name = "Customer Services", description = "Endpoints for Kenya customer authentication and details")
 public class CustomerController {
 
     private final CustomerAuthenticationService custAuthService;
@@ -37,6 +40,14 @@ public class CustomerController {
     // @PreAuthorize("hasAnyRole('USER')")
     @PreAuthorize("hasAuthority('kenya.api.read')")
     @LogApiCall(value = "Customer Authentication API", shortName = ApiShortNames.CUSTOMER_AUTH)
+    @Operation(summary = "Customer Authentication", description = "Authenticates a customer and returns profile and contact details.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Customer authentication successful"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid request payload"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized request"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "Forbidden - insufficient permissions"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public ResponseEntity<ApiResponse<CustomerAuthenticationResponse>> customerAuthentication(
             @Valid @RequestBody CustomerAuthenticationRequest custAuthenticationRequest,
             HttpServletRequest request) {

@@ -1,0 +1,1979 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>eLife Connect API Explorer</title>
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36' fill='none'%3E%3Cdefs%3E%3ClinearGradient id='b' x1='4' y1='4' x2='32' y2='32' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0%25' stop-color='%2300f2fe'/%3E%3Cstop offset='40%25' stop-color='%2338bdf8'/%3E%3Cstop offset='75%25' stop-color='%236366f1'/%3E%3Cstop offset='100%25' stop-color='%23a855f7'/%3E%3C/linearGradient%3E%3ClinearGradient id='a' x1='5' y1='17' x2='31' y2='17' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0%25' stop-color='%2300e676'/%3E%3Cstop offset='50%25' stop-color='%2300f2fe'/%3E%3Cstop offset='100%25' stop-color='%2338bdf8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M 28 17 C 28 10.5 22.5 5 15.5 5 C 8.5 5 4.5 11 4.5 18 C 4.5 25.5 9.5 31 17 31 C 22.5 31 26.8 27.8 28.5 23.5' stroke='url(%23b)' stroke-width='3.5' stroke-linecap='round'/%3E%3Cpath d='M 5 17 H 31 M 25 11.5 L 31 17 L 25 22.5' stroke='url(%23a)' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              500: '#0284c7',
+              600: '#0369a1',
+              700: '#075985',
+              900: '#0c4a6e',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .dark ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+
+    .dark ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    /* Code Highlighting Styles */
+    .dark .json-key {
+      color: #38bdf8;
+    }
+
+    .dark .json-string {
+      color: #34d399;
+    }
+
+    .dark .json-number {
+      color: #f59e0b;
+    }
+
+    .dark .json-boolean {
+      color: #c084fc;
+    }
+
+    .dark .json-null {
+      color: #94a3b8;
+    }
+
+    .light .json-key {
+      color: #38bdf8;
+    }
+
+    .light .json-string {
+      color: #34d399;
+    }
+
+    .light .json-number {
+      color: #fbbf24;
+    }
+
+    .light .json-boolean {
+      color: #c084fc;
+    }
+
+    .light .json-null {
+      color: #94a3b8;
+    }
+  </style>
+</head>
+
+<body
+  class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 font-sans antialiased transition-colors duration-200 selection:bg-sky-500 selection:text-white min-h-screen flex flex-col">
+
+  <!-- ========================================================================= -->
+  <!-- TOP NAVIGATION BAR                                                        -->
+  <!-- ========================================================================= -->
+  <header
+    class="sticky top-0 z-40 w-full backdrop-blur-md bg-white/90 dark:bg-slate-950/80 border-b border-slate-200 dark:border-slate-800/80 transition-colors shadow-sm dark:shadow-none">
+    <div class="max-w-[1700px] mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+
+      <!-- Brand & Title -->
+      <div class="flex items-center gap-3 shrink-0">
+        <div
+          class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-500/15 via-indigo-500/15 to-purple-500/15 border border-sky-500/30 dark:border-sky-400/30 flex items-center justify-center shadow-lg shadow-sky-500/20 shrink-0">
+          <svg class="w-7 h-7" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="elifeLogoGrad" x1="4" y1="4" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#00f2fe" />
+                <stop offset="40%" stop-color="#38bdf8" />
+                <stop offset="75%" stop-color="#6366f1" />
+                <stop offset="100%" stop-color="#a855f7" />
+              </linearGradient>
+              <linearGradient id="elifeArrowGrad" x1="5" y1="17" x2="31" y2="17" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#00e676" />
+                <stop offset="50%" stop-color="#00f2fe" />
+                <stop offset="100%" stop-color="#38bdf8" />
+              </linearGradient>
+              <filter id="elifeLogoGlow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="1.5" stdDeviation="1.5" flood-color="#0284c7" flood-opacity="0.4" />
+              </filter>
+            </defs>
+            <g filter="url(#elifeLogoGlow)">
+              <!-- Lowercase 'e' Ribbon -->
+              <path
+                d="M 28 17 C 28 10.5 22.5 5 15.5 5 C 8.5 5 4.5 11 4.5 18 C 4.5 25.5 9.5 31 17 31 C 22.5 31 26.8 27.8 28.5 23.5"
+                stroke="url(#elifeLogoGrad)" stroke-width="3.5" stroke-linecap="round" />
+              <!-- Crossbar & Forward Connection Arrow -->
+              <path d="M 5 17 H 31 M 25 11.5 L 31 17 L 25 22.5" stroke="url(#elifeArrowGrad)" stroke-width="3.5"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </g>
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span
+              class="font-extrabold text-lg tracking-tight bg-gradient-to-r from-sky-600 via-indigo-600 to-slate-900 dark:from-sky-400 dark:via-indigo-300 dark:to-white bg-clip-text text-transparent">eLife
+              Connect</span>
+            <span id="api-version-badge"
+              class="px-2 py-0.5 text-[11px] font-mono font-medium rounded-full bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20">v1.0</span>
+          </div>
+          <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Interactive API Portal & Swagger UI</p>
+        </div>
+      </div>
+
+      <!-- Center Search & Filter -->
+      <div class="flex-1 max-w-xl mx-2 hidden md:block">
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+          <input type="text" id="global-search-input" placeholder="Search endpoints, paths, tags... (Press Ctrl+K or /)"
+            class="w-full pl-10 pr-16 py-2 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 text-sm placeholder-slate-400 dark:placeholder-slate-500 text-slate-900 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-sky-500/50 focus:border-sky-500 transition-all">
+          <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+            <kbd
+              class="px-1.5 py-0.5 text-[10px] font-mono font-semibold text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded shadow-xs">Ctrl+K</kbd>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Controls -->
+      <div class="flex items-center gap-2.5 shrink-0">
+
+        <!-- Spec / Group Selector -->
+        <div class="relative">
+          <select id="spec-group-select"
+            class="appearance-none bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-700 text-xs font-medium text-slate-800 dark:text-slate-200 pl-3 pr-8 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all cursor-pointer shadow-sm dark:shadow-none">
+            <option value="auto">Auto-Detect Group</option>
+            <option value="/v3/api-docs/Lanka">Lanka API</option>
+            <option value="/v3/api-docs/Kenya">Kenya API</option>
+            <option value="/v3/api-docs/Nepal">Nepal API</option>
+            <option value="/v3/api-docs/Mauritius">Mauritius API</option>
+            <option value="/v3/api-docs">All Endpoints (/v3/api-docs)</option>
+            <option value="custom">Custom Spec URL...</option>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+        </div>
+
+        <!-- Authorize Button (JWT) -->
+        <button id="btn-open-auth-modal"
+          class="flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:border-slate-400 dark:hover:border-slate-700 transition-all shadow-sm dark:shadow-none cursor-pointer">
+          <span id="auth-status-dot" class="w-2 h-2 rounded-full bg-slate-400 dark:bg-slate-500"></span>
+          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          </svg>
+          <span id="auth-btn-label">Authorize</span>
+        </button>
+
+        <!-- Download Spec Button -->
+        <button id="btn-view-raw-spec" title="Download OpenAPI JSON"
+          class="p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:border-slate-400 dark:hover:border-slate-700 transition-all hidden sm:flex shadow-sm dark:shadow-none cursor-pointer">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          </svg>
+        </button>
+
+        <!-- Theme Toggle Button (Light / Dark) -->
+        <button id="btn-toggle-theme" type="button" title="Toggle Light / Dark mode"
+          class="p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:border-slate-400 dark:hover:border-slate-700 transition-all flex items-center justify-center cursor-pointer shadow-sm dark:shadow-none">
+          <!-- Sun Icon (visible in dark mode) -->
+          <svg id="theme-icon-dark" class="w-4 h-4 text-amber-400" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          <!-- Moon Icon (visible in light mode) -->
+          <svg id="theme-icon-light" class="w-4 h-4 text-indigo-600 hidden" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
+
+        <!-- Classic Swagger UI Link -->
+        <a href="/swagger-ui.html" target="_blank" title="Switch to Classic Swagger UI"
+          class="hidden lg:flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 bg-slate-100 dark:bg-slate-900/60 hover:bg-slate-200 dark:hover:bg-slate-900 border border-slate-200 dark:border-slate-800/80 transition-all shadow-xs">
+          <span>Classic UI</span>
+          <svg class="w-3 h-3 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        </a>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- MAIN WORKSPACE LAYOUT                                                     -->
+  <!-- ========================================================================= -->
+  <div class="flex-1 max-w-[1700px] w-full mx-auto px-4 sm:px-6 py-6 flex gap-8">
+
+    <!-- ----------------------------------------------------------------------- -->
+    <!-- LEFT SIDEBAR: Navigation, Method Filters & Tags                         -->
+    <!-- ----------------------------------------------------------------------- -->
+    <aside
+      class="w-80 shrink-0 hidden md:flex flex-col gap-5 sticky top-24 max-h-[calc(100vh-7.5rem)] overflow-y-auto pr-2">
+
+      <!-- Method Filters -->
+      <div>
+        <div
+          class="text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2 flex items-center justify-between">
+          <span>Filter by Method</span>
+          <button id="btn-clear-method-filter"
+            class="text-[10px] text-sky-600 dark:text-sky-400 hover:underline hidden">Reset</button>
+        </div>
+        <div class="grid grid-cols-3 gap-1.5" id="method-filters-container">
+          <button data-method="ALL"
+            class="method-filter-btn active py-1.5 px-2 rounded-lg text-xs font-semibold bg-sky-500/15 text-sky-700 border border-sky-400 dark:bg-sky-500/20 dark:text-sky-300 dark:border-sky-500/30 flex items-center justify-between transition-all cursor-pointer shadow-xs">
+            <span>ALL</span>
+            <span
+              class="text-[10px] bg-slate-200 dark:bg-slate-800 px-1.5 py-0.2 rounded-full text-slate-700 dark:text-slate-300 font-mono"
+              id="count-all">0</span>
+          </button>
+          <button data-method="GET"
+            class="method-filter-btn py-1.5 px-2 rounded-lg text-xs font-semibold bg-white dark:bg-slate-900 text-emerald-600 dark:text-emerald-400 border border-slate-200 dark:border-slate-800 hover:border-emerald-500/40 flex items-center justify-between transition-all cursor-pointer shadow-xs">
+            <span>GET</span>
+            <span
+              class="text-[10px] bg-slate-200 dark:bg-slate-800 px-1.5 py-0.2 rounded-full text-slate-700 dark:text-slate-300 font-mono"
+              id="count-get">0</span>
+          </button>
+          <button data-method="POST"
+            class="method-filter-btn py-1.5 px-2 rounded-lg text-xs font-semibold bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 border border-slate-200 dark:border-slate-800 hover:border-blue-500/40 flex items-center justify-between transition-all cursor-pointer shadow-xs">
+            <span>POST</span>
+            <span
+              class="text-[10px] bg-slate-200 dark:bg-slate-800 px-1.5 py-0.2 rounded-full text-slate-700 dark:text-slate-300 font-mono"
+              id="count-post">0</span>
+          </button>
+          <button data-method="PUT"
+            class="method-filter-btn py-1.5 px-2 rounded-lg text-xs font-semibold bg-white dark:bg-slate-900 text-amber-600 dark:text-amber-400 border border-slate-200 dark:border-slate-800 hover:border-amber-500/40 flex items-center justify-between transition-all cursor-pointer shadow-xs">
+            <span>PUT</span>
+            <span
+              class="text-[10px] bg-slate-200 dark:bg-slate-800 px-1.5 py-0.2 rounded-full text-slate-700 dark:text-slate-300 font-mono"
+              id="count-put">0</span>
+          </button>
+          <button data-method="DELETE"
+            class="method-filter-btn py-1.5 px-2 rounded-lg text-xs font-semibold bg-white dark:bg-slate-900 text-rose-600 dark:text-rose-400 border border-slate-200 dark:border-slate-800 hover:border-rose-500/40 flex items-center justify-between transition-all cursor-pointer shadow-xs">
+            <span>DEL</span>
+            <span
+              class="text-[10px] bg-slate-200 dark:bg-slate-800 px-1.5 py-0.2 rounded-full text-slate-700 dark:text-slate-300 font-mono"
+              id="count-delete">0</span>
+          </button>
+          <button data-method="PATCH"
+            class="method-filter-btn py-1.5 px-2 rounded-lg text-xs font-semibold bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 border border-slate-200 dark:border-slate-800 hover:border-purple-500/40 flex items-center justify-between transition-all cursor-pointer shadow-xs">
+            <span>PATCH</span>
+            <span
+              class="text-[10px] bg-slate-200 dark:bg-slate-800 px-1.5 py-0.2 rounded-full text-slate-700 dark:text-slate-300 font-mono"
+              id="count-patch">0</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div
+        class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800/80 pb-2">
+        <span class="font-semibold uppercase tracking-wider text-[11px]">Endpoints</span>
+        <div class="flex gap-2">
+          <button id="btn-expand-all"
+            class="hover:text-sky-600 dark:hover:text-sky-400 transition-colors cursor-pointer">Expand All</button>
+          <span>•</span>
+          <button id="btn-collapse-all"
+            class="hover:text-sky-600 dark:hover:text-sky-400 transition-colors cursor-pointer">Collapse</button>
+        </div>
+      </div>
+
+      <!-- Endpoints Tag Tree Navigation -->
+      <nav id="sidebar-endpoints-nav" class="flex flex-col gap-3">
+        <!-- Dynamically rendered tags and endpoints -->
+        <div class="text-xs text-slate-500 dark:text-slate-400 py-4 text-center">Loading endpoints...</div>
+      </nav>
+
+      <!-- Bottom link to Schemas -->
+      <div class="pt-2 border-t border-slate-200 dark:border-slate-800/80">
+        <a href="#schemas-section"
+          class="flex items-center justify-between px-3 py-2 rounded-xl bg-white dark:bg-slate-900/60 hover:bg-slate-100 dark:hover:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs font-medium text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all shadow-xs">
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-indigo-500 dark:text-indigo-400" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+            <span>Components & Schemas</span>
+          </div>
+          <span id="schemas-count-badge"
+            class="px-1.5 py-0.5 rounded-full bg-slate-200 dark:bg-slate-800 text-[10px] text-slate-600 dark:text-slate-400 font-mono">0</span>
+        </a>
+      </div>
+
+    </aside>
+
+    <!-- ----------------------------------------------------------------------- -->
+    <!-- RIGHT / MAIN: Endpoints Explorer & Interactive Testing                 -->
+    <!-- ----------------------------------------------------------------------- -->
+    <main class="flex-1 min-w-0">
+
+      <!-- API Info / Hero Card -->
+      <section
+        class="mb-8 rounded-2xl bg-gradient-to-br from-white via-sky-50/20 to-indigo-50/30 dark:from-slate-900 dark:via-slate-900/90 dark:to-slate-950 border border-slate-200 dark:border-slate-800/90 p-6 shadow-sm dark:shadow-xl relative overflow-hidden transition-colors">
+        <div class="absolute -right-16 -top-16 w-64 h-64 bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute right-32 -bottom-16 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none">
+        </div>
+
+        <div class="relative z-10">
+          <div class="flex flex-wrap items-center justify-between gap-4 mb-3">
+            <div class="flex items-center gap-3">
+              <h1 id="api-title"
+                class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">eLife Connect
+                API Portal</h1>
+              <span id="api-version"
+                class="px-2.5 py-1 text-xs font-mono font-semibold rounded-lg bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20 dark:border-sky-500/30">1.0</span>
+              <span
+                class="px-2 py-0.5 text-[11px] font-mono rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700">OpenAPI
+                3.0</span>
+            </div>
+
+            <!-- Active Server Selector -->
+            <div class="flex items-center gap-2 text-xs">
+              <span class="text-slate-500 dark:text-slate-400 font-medium">Server:</span>
+              <select id="server-url-select"
+                class="bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-800 text-slate-800 dark:text-slate-200 text-xs rounded-xl px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-sky-500 shadow-xs">
+                <!-- Dynamically populated -->
+              </select>
+            </div>
+          </div>
+
+          <p id="api-description" class="text-sm text-slate-600 dark:text-slate-400 max-w-3xl leading-relaxed mb-6">
+            Comprehensive REST API documentation for eLife Connect platform. Explore, test, and integrate insurance,
+            agent, policy, and scheme services with seamless JWT authentication.
+          </p>
+
+          <!-- Quick Stat Cards -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+            <div
+              class="p-3 rounded-xl bg-white/80 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/80 shadow-xs">
+              <span class="text-slate-500 dark:text-slate-500 block mb-1">Total Endpoints</span>
+              <span id="stat-endpoints-count"
+                class="text-lg font-bold text-slate-900 dark:text-white font-mono">0</span>
+            </div>
+            <div
+              class="p-3 rounded-xl bg-white/80 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/80 shadow-xs">
+              <span class="text-slate-500 dark:text-slate-500 block mb-1">Tags / Categories</span>
+              <span id="stat-tags-count" class="text-lg font-bold text-sky-600 dark:text-sky-400 font-mono">0</span>
+            </div>
+            <div
+              class="p-3 rounded-xl bg-white/80 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/80 shadow-xs">
+              <span class="text-slate-500 dark:text-slate-500 block mb-1">Security Scheme</span>
+              <span class="text-lg font-bold text-emerald-600 dark:text-emerald-400 font-mono">Bearer JWT</span>
+            </div>
+            <div
+              class="p-3 rounded-xl bg-white/80 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/80 shadow-xs">
+              <span class="text-slate-500 dark:text-slate-500 block mb-1">Country</span>
+              <span id="stat-group-name"
+                class="text-lg font-bold text-indigo-600 dark:text-indigo-400 font-mono truncate block">Default</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Active Search/Filter Banner (Conditional) -->
+      <div id="filter-banner"
+        class="hidden mb-6 p-3 rounded-xl bg-sky-500/10 border border-sky-500/20 text-xs flex items-center justify-between text-sky-700 dark:text-sky-300">
+        <div class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-sky-500 dark:text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+          </svg>
+          <span id="filter-banner-text">Showing 5 of 12 endpoints</span>
+        </div>
+        <button id="btn-reset-filters"
+          class="font-semibold text-white bg-sky-600 hover:bg-sky-500 px-3 py-1 rounded-lg transition-all cursor-pointer">Clear
+          Filters</button>
+      </div>
+
+      <!-- Loading Skeleton Indicator -->
+      <div id="endpoints-loading" class="py-16 text-center">
+        <div class="inline-block w-8 h-8 border-4 border-sky-500/30 border-t-sky-500 rounded-full animate-spin mb-4">
+        </div>
+        <p class="text-sm text-slate-500 dark:text-slate-400">Loading OpenAPI documentation...</p>
+      </div>
+
+      <!-- Error / Spec Load Failed Fallback State -->
+      <div id="endpoints-error"
+        class="hidden rounded-2xl bg-rose-500/10 border border-rose-500/20 p-8 text-center my-6">
+        <svg class="w-12 h-12 text-rose-500 dark:text-rose-400 mx-auto mb-3" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+        <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Could Not Load OpenAPI Spec</h3>
+        <p id="error-message-text" class="text-xs text-rose-700 dark:text-rose-200/80 max-w-md mx-auto mb-6">Failed to
+          fetch OpenAPI specifications from the backend server.</p>
+        <div class="flex items-center justify-center gap-3">
+          <button id="btn-retry-load"
+            class="px-4 py-2 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-xs font-semibold rounded-xl text-slate-800 dark:text-white transition-all cursor-pointer">Retry
+            Server</button>
+          <button id="btn-load-demo-spec"
+            class="px-4 py-2 bg-gradient-to-r from-sky-500 to-indigo-600 hover:opacity-90 text-xs font-semibold rounded-xl text-white shadow-lg shadow-sky-500/20 transition-all cursor-pointer">Load
+            Interactive Demo Spec</button>
+        </div>
+      </div>
+
+      <!-- Endpoints Container -->
+      <div id="endpoints-container" class="space-y-10">
+        <!-- Rendered dynamically by tag -->
+      </div>
+
+      <!-- Schemas & Components Section -->
+      <section id="schemas-section" class="mt-16 pt-10 border-t border-slate-200 dark:border-slate-800/80">
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <h2 class="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <svg class="w-5 h-5 text-indigo-500 dark:text-indigo-400" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+              </svg>
+              <span>Components & Schemas</span>
+            </h2>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Data Transfer Objects (DTOs) and Models
+              referenced in the API.</p>
+          </div>
+          <span id="schemas-count-label" class="text-xs text-slate-500 dark:text-slate-400 font-mono">0 models</span>
+        </div>
+
+        <div id="schemas-container" class="space-y-4">
+          <!-- Schemas dynamically rendered -->
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- AUTHORIZATION MODAL (JWT / Bearer Token)                                 -->
+  <!-- ========================================================================= -->
+  <div id="auth-modal"
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 dark:bg-slate-950/80 backdrop-blur-sm hidden transition-opacity">
+    <div
+      class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-lg shadow-2xl p-6 relative overflow-hidden animate-in fade-in duration-200">
+
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-800">
+        <div class="flex items-center gap-3">
+          <div
+            class="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white">Bearer Authentication (JWT)</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Attach Bearer token for authorized requests</p>
+          </div>
+        </div>
+        <button id="btn-close-auth-modal"
+          class="text-slate-400 hover:text-slate-700 dark:hover:text-white p-1 rounded-lg cursor-pointer">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="py-5 space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+            Keycloak / OAuth2 JWT Token:
+          </label>
+          <textarea id="auth-token-input" rows="4"
+            placeholder="Paste your JWT token here (eyJhbGciOi... or Bearer eyJ...)"
+            class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-slate-200 text-xs font-mono rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all placeholder:text-slate-400 dark:placeholder:text-slate-600 resize-none"></textarea>
+        </div>
+
+        <!-- JWT Inspector (Decoded Preview) -->
+        <div id="jwt-preview-container"
+          class="hidden p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800/80 space-y-2">
+          <div class="flex items-center justify-between text-xs">
+            <span class="font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              Valid JWT Detected
+            </span>
+            <span id="jwt-expiry-pill"
+              class="text-[10px] px-2 py-0.5 rounded font-mono bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">Active</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-[11px] font-mono text-slate-500 dark:text-slate-400 pt-1">
+            <div>User: <span id="jwt-username" class="text-slate-900 dark:text-white font-medium">-</span></div>
+            <div>Subject: <span id="jwt-sub" class="text-slate-900 dark:text-white font-medium truncate block">-</span>
+            </div>
+            <div class="col-span-2">Roles: <span id="jwt-roles" class="text-sky-600 dark:text-sky-300">-</span></div>
+          </div>
+        </div>
+
+        <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+          The token will be securely saved in your browser's local storage and passed in the <code
+            class="text-slate-800 dark:text-slate-200 font-mono bg-slate-100 dark:bg-slate-800 px-1 py-0.5 rounded">Authorization: Bearer &lt;token&gt;</code>
+          header on all API tests.
+        </p>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="flex items-center justify-between pt-4 border-t border-slate-200 dark:border-slate-800">
+        <button id="btn-clear-auth-token"
+          class="text-xs text-rose-600 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 font-semibold px-3 py-2 rounded-xl transition-all cursor-pointer">
+          Clear / Logout
+        </button>
+        <div class="flex gap-2">
+          <button id="btn-cancel-auth-modal"
+            class="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs font-semibold rounded-xl text-slate-700 dark:text-slate-300 transition-all cursor-pointer">
+            Cancel
+          </button>
+          <button id="btn-save-auth-token"
+            class="px-5 py-2 bg-gradient-to-r from-sky-500 to-indigo-600 hover:opacity-95 text-xs font-bold rounded-xl text-white shadow-lg shadow-sky-500/20 transition-all cursor-pointer">
+            Authorize & Save
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- CUSTOM SPEC URL MODAL                                                     -->
+  <!-- ========================================================================= -->
+  <div id="custom-spec-modal"
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 dark:bg-slate-950/80 backdrop-blur-sm hidden">
+    <div
+      class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-md shadow-2xl p-6 relative">
+      <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">Load Custom OpenAPI Specification</h3>
+      <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">Enter the relative or absolute URL to an OpenAPI 3.0
+        JSON or YAML document.</p>
+      <input type="text" id="custom-spec-input" value="/v3/api-docs" placeholder="/v3/api-docs/Lanka or http://..."
+        class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-slate-200 text-xs font-mono rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-sky-500 mb-4">
+      <div class="flex justify-end gap-2">
+        <button id="btn-cancel-custom-spec"
+          class="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs font-semibold rounded-xl text-slate-700 dark:text-slate-300 cursor-pointer">Cancel</button>
+        <button id="btn-load-custom-spec"
+          class="px-4 py-2 bg-sky-600 hover:bg-sky-500 text-xs font-bold rounded-xl text-white cursor-pointer">Load
+          Spec</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT APPLICATION LOGIC                                              -->
+  <!-- ========================================================================= -->
+  <script>
+    // --- Application State ---
+    const state = {
+      spec: null,
+      selectedServer: window.location.origin,
+      currentMethodFilter: 'ALL',
+      searchQuery: '',
+      bearerToken: localStorage.getItem('elife_connect_bearer_token') || '',
+      theme: localStorage.getItem('elife_theme') || 'dark',
+      activeSpecUrl: '/v3/api-docs',
+      expandedCards: new Set(),
+      cardTabs: {}, // endpointId -> 'doc' | 'try' | 'curl'
+    };
+
+    // --- DOM Elements ---
+    const dom = {
+      endpointsContainer: document.getElementById('endpoints-container'),
+      endpointsLoading: document.getElementById('endpoints-loading'),
+      endpointsError: document.getElementById('endpoints-error'),
+      errorMessageText: document.getElementById('error-message-text'),
+      sidebarNav: document.getElementById('sidebar-endpoints-nav'),
+      globalSearch: document.getElementById('global-search-input'),
+      specSelect: document.getElementById('spec-group-select'),
+      serverSelect: document.getElementById('server-url-select'),
+      btnOpenAuth: document.getElementById('btn-open-auth-modal'),
+      authModal: document.getElementById('auth-modal'),
+      btnCloseAuth: document.getElementById('btn-close-auth-modal'),
+      btnCancelAuth: document.getElementById('btn-cancel-auth-modal'),
+      btnSaveAuth: document.getElementById('btn-save-auth-token'),
+      btnClearAuth: document.getElementById('btn-clear-auth-token'),
+      authTokenInput: document.getElementById('auth-token-input'),
+      authStatusDot: document.getElementById('auth-status-dot'),
+      authBtnLabel: document.getElementById('auth-btn-label'),
+      jwtPreview: document.getElementById('jwt-preview-container'),
+      jwtUsername: document.getElementById('jwt-username'),
+      jwtSub: document.getElementById('jwt-sub'),
+      jwtRoles: document.getElementById('jwt-roles'),
+      jwtExpiry: document.getElementById('jwt-expiry-pill'),
+      btnToggleTheme: document.getElementById('btn-toggle-theme'),
+      themeIconDark: document.getElementById('theme-icon-dark'),
+      themeIconLight: document.getElementById('theme-icon-light'),
+      btnViewRaw: document.getElementById('btn-view-raw-spec'),
+      filterBanner: document.getElementById('filter-banner'),
+      filterBannerText: document.getElementById('filter-banner-text'),
+      btnResetFilters: document.getElementById('btn-reset-filters'),
+      btnClearMethodFilter: document.getElementById('btn-clear-method-filter'),
+      btnExpandAll: document.getElementById('btn-expand-all'),
+      btnCollapseAll: document.getElementById('btn-collapse-all'),
+      schemasContainer: document.getElementById('schemas-container'),
+      schemasCountBadge: document.getElementById('schemas-count-badge'),
+      schemasCountLabel: document.getElementById('schemas-count-label'),
+      customSpecModal: document.getElementById('custom-spec-modal'),
+      customSpecInput: document.getElementById('custom-spec-input'),
+      btnLoadCustomSpec: document.getElementById('btn-load-custom-spec'),
+      btnCancelCustomSpec: document.getElementById('btn-cancel-custom-spec'),
+      btnRetryLoad: document.getElementById('btn-retry-load'),
+      btnLoadDemoSpec: document.getElementById('btn-load-demo-spec'),
+    };
+
+    // --- Toast Notification Helper ---
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `pointer-events-auto px-4 py-2.5 rounded-xl text-xs font-semibold shadow-xl border flex items-center gap-2 transform transition-all duration-300 translate-y-2 opacity-0 ${type === 'success'
+          ? 'bg-emerald-900 border-emerald-500/40 text-emerald-100'
+          : type === 'error'
+            ? 'bg-rose-900 border-rose-500/40 text-rose-100'
+            : 'bg-slate-900 border-slate-700 text-slate-100'
+        }`;
+      toast.innerHTML = `
+        <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          ${type === 'success' ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />' : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />'}
+        </svg>
+        <span>${message}</span>
+      `;
+      container.appendChild(toast);
+      requestAnimationFrame(() => {
+        toast.classList.remove('translate-y-2', 'opacity-0');
+      });
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    // --- Theme Management ---
+    function initTheme() {
+      const isDark = state.theme === 'dark';
+      if (isDark) {
+        document.documentElement.classList.add('dark');
+        document.documentElement.classList.remove('light');
+        if (dom.themeIconDark) dom.themeIconDark.classList.remove('hidden');
+        if (dom.themeIconLight) dom.themeIconLight.classList.add('hidden');
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+        if (dom.themeIconDark) dom.themeIconDark.classList.add('hidden');
+        if (dom.themeIconLight) dom.themeIconLight.classList.remove('hidden');
+      }
+    }
+
+    function toggleTheme() {
+      state.theme = state.theme === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('elife_theme', state.theme);
+      initTheme();
+      showToast(`Switched to ${state.theme === 'dark' ? 'Dark' : 'Light'} Mode`, 'info');
+    }
+
+    // --- JWT Token & Auth Management ---
+    function updateAuthStatusUI() {
+      if (state.bearerToken) {
+        dom.authStatusDot.className = 'w-2 h-2 rounded-full bg-emerald-500 animate-pulse';
+        dom.authBtnLabel.textContent = 'Authorized';
+        dom.btnOpenAuth.classList.add('border-emerald-500/40', 'text-emerald-600', 'dark:text-emerald-300', 'bg-emerald-500/10');
+      } else {
+        dom.authStatusDot.className = 'w-2 h-2 rounded-full bg-slate-400 dark:bg-slate-500';
+        dom.authBtnLabel.textContent = 'Authorize';
+        dom.btnOpenAuth.classList.remove('border-emerald-500/40', 'text-emerald-600', 'dark:text-emerald-300', 'bg-emerald-500/10');
+      }
+    }
+
+    function parseJwt(token) {
+      try {
+        const cleanToken = token.replace(/^Bearer\s+/i, '').trim();
+        const base64Url = cleanToken.split('.')[1];
+        if (!base64Url) return null;
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+        return JSON.parse(jsonPayload);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function inspectTokenInput() {
+      const val = dom.authTokenInput.value.trim();
+      const payload = parseJwt(val);
+      if (payload) {
+        dom.jwtPreview.classList.remove('hidden');
+        dom.jwtUsername.textContent = payload.preferred_username || payload.username || payload.sub || 'N/A';
+        dom.jwtSub.textContent = payload.sub || 'N/A';
+
+        // Extract roles
+        let roles = [];
+        if (payload.realm_access?.roles) roles.push(...payload.realm_access.roles);
+        if (payload.resource_access) {
+          Object.values(payload.resource_access).forEach(client => {
+            if (client.roles) roles.push(...client.roles);
+          });
+        }
+        dom.jwtRoles.textContent = roles.length ? roles.slice(0, 5).join(', ') + (roles.length > 5 ? '...' : '') : 'None';
+
+        // Check expiration
+        if (payload.exp) {
+          const isExpired = Date.now() >= payload.exp * 1000;
+          if (isExpired) {
+            dom.jwtExpiry.textContent = 'Expired';
+            dom.jwtExpiry.className = 'text-[10px] px-2 py-0.5 rounded font-mono bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20';
+          } else {
+            dom.jwtExpiry.textContent = 'Active';
+            dom.jwtExpiry.className = 'text-[10px] px-2 py-0.5 rounded font-mono bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20';
+          }
+        }
+      } else {
+        dom.jwtPreview.classList.add('hidden');
+      }
+    }
+
+    // --- Discover & Load OpenAPI Spec ---
+    async function discoverAndLoadSpec(specUrl = null) {
+      dom.endpointsLoading.classList.remove('hidden');
+      dom.endpointsError.classList.add('hidden');
+      dom.endpointsContainer.innerHTML = '';
+      dom.sidebarNav.innerHTML = '<div class="text-xs text-slate-500 dark:text-slate-400 py-4 text-center">Loading endpoints...</div>';
+
+      try {
+        let urlToFetch = specUrl;
+
+        // Auto discovery via /v3/api-docs/swagger-config
+        if (!urlToFetch || urlToFetch === 'auto') {
+          try {
+            const configRes = await fetch('/v3/api-docs/swagger-config');
+            if (configRes.ok) {
+              const config = await configRes.json();
+              if (config.urls && config.urls.length > 0) {
+                // Populate selector
+                dom.specSelect.innerHTML = '';
+                config.urls.forEach(item => {
+                  const opt = document.createElement('option');
+                  opt.value = item.url;
+                  opt.textContent = `${item.name} API`;
+                  dom.specSelect.appendChild(opt);
+                });
+                const customOpt = document.createElement('option');
+                customOpt.value = 'custom';
+                customOpt.textContent = 'Custom Spec URL...';
+                dom.specSelect.appendChild(customOpt);
+
+                urlToFetch = config.urls[0].url;
+              }
+            }
+          } catch (e) {
+            console.warn('Swagger config auto-detect failed, falling back to /v3/api-docs', e);
+          }
+        }
+
+        if (!urlToFetch || urlToFetch === 'auto') {
+          urlToFetch = '/v3/api-docs';
+        }
+
+        state.activeSpecUrl = urlToFetch;
+
+        const res = await fetch(urlToFetch);
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status} ${res.statusText} while fetching spec from ${urlToFetch}`);
+        }
+
+        const data = await res.json();
+        state.spec = data;
+        renderEntireUI();
+        showToast('API Specification loaded successfully!', 'success');
+
+      } catch (err) {
+        console.error('Failed to load OpenAPI spec:', err);
+        dom.endpointsLoading.classList.add('hidden');
+        dom.endpointsError.classList.remove('hidden');
+        dom.errorMessageText.textContent = err.message || 'Unable to connect to OpenAPI endpoint.';
+      }
+    }
+
+    // --- Fallback Demo Spec for Offline / Showcase Testing ---
+    function loadDemoSpec() {
+      state.spec = {
+        openapi: "3.0.1",
+        info: {
+          title: "eLife Connect API Portal (Interactive Showcase)",
+          version: "1.0",
+          description: "Interactive demonstration of eLife Connect insurance and agent services. Connects to Lanka, Kenya, and Nepal regional endpoints."
+        },
+        servers: [
+          { url: window.location.origin, description: "Current Local Server (Spring Boot 8082)" },
+          { url: "http://10.240.4.16:8082", description: "Lanka Dev Gateway" }
+        ],
+        paths: {
+          "/api/v1/lanka/agent/duelist": {
+            post: {
+              tags: ["Agent Services"],
+              summary: "Agent Due List",
+              description: "Fetches the list of due insurance policies for an active agent.",
+              operationId: "dueList",
+              requestBody: {
+                required: true,
+                content: {
+                  "application/json": {
+                    schema: { "$ref": "#/components/schemas/DueListRequest" }
+                  }
+                }
+              },
+              responses: {
+                "200": { description: "Due list retrieved successfully" },
+                "400": { description: "Invalid request payload" },
+                "401": { description: "Unauthorized request" },
+                "403": { description: "Forbidden - insufficient permissions" }
+              }
+            }
+          },
+          "/api/v1/lanka/agent/lapselist": {
+            post: {
+              tags: ["Agent Services"],
+              summary: "Agent Lapse List",
+              description: "Fetches lapsed policy details assigned to the agent.",
+              operationId: "lapseList",
+              requestBody: {
+                required: true,
+                content: {
+                  "application/json": {
+                    schema: { "$ref": "#/components/schemas/LapseListRequest" }
+                  }
+                }
+              },
+              responses: {
+                "200": { description: "Lapse list retrieved successfully" },
+                "401": { description: "Unauthorized" }
+              }
+            }
+          },
+          "/api/v1/lanka/policy/{policyNo}": {
+            get: {
+              tags: ["Policy Services"],
+              summary: "Get Policy By Policy Number",
+              description: "Retrieves complete policy profile, sum assured, status, and premium schedules.",
+              operationId: "getPolicyDetails",
+              parameters: [
+                {
+                  name: "policyNo",
+                  in: "path",
+                  required: true,
+                  description: "Unique policy number identification",
+                  schema: { type: "string", example: "POL-9847291" }
+                },
+                {
+                  name: "includeRiders",
+                  in: "query",
+                  required: false,
+                  description: "Whether to include rider benefits",
+                  schema: { type: "boolean", default: true }
+                }
+              ],
+              responses: {
+                "200": { description: "Policy details returned" },
+                "404": { description: "Policy not found" }
+              }
+            }
+          },
+          "/api/public": {
+            get: {
+              tags: ["Testing & Samples"],
+              summary: "Test Public Endpoint",
+              description: "Sample public endpoint accessible without any bearer token authentication.",
+              operationId: "publicEndpoint",
+              responses: {
+                "200": { description: "Public endpoint accessed successfully" }
+              }
+            }
+          },
+          "/api/token": {
+            post: {
+              tags: ["Authentication Services"],
+              summary: "Get User Token",
+              description: "Generates a JWT token using password grant credentials against Keycloak.",
+              operationId: "getToken",
+              requestBody: {
+                required: true,
+                content: {
+                  "application/json": {
+                    schema: { "$ref": "#/components/schemas/LoginRequest" }
+                  }
+                }
+              },
+              responses: {
+                "200": { description: "Token generated successfully" },
+                "400": { description: "Invalid credentials" }
+              }
+            }
+          }
+        },
+        components: {
+          schemas: {
+            DueListRequest: {
+              type: "object",
+              required: ["agentCode", "agencyCode"],
+              properties: {
+                agentCode: { type: "string", example: "AGT-10293", description: "Agent identifier code" },
+                agencyCode: { type: "string", example: "COLOMBO-HQ", description: "Branch or agency code" },
+                year: { type: "integer", example: 2026, description: "Due year" },
+                month: { type: "integer", example: 10, description: "Due month (1-12)" }
+              }
+            },
+            LapseListRequest: {
+              type: "object",
+              required: ["agentCode"],
+              properties: {
+                agentCode: { type: "string", example: "AGT-10293" },
+                filterDays: { type: "integer", example: 90, description: "Lapse window in days" }
+              }
+            },
+            LoginRequest: {
+              type: "object",
+              required: ["clientName", "username", "password"],
+              properties: {
+                clientName: { type: "string", example: "lanka-portal-client" },
+                username: { type: "string", example: "sunder.dev" },
+                password: { type: "string", format: "password", example: "********" }
+              }
+            }
+          }
+        }
+      };
+
+      dom.endpointsError.classList.add('hidden');
+      renderEntireUI();
+      showToast('Loaded demo specification for interactive preview!', 'success');
+    }
+
+    // --- Schema / Spec Resolver Helpers ---
+    function resolveRef(ref) {
+      if (!ref || !state.spec) return null;
+      if (ref.startsWith('#/components/schemas/')) {
+        const schemaName = ref.replace('#/components/schemas/', '');
+        return state.spec.components?.schemas?.[schemaName] || null;
+      }
+      return null;
+    }
+
+    // Generate sample JSON body from schema
+    function generateSamplePayload(schema) {
+      if (!schema) return {};
+      if (schema.$ref) {
+        const resolved = resolveRef(schema.$ref);
+        return generateSamplePayload(resolved);
+      }
+      if (schema.type === 'object' || schema.properties) {
+        const obj = {};
+        const props = schema.properties || {};
+        for (const [key, prop] of Object.entries(props)) {
+          if (prop.$ref) {
+            obj[key] = generateSamplePayload(resolveRef(prop.$ref));
+          } else if (prop.example !== undefined) {
+            obj[key] = prop.example;
+          } else if (prop.default !== undefined) {
+            obj[key] = prop.default;
+          } else if (prop.type === 'string') {
+            obj[key] = prop.format === 'date' ? '2026-10-23' : (prop.format === 'email' ? 'user@elife.com' : 'string');
+          } else if (prop.type === 'integer' || prop.type === 'number') {
+            obj[key] = 0;
+          } else if (prop.type === 'boolean') {
+            obj[key] = true;
+          } else if (prop.type === 'array') {
+            obj[key] = [generateSamplePayload(prop.items || {})];
+          } else {
+            obj[key] = 'value';
+          }
+        }
+        return obj;
+      }
+      if (schema.type === 'array') {
+        return [generateSamplePayload(schema.items || {})];
+      }
+      return schema.example !== undefined ? schema.example : 'sample';
+    }
+
+    // Format JSON with syntax color highlighting
+    function syntaxHighlightJson(json) {
+      if (typeof json !== 'string') {
+        json = JSON.stringify(json, null, 2);
+      }
+      json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+        let cls = 'json-number';
+        if (/^"/.test(match)) {
+          if (/:$/.test(match)) {
+            cls = 'json-key';
+          } else {
+            cls = 'json-string';
+          }
+        } else if (/true|false/.test(match)) {
+          cls = 'json-boolean';
+        } else if (/null/.test(match)) {
+          cls = 'json-null';
+        }
+        return '<span class="' + cls + '">' + match + '</span>';
+      });
+    }
+
+    // --- Render Entire UI ---
+    function renderEntireUI() {
+      if (!state.spec) return;
+
+      dom.endpointsLoading.classList.add('hidden');
+      dom.endpointsError.classList.add('hidden');
+
+      // Info header
+      document.getElementById('api-title').textContent = state.spec.info?.title || 'eLife Connect API Portal';
+      document.getElementById('api-version').textContent = state.spec.info?.version || '1.0';
+      document.getElementById('api-version-badge').textContent = `v${state.spec.info?.version || '1.0'}`;
+      document.getElementById('api-description').textContent = state.spec.info?.description || 'REST API Documentation for eLife Connect.';
+
+      // Servers
+      dom.serverSelect.innerHTML = '';
+      const servers = state.spec.servers && state.spec.servers.length > 0
+        ? state.spec.servers
+        : [{ url: window.location.origin, description: 'Default Server' }];
+
+      servers.forEach((srv, idx) => {
+        const opt = document.createElement('option');
+        opt.value = srv.url;
+        opt.textContent = `${srv.url} ${srv.description ? `(${srv.description})` : ''}`;
+        dom.serverSelect.appendChild(opt);
+        if (idx === 0) state.selectedServer = srv.url;
+      });
+
+      // Collect and index endpoints
+      const endpoints = [];
+      const tagMap = new Map();
+      const methodCounts = { ALL: 0, GET: 0, POST: 0, PUT: 0, DELETE: 0, PATCH: 0 };
+
+      const paths = state.spec.paths || {};
+      for (const [path, pathItem] of Object.entries(paths)) {
+        ['get', 'post', 'put', 'delete', 'patch'].forEach(method => {
+          if (pathItem[method]) {
+            const op = pathItem[method];
+            const tags = op.tags && op.tags.length ? op.tags : ['General Services'];
+            const upperMethod = method.toUpperCase();
+
+            methodCounts.ALL++;
+            if (methodCounts[upperMethod] !== undefined) methodCounts[upperMethod]++;
+
+            const ep = {
+              id: `${method}-${path.replace(/[^a-zA-Z0-9]/g, '_')}`,
+              path,
+              method: upperMethod,
+              operation: op,
+              tags,
+              summary: op.summary || path,
+              description: op.description || '',
+              deprecated: !!op.deprecated
+            };
+
+            endpoints.push(ep);
+
+            tags.forEach(t => {
+              if (!tagMap.has(t)) tagMap.set(t, []);
+              tagMap.get(t).push(ep);
+            });
+          }
+        });
+      }
+
+      // Update counters
+      document.getElementById('count-all').textContent = methodCounts.ALL;
+      document.getElementById('count-get').textContent = methodCounts.GET;
+      document.getElementById('count-post').textContent = methodCounts.POST;
+      document.getElementById('count-put').textContent = methodCounts.PUT;
+      document.getElementById('count-delete').textContent = methodCounts.DELETE;
+      document.getElementById('count-patch').textContent = methodCounts.PATCH;
+
+      document.getElementById('stat-endpoints-count').textContent = endpoints.length;
+      document.getElementById('stat-tags-count').textContent = tagMap.size;
+      document.getElementById('stat-group-name').textContent = dom.specSelect.options[dom.specSelect.selectedIndex]?.text.replace(' API', '') || 'Default';
+
+      // Render Endpoints & Sidebar
+      renderEndpoints(tagMap, endpoints);
+      renderSidebarNav(tagMap);
+      renderSchemas();
+    }
+
+    // --- Render Endpoints Filtered ---
+    function renderEndpoints(tagMap, allEndpoints) {
+      dom.endpointsContainer.innerHTML = '';
+
+      const query = state.searchQuery.toLowerCase().trim();
+      const methodFilter = state.currentMethodFilter;
+
+      let matchCount = 0;
+      let totalCount = allEndpoints.length;
+
+      // Filter Banner
+      const isFiltering = query.length > 0 || methodFilter !== 'ALL';
+      if (isFiltering) {
+        dom.filterBanner.classList.remove('hidden');
+      } else {
+        dom.filterBanner.classList.add('hidden');
+      }
+
+      tagMap.forEach((endpointsInTag, tagName) => {
+        const filtered = endpointsInTag.filter(ep => {
+          const matchesMethod = methodFilter === 'ALL' || ep.method === methodFilter;
+          const matchesQuery = !query ||
+            ep.path.toLowerCase().includes(query) ||
+            ep.summary.toLowerCase().includes(query) ||
+            ep.description.toLowerCase().includes(query) ||
+            tagName.toLowerCase().includes(query);
+          return matchesMethod && matchesQuery;
+        });
+
+        if (filtered.length === 0) return;
+        matchCount += filtered.length;
+
+        // Tag Section
+        const tagSection = document.createElement('section');
+        tagSection.className = 'space-y-4';
+        tagSection.id = `tag-${tagName.replace(/[^a-zA-Z0-9]/g, '_')}`;
+
+        // Tag Header
+        const tagHeader = document.createElement('div');
+        tagHeader.className = 'flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800/80 pt-4';
+        tagHeader.innerHTML = `
+          <div class="flex items-center gap-2.5">
+            <span class="w-2.5 h-2.5 rounded-full bg-sky-500"></span>
+            <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white tracking-tight">${tagName}</h2>
+            <span class="px-2 py-0.5 text-[11px] font-mono rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-medium">${filtered.length}</span>
+          </div>
+        `;
+        tagSection.appendChild(tagHeader);
+
+        // Endpoint Cards Container
+        const cardsContainer = document.createElement('div');
+        cardsContainer.className = 'space-y-4';
+
+        filtered.forEach(ep => {
+          const card = createEndpointCard(ep);
+          cardsContainer.appendChild(card);
+        });
+
+        tagSection.appendChild(cardsContainer);
+        dom.endpointsContainer.appendChild(tagSection);
+      });
+
+      dom.filterBannerText.textContent = `Showing ${matchCount} of ${totalCount} endpoints`;
+
+      if (matchCount === 0 && totalCount > 0) {
+        dom.endpointsContainer.innerHTML = `
+          <div class="py-16 text-center rounded-2xl border border-dashed border-slate-300 dark:border-slate-800 p-8 bg-white/50 dark:bg-slate-900/30">
+            <svg class="w-10 h-10 text-slate-400 dark:text-slate-500 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h4 class="text-sm font-semibold text-slate-700 dark:text-slate-300">No matching endpoints</h4>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Try relaxing your search query or method filter.</p>
+          </div>
+        `;
+      }
+    }
+
+    // --- Create an Interactive Endpoint Card ---
+    function createEndpointCard(ep) {
+      const card = document.createElement('div');
+      card.id = `card-${ep.id}`;
+      card.className = `endpoint-card rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/90 shadow-sm dark:shadow-lg overflow-hidden transition-all duration-200 hover:border-slate-300 dark:hover:border-slate-700/80 ${ep.deprecated ? 'opacity-60' : ''}`;
+
+      // Styling based on method
+      const methodStyles = {
+        GET: { badge: 'bg-emerald-50 text-emerald-700 border-emerald-300 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/30' },
+        POST: { badge: 'bg-blue-50 text-blue-700 border-blue-300 dark:bg-blue-500/10 dark:text-blue-400 dark:border-blue-500/30' },
+        PUT: { badge: 'bg-amber-50 text-amber-700 border-amber-300 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/30' },
+        DELETE: { badge: 'bg-rose-50 text-rose-700 border-rose-300 dark:bg-rose-500/10 dark:text-rose-400 dark:border-rose-500/30' },
+        PATCH: { badge: 'bg-purple-50 text-purple-700 border-purple-300 dark:bg-purple-500/10 dark:text-purple-400 dark:border-purple-500/30' }
+      }[ep.method] || { badge: 'bg-slate-100 text-slate-700 border-slate-300 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700' };
+
+      const isExpanded = state.expandedCards.has(ep.id);
+      const activeTab = state.cardTabs[ep.id] || 'try'; // default to 'try' for highest utility!
+
+      // Parameter info
+      const params = ep.operation.parameters || [];
+      const hasRequestBody = !!ep.operation.requestBody;
+      const requestBodySchema = ep.operation.requestBody?.content?.['application/json']?.schema;
+
+      card.innerHTML = `
+        <!-- Card Header / Collapsible Trigger -->
+        <div class="card-header cursor-pointer p-4 sm:p-4.5 flex items-center justify-between gap-3 select-none hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors">
+          <div class="flex items-center gap-3 min-w-0">
+            <span class="px-2.5 py-1 text-xs font-mono font-bold rounded-lg border ${methodStyles.badge}">${ep.method}</span>
+            <span class="font-mono text-xs sm:text-sm font-semibold text-slate-900 dark:text-slate-100 truncate">${highlightPathParams(ep.path)}</span>
+            ${ep.summary ? `<span class="text-xs text-slate-500 dark:text-slate-400 hidden sm:inline truncate max-w-sm font-normal">• ${escapeHtml(ep.summary)}</span>` : ''}
+          </div>
+
+          <div class="flex items-center gap-2 shrink-0">
+            <!-- Copy Path Button -->
+            <button 
+              type="button" 
+              class="btn-copy-path p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-all cursor-pointer" 
+              title="Copy endpoint path"
+              data-path="${ep.path}"
+            >
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+              </svg>
+            </button>
+
+            <!-- Secured Badge -->
+            <span title="Secured with Bearer JWT" class="p-1 rounded-md bg-slate-100 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400">
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+            </span>
+
+            <!-- Chevron -->
+            <svg class="chevron-icon w-4 h-4 text-slate-400 transform transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+        </div>
+
+        <!-- Card Body (Collapsible) -->
+        <div class="card-body ${isExpanded ? '' : 'hidden'} border-t border-slate-200 dark:border-slate-800/80 p-5 space-y-6 bg-slate-50/50 dark:bg-slate-950/40">
+          
+          <!-- Summary & Description -->
+          ${ep.description ? `<p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed bg-white dark:bg-slate-950/40 p-3 rounded-xl border border-slate-200 dark:border-slate-800/60">${escapeHtml(ep.description)}</p>` : ''}
+
+          <!-- Tabs (Try It Out, Documentation, cURL) -->
+          <div class="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800/80 pb-2 text-xs">
+            <button data-tab="try" class="tab-btn px-3 py-1.5 rounded-lg font-semibold transition-all cursor-pointer ${activeTab === 'try' ? 'bg-sky-500/15 text-sky-700 border border-sky-400 dark:bg-sky-500/20 dark:text-sky-300 dark:border-sky-500/30' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'}">
+              Try It Out
+            </button>
+            <button data-tab="doc" class="tab-btn px-3 py-1.5 rounded-lg font-semibold transition-all cursor-pointer ${activeTab === 'doc' ? 'bg-sky-500/15 text-sky-700 border border-sky-400 dark:bg-sky-500/20 dark:text-sky-300 dark:border-sky-500/30' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'}">
+              Parameters & Schema
+            </button>
+            <button data-tab="curl" class="tab-btn px-3 py-1.5 rounded-lg font-semibold transition-all cursor-pointer ${activeTab === 'curl' ? 'bg-sky-500/15 text-sky-700 border border-sky-400 dark:bg-sky-500/20 dark:text-sky-300 dark:border-sky-500/30' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'}">
+              cURL & Snippets
+            </button>
+          </div>
+
+          <!-- TAB 1: TRY IT OUT (Interactive Console) -->
+          <div class="tab-content-try ${activeTab === 'try' ? '' : 'hidden'} space-y-5">
+            
+            <!-- Parameters Inputs -->
+            ${params.length > 0 ? `
+              <div class="space-y-3">
+                <h4 class="text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                  <span>Parameters</span>
+                  <span class="text-[10px] text-slate-500 dark:text-slate-400 lowercase">(${params.length})</span>
+                </h4>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  ${params.map(p => `
+                    <div class="p-3 rounded-xl bg-white dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 shadow-xs">
+                      <div class="flex items-center justify-between text-xs mb-1.5">
+                        <span class="font-mono font-medium text-sky-600 dark:text-sky-400">${p.name}</span>
+                        <div class="flex gap-1">
+                          <span class="text-[10px] px-1.5 py-0.2 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">${p.in}</span>
+                          ${p.required ? '<span class="text-[10px] px-1.5 py-0.2 rounded bg-rose-500/10 text-rose-600 dark:text-rose-400">required</span>' : ''}
+                        </div>
+                      </div>
+                      ${p.description ? `<p class="text-[11px] text-slate-500 dark:text-slate-400 mb-2">${escapeHtml(p.description)}</p>` : ''}
+                      <input 
+                        type="text" 
+                        class="param-input w-full bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-slate-900 dark:text-slate-200 font-mono focus:outline-none focus:ring-1 focus:ring-sky-500" 
+                        data-param-name="${p.name}" 
+                        data-param-in="${p.in}" 
+                        placeholder="${p.schema?.example !== undefined ? p.schema.example : (p.schema?.default !== undefined ? p.schema.default : `Enter ${p.name}...`)}"
+                        value="${p.schema?.default !== undefined ? p.schema.default : ''}"
+                      >
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            ` : ''}
+
+            <!-- Request Body Input (If POST / PUT / PATCH) -->
+            ${hasRequestBody ? `
+              <div class="space-y-2">
+                <div class="flex items-center justify-between">
+                  <h4 class="text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider">Request Body (JSON)</h4>
+                  <div class="flex items-center gap-2">
+                    <button type="button" class="btn-fill-sample text-[11px] text-sky-600 dark:text-sky-400 hover:text-sky-500 dark:hover:text-sky-300 font-medium cursor-pointer">Fill Sample</button>
+                    <span>•</span>
+                    <button type="button" class="btn-format-json text-[11px] text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 cursor-pointer">Format JSON</button>
+                  </div>
+                </div>
+                <textarea 
+                  class="body-input w-full bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl p-3 text-xs font-mono text-slate-900 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-sky-500 resize-y shadow-xs" 
+                  rows="6"
+                  placeholder='{\n  "property": "value"\n}'
+                ></textarea>
+              </div>
+            ` : ''}
+
+            <!-- Execute Controls -->
+            <div class="flex items-center justify-between pt-2">
+              <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+                <span>Authorization:</span>
+                <span class="font-mono text-xs ${state.bearerToken ? 'text-emerald-600 dark:text-emerald-400 font-semibold' : 'text-slate-400 dark:text-slate-500'}">
+                  ${state.bearerToken ? 'Bearer [Active]' : 'None (click Authorize in navbar)'}
+                </span>
+              </div>
+              <button 
+                type="button" 
+                class="btn-execute px-5 py-2 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-sky-500 to-indigo-600 hover:opacity-95 shadow-lg shadow-sky-500/20 flex items-center gap-2 transition-all cursor-pointer"
+              >
+                <svg class="w-3.5 h-3.5 play-icon" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+                </svg>
+                <span class="btn-execute-text">Execute Request</span>
+              </button>
+            </div>
+
+            <!-- Response Panel (Appears after execute) -->
+            <div class="response-panel hidden space-y-3 pt-3 border-t border-slate-200 dark:border-slate-800/80">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-semibold text-slate-700 dark:text-slate-300">Server Response</span>
+                  <span class="status-badge px-2 py-0.5 text-xs font-mono font-bold rounded-md bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">200 OK</span>
+                  <span class="time-badge text-xs font-mono text-slate-500 dark:text-slate-400">⚡ 45 ms</span>
+                </div>
+                <button type="button" class="btn-copy-response text-xs text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-1 cursor-pointer">
+                  <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                  </svg>
+                  <span>Copy</span>
+                </button>
+              </div>
+              <pre class="response-body-pre bg-slate-900 text-slate-100 dark:bg-slate-950 dark:text-slate-200 border border-slate-300 dark:border-slate-800 rounded-xl p-4 text-xs font-mono overflow-x-auto max-h-96 shadow-inner"></pre>
+            </div>
+
+          </div>
+
+          <!-- TAB 2: DOCUMENTATION & SCHEMA -->
+          <div class="tab-content-doc ${activeTab === 'doc' ? '' : 'hidden'} space-y-4 text-xs">
+            <!-- Responses Table -->
+            <div>
+              <h4 class="text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">Expected Responses</h4>
+              <div class="divide-y divide-slate-200 dark:divide-slate-800 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden bg-white dark:bg-slate-950/60">
+                ${Object.entries(ep.operation.responses || {}).map(([code, resp]) => `
+                  <div class="p-3 flex items-start gap-4">
+                    <span class="font-mono font-bold text-xs ${code.startsWith('2') ? 'text-emerald-600 dark:text-emerald-400' : (code.startsWith('4') ? 'text-amber-600 dark:text-amber-400' : 'text-rose-600 dark:text-rose-400')}">${code}</span>
+                    <span class="text-slate-700 dark:text-slate-300">${escapeHtml(resp.description || 'No description')}</span>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <!-- Request Body Schema View -->
+            ${hasRequestBody && requestBodySchema ? `
+              <div>
+                <h4 class="text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">Request Body Schema</h4>
+                <div class="p-3 bg-slate-900 text-slate-100 dark:bg-slate-950/60 dark:text-slate-300 border border-slate-300 dark:border-slate-800 rounded-xl font-mono text-xs overflow-x-auto">
+                  <pre>${syntaxHighlightJson(generateSamplePayload(requestBodySchema))}</pre>
+                </div>
+              </div>
+            ` : ''}
+          </div>
+
+          <!-- TAB 3: CURL & SNIPPETS -->
+          <div class="tab-content-curl ${activeTab === 'curl' ? '' : 'hidden'} space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold text-slate-700 dark:text-slate-300">cURL Command</span>
+              <button type="button" class="btn-copy-curl text-xs text-sky-600 dark:text-sky-400 hover:underline cursor-pointer">Copy cURL</button>
+            </div>
+            <pre class="curl-pre bg-slate-900 text-slate-100 dark:bg-slate-950 dark:text-slate-300 border border-slate-300 dark:border-slate-800 rounded-xl p-4 text-xs font-mono overflow-x-auto"></pre>
+          </div>
+
+        </div>
+      `;
+
+      // --- Attach Card Event Listeners ---
+      const header = card.querySelector('.card-header');
+      const body = card.querySelector('.card-body');
+      const chevron = card.querySelector('.chevron-icon');
+
+      header.addEventListener('click', (e) => {
+        // Ignore if clicking copy button
+        if (e.target.closest('.btn-copy-path')) return;
+        const nowExpanded = body.classList.toggle('hidden');
+        chevron.classList.toggle('rotate-180', !nowExpanded);
+        if (!nowExpanded) {
+          state.expandedCards.add(ep.id);
+          updateCurlSnippet(card, ep);
+        } else {
+          state.expandedCards.delete(ep.id);
+        }
+      });
+
+      // Copy Path Button
+      const btnCopyPath = card.querySelector('.btn-copy-path');
+      btnCopyPath.addEventListener('click', (e) => {
+        e.stopPropagation();
+        navigator.clipboard.writeText(ep.path);
+        showToast(`Copied path: ${ep.path}`, 'success');
+      });
+
+      // Tabs switching
+      const tabBtns = card.querySelectorAll('.tab-btn');
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const tab = btn.dataset.tab;
+          state.cardTabs[ep.id] = tab;
+          tabBtns.forEach(b => {
+            const isActive = b.dataset.tab === tab;
+            b.className = `tab-btn px-3 py-1.5 rounded-lg font-semibold transition-all cursor-pointer ${isActive
+                ? 'bg-sky-500/15 text-sky-700 border border-sky-400 dark:bg-sky-500/20 dark:text-sky-300 dark:border-sky-500/30'
+                : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+              }`;
+          });
+          card.querySelector('.tab-content-try').classList.toggle('hidden', tab !== 'try');
+          card.querySelector('.tab-content-doc').classList.toggle('hidden', tab !== 'doc');
+          card.querySelector('.tab-content-curl').classList.toggle('hidden', tab !== 'curl');
+          if (tab === 'curl') updateCurlSnippet(card, ep);
+        });
+      });
+
+      // Fill sample button
+      const btnFillSample = card.querySelector('.btn-fill-sample');
+      if (btnFillSample && requestBodySchema) {
+        btnFillSample.addEventListener('click', () => {
+          const sample = generateSamplePayload(requestBodySchema);
+          card.querySelector('.body-input').value = JSON.stringify(sample, null, 2);
+          updateCurlSnippet(card, ep);
+        });
+      }
+
+      // Format JSON button
+      const btnFormat = card.querySelector('.btn-format-json');
+      if (btnFormat) {
+        btnFormat.addEventListener('click', () => {
+          const textarea = card.querySelector('.body-input');
+          try {
+            const parsed = JSON.parse(textarea.value);
+            textarea.value = JSON.stringify(parsed, null, 2);
+            updateCurlSnippet(card, ep);
+          } catch (e) {
+            showToast('Invalid JSON in request body', 'error');
+          }
+        });
+      }
+
+      // Inputs change updates cURL
+      const inputs = card.querySelectorAll('.param-input, .body-input');
+      inputs.forEach(inp => {
+        inp.addEventListener('input', () => updateCurlSnippet(card, ep));
+      });
+
+      // Execute button
+      const btnExecute = card.querySelector('.btn-execute');
+      btnExecute.addEventListener('click', () => executeRequest(card, ep));
+
+      // Copy response button
+      const btnCopyResp = card.querySelector('.btn-copy-response');
+      if (btnCopyResp) {
+        btnCopyResp.addEventListener('click', () => {
+          const text = card.querySelector('.response-body-pre').textContent;
+          navigator.clipboard.writeText(text);
+          showToast('Response copied to clipboard', 'success');
+        });
+      }
+
+      // Copy cURL button
+      const btnCopyCurl = card.querySelector('.btn-copy-curl');
+      if (btnCopyCurl) {
+        btnCopyCurl.addEventListener('click', () => {
+          const text = card.querySelector('.curl-pre').textContent;
+          navigator.clipboard.writeText(text);
+          showToast('cURL copied to clipboard', 'success');
+        });
+      }
+
+      return card;
+    }
+
+    // --- Build Full URL with Path & Query Params ---
+    function buildTargetUrl(card, ep) {
+      let resolvedPath = ep.path;
+      const queryParams = new URLSearchParams();
+
+      const paramInputs = card.querySelectorAll('.param-input');
+      paramInputs.forEach(input => {
+        const name = input.dataset.paramName;
+        const inLoc = input.dataset.paramIn;
+        const val = input.value.trim();
+
+        if (inLoc === 'path' && val) {
+          resolvedPath = resolvedPath.replace(`{${name}}`, encodeURIComponent(val));
+        } else if (inLoc === 'query' && val) {
+          queryParams.append(name, val);
+        }
+      });
+
+      const baseServer = state.selectedServer.replace(/\/$/, '');
+      const queryString = queryParams.toString() ? `?${queryParams.toString()}` : '';
+      return `${baseServer}${resolvedPath}${queryString}`;
+    }
+
+    // --- Update cURL Snippet ---
+    function updateCurlSnippet(card, ep) {
+      const curlPre = card.querySelector('.curl-pre');
+      if (!curlPre) return;
+
+      const url = buildTargetUrl(card, ep);
+      let cmd = `curl -X ${ep.method} "${url}" \\\n  -H "Accept: application/json"`;
+
+      if (state.bearerToken) {
+        cmd += ` \\\n  -H "Authorization: Bearer ${state.bearerToken}"`;
+      }
+
+      const bodyInput = card.querySelector('.body-input');
+      if (bodyInput && bodyInput.value.trim()) {
+        cmd += ` \\\n  -H "Content-Type: application/json" \\\n  -d '${bodyInput.value.trim().replace(/'/g, "'\\''")}'`;
+      }
+
+      curlPre.textContent = cmd;
+    }
+
+    // --- Execute Live HTTP Request ---
+    async function executeRequest(card, ep) {
+      const btn = card.querySelector('.btn-execute');
+      const btnText = card.querySelector('.btn-execute-text');
+      const responsePanel = card.querySelector('.response-panel');
+      const statusBadge = card.querySelector('.status-badge');
+      const timeBadge = card.querySelector('.time-badge');
+      const bodyPre = card.querySelector('.response-body-pre');
+
+      const url = buildTargetUrl(card, ep);
+      const headers = { 'Accept': 'application/json' };
+
+      if (state.bearerToken) {
+        headers['Authorization'] = `Bearer ${state.bearerToken.replace(/^Bearer\s+/i, '')}`;
+      }
+
+      let body = null;
+      const bodyInput = card.querySelector('.body-input');
+      if (['POST', 'PUT', 'PATCH'].includes(ep.method) && bodyInput && bodyInput.value.trim()) {
+        headers['Content-Type'] = 'application/json';
+        body = bodyInput.value.trim();
+      }
+
+      // UI Loading state
+      btn.disabled = true;
+      btnText.textContent = 'Sending...';
+
+      const startTime = performance.now();
+
+      try {
+        const response = await fetch(url, {
+          method: ep.method,
+          headers,
+          body
+        });
+
+        const elapsedMs = Math.round(performance.now() - startTime);
+
+        responsePanel.classList.remove('hidden');
+        timeBadge.textContent = `⚡ ${elapsedMs} ms`;
+        statusBadge.textContent = `${response.status} ${response.statusText || ''}`;
+
+        if (response.ok) {
+          statusBadge.className = 'status-badge px-2 py-0.5 text-xs font-mono font-bold rounded-md bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20';
+        } else if (response.status >= 400 && response.status < 500) {
+          statusBadge.className = 'status-badge px-2 py-0.5 text-xs font-mono font-bold rounded-md bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20';
+        } else {
+          statusBadge.className = 'status-badge px-2 py-0.5 text-xs font-mono font-bold rounded-md bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20';
+        }
+
+        const contentType = response.headers.get('content-type') || '';
+        if (contentType.includes('application/json')) {
+          const json = await response.json();
+          bodyPre.innerHTML = syntaxHighlightJson(json);
+        } else {
+          const text = await response.text();
+          bodyPre.textContent = text || '<Empty response body>';
+        }
+
+      } catch (err) {
+        const elapsedMs = Math.round(performance.now() - startTime);
+        responsePanel.classList.remove('hidden');
+        timeBadge.textContent = `⚡ ${elapsedMs} ms`;
+        statusBadge.textContent = 'Network Error';
+        statusBadge.className = 'status-badge px-2 py-0.5 text-xs font-mono font-bold rounded-md bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20';
+        bodyPre.textContent = `Request failed: ${err.message}\nMake sure server is reachable at ${url}`;
+      } finally {
+        btn.disabled = false;
+        btnText.textContent = 'Execute Request';
+      }
+    }
+
+    // --- Render Left Sidebar Navigation ---
+    function renderSidebarNav(tagMap) {
+      dom.sidebarNav.innerHTML = '';
+
+      tagMap.forEach((endpoints, tagName) => {
+        const tagGroup = document.createElement('div');
+        tagGroup.className = 'space-y-1';
+
+        const tagBtn = document.createElement('div');
+        tagBtn.className = 'flex items-center justify-between text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white px-2 py-1.5 rounded-lg cursor-pointer hover:bg-slate-200/60 dark:hover:bg-slate-900 transition-colors';
+        tagBtn.innerHTML = `
+          <span class="truncate">${tagName}</span>
+          <span class="text-[10px] bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-1.5 py-0.2 rounded-full font-mono">${endpoints.length}</span>
+        `;
+
+        const listContainer = document.createElement('div');
+        listContainer.className = 'pl-2 space-y-0.5';
+
+        endpoints.forEach(ep => {
+          const item = document.createElement('a');
+          item.href = `#card-${ep.id}`;
+          item.className = 'flex items-center gap-2 text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 px-2 py-1 rounded-md hover:bg-slate-200/50 dark:hover:bg-slate-900/60 transition-colors truncate';
+
+          const methodColors = {
+            GET: 'text-emerald-600 dark:text-emerald-400',
+            POST: 'text-blue-600 dark:text-blue-400',
+            PUT: 'text-amber-600 dark:text-amber-400',
+            DELETE: 'text-rose-600 dark:text-rose-400',
+            PATCH: 'text-purple-600 dark:text-purple-400'
+          }[ep.method] || 'text-slate-500 dark:text-slate-400';
+
+          item.innerHTML = `
+            <span class="text-[10px] font-mono font-bold ${methodColors} shrink-0 w-7">${ep.method}</span>
+            <span class="truncate">${ep.summary || ep.path}</span>
+          `;
+
+          item.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetCard = document.getElementById(`card-${ep.id}`);
+            if (targetCard) {
+              // Expand card
+              const cardBody = targetCard.querySelector('.card-body');
+              const chevron = targetCard.querySelector('.chevron-icon');
+              if (cardBody && cardBody.classList.contains('hidden')) {
+                cardBody.classList.remove('hidden');
+                chevron?.classList.add('rotate-180');
+                state.expandedCards.add(ep.id);
+                updateCurlSnippet(targetCard, ep);
+              }
+              targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              targetCard.classList.add('ring-2', 'ring-sky-500');
+              setTimeout(() => targetCard.classList.remove('ring-2', 'ring-sky-500'), 1500);
+            }
+          });
+
+          listContainer.appendChild(item);
+        });
+
+        tagGroup.appendChild(tagBtn);
+        tagGroup.appendChild(listContainer);
+        dom.sidebarNav.appendChild(tagGroup);
+      });
+    }
+
+    // --- Render Schemas / Models ---
+    function renderSchemas() {
+      const schemas = state.spec?.components?.schemas || {};
+      const schemaEntries = Object.entries(schemas);
+
+      dom.schemasCountBadge.textContent = schemaEntries.length;
+      dom.schemasCountLabel.textContent = `${schemaEntries.length} models`;
+      dom.schemasContainer.innerHTML = '';
+
+      if (schemaEntries.length === 0) {
+        dom.schemasContainer.innerHTML = '<div class="text-xs text-slate-500 dark:text-slate-400 p-4">No schemas defined in this spec.</div>';
+        return;
+      }
+
+      schemaEntries.forEach(([name, schema]) => {
+        const item = document.createElement('div');
+        item.className = 'rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-hidden text-xs shadow-xs';
+
+        item.innerHTML = `
+          <div class="schema-header p-3 cursor-pointer select-none flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+            <div class="flex items-center gap-2">
+              <span class="font-mono font-bold text-sky-600 dark:text-sky-400">${name}</span>
+              <span class="text-[10px] px-1.5 py-0.2 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">${schema.type || 'object'}</span>
+            </div>
+            <svg class="schema-chevron w-4 h-4 text-slate-400 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+          <div class="schema-body hidden p-4 border-t border-slate-200 dark:border-slate-800/80 bg-slate-900 text-slate-100 dark:bg-slate-950/60 dark:text-slate-300 space-y-3 font-mono">
+            ${schema.description ? `<p class="text-xs text-slate-300 font-sans">${escapeHtml(schema.description)}</p>` : ''}
+            <pre class="text-xs text-slate-200 overflow-x-auto">${syntaxHighlightJson(generateSamplePayload(schema))}</pre>
+          </div>
+        `;
+
+        item.querySelector('.schema-header').addEventListener('click', () => {
+          const body = item.querySelector('.schema-body');
+          const chevron = item.querySelector('.schema-chevron');
+          const isHidden = body.classList.toggle('hidden');
+          chevron.classList.toggle('rotate-180', !isHidden);
+        });
+
+        dom.schemasContainer.appendChild(item);
+      });
+    }
+
+    // --- Utilities ---
+    function highlightPathParams(path) {
+      return path.replace(/\{([^}]+)\}/g, '<span class="text-sky-600 dark:text-sky-400 font-bold">{$1}</span>');
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    // --- Global Event Listeners & Binding ---
+    function setupEventListeners() {
+      // Search
+      dom.globalSearch.addEventListener('input', (e) => {
+        state.searchQuery = e.target.value;
+        if (state.spec) {
+          const endpoints = [];
+          const tagMap = new Map();
+          for (const [path, pathItem] of Object.entries(state.spec.paths || {})) {
+            ['get', 'post', 'put', 'delete', 'patch'].forEach(m => {
+              if (pathItem[m]) {
+                const ep = {
+                  id: `${m}-${path.replace(/[^a-zA-Z0-9]/g, '_')}`,
+                  path,
+                  method: m.toUpperCase(),
+                  operation: pathItem[m],
+                  summary: pathItem[m].summary || path,
+                  description: pathItem[m].description || '',
+                  deprecated: !!pathItem[m].deprecated
+                };
+                endpoints.push(ep);
+                (pathItem[m].tags || ['General Services']).forEach(t => {
+                  if (!tagMap.has(t)) tagMap.set(t, []);
+                  tagMap.get(t).push(ep);
+                });
+              }
+            });
+          }
+          renderEndpoints(tagMap, endpoints);
+        }
+      });
+
+      // Keyboard shortcut Ctrl+K or / to search
+      window.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey && e.key.toLowerCase() === 'k') || (e.key === '/' && document.activeElement !== dom.globalSearch && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA')) {
+          e.preventDefault();
+          dom.globalSearch.focus();
+        }
+        if (e.key === 'Escape') {
+          dom.authModal.classList.add('hidden');
+          dom.customSpecModal.classList.add('hidden');
+        }
+      });
+
+      // Method Filter buttons
+      document.querySelectorAll('.method-filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.method-filter-btn').forEach(b => {
+            b.classList.remove('active', 'bg-sky-500/15', 'text-sky-700', 'border-sky-400', 'dark:bg-sky-500/20', 'dark:text-sky-300', 'dark:border-sky-500/30');
+          });
+          btn.classList.add('active', 'bg-sky-500/15', 'text-sky-700', 'border-sky-400', 'dark:bg-sky-500/20', 'dark:text-sky-300', 'dark:border-sky-500/30');
+          state.currentMethodFilter = btn.dataset.method;
+          dom.btnClearMethodFilter.classList.toggle('hidden', state.currentMethodFilter === 'ALL');
+          if (state.spec) renderEntireUI();
+        });
+      });
+
+      // Reset filters
+      dom.btnResetFilters.addEventListener('click', () => {
+        dom.globalSearch.value = '';
+        state.searchQuery = '';
+        state.currentMethodFilter = 'ALL';
+        document.querySelectorAll('.method-filter-btn').forEach(b => {
+          b.classList.toggle('active', b.dataset.method === 'ALL');
+          b.classList.toggle('bg-sky-500/15', b.dataset.method === 'ALL');
+          b.classList.toggle('text-sky-700', b.dataset.method === 'ALL');
+          b.classList.toggle('border-sky-400', b.dataset.method === 'ALL');
+          b.classList.toggle('dark:bg-sky-500/20', b.dataset.method === 'ALL');
+          b.classList.toggle('dark:text-sky-300', b.dataset.method === 'ALL');
+        });
+        dom.btnClearMethodFilter.classList.add('hidden');
+        renderEntireUI();
+      });
+
+      dom.btnClearMethodFilter.addEventListener('click', () => {
+        state.currentMethodFilter = 'ALL';
+        document.querySelectorAll('.method-filter-btn').forEach(b => {
+          b.classList.toggle('active', b.dataset.method === 'ALL');
+          b.classList.toggle('bg-sky-500/15', b.dataset.method === 'ALL');
+          b.classList.toggle('text-sky-700', b.dataset.method === 'ALL');
+          b.classList.toggle('border-sky-400', b.dataset.method === 'ALL');
+          b.classList.toggle('dark:bg-sky-500/20', b.dataset.method === 'ALL');
+          b.classList.toggle('dark:text-sky-300', b.dataset.method === 'ALL');
+        });
+        dom.btnClearMethodFilter.classList.add('hidden');
+        renderEntireUI();
+      });
+
+      // Expand / Collapse all
+      dom.btnExpandAll.addEventListener('click', () => {
+        document.querySelectorAll('.endpoint-card .card-body').forEach(b => b.classList.remove('hidden'));
+        document.querySelectorAll('.endpoint-card .chevron-icon').forEach(c => c.classList.add('rotate-180'));
+      });
+
+      dom.btnCollapseAll.addEventListener('click', () => {
+        document.querySelectorAll('.endpoint-card .card-body').forEach(b => b.classList.add('hidden'));
+        document.querySelectorAll('.endpoint-card .chevron-icon').forEach(c => c.classList.remove('rotate-180'));
+        state.expandedCards.clear();
+      });
+
+      // Spec Selector Dropdown
+      dom.specSelect.addEventListener('change', (e) => {
+        const val = e.target.value;
+        if (val === 'custom') {
+          dom.customSpecModal.classList.remove('hidden');
+        } else {
+          discoverAndLoadSpec(val);
+        }
+      });
+
+      // Custom Spec Modal
+      dom.btnCancelCustomSpec.addEventListener('click', () => dom.customSpecModal.classList.add('hidden'));
+      dom.btnLoadCustomSpec.addEventListener('click', () => {
+        const val = dom.customSpecInput.value.trim();
+        if (val) {
+          dom.customSpecModal.classList.add('hidden');
+          discoverAndLoadSpec(val);
+        }
+      });
+
+      // Server URL change
+      dom.serverSelect.addEventListener('change', (e) => {
+        state.selectedServer = e.target.value;
+      });
+
+      // Theme toggle
+      dom.btnToggleTheme.addEventListener('click', toggleTheme);
+
+      // Raw Spec download
+      dom.btnViewRaw.addEventListener('click', () => {
+        if (!state.spec) return;
+        const blob = new Blob([JSON.stringify(state.spec, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'openapi-spec.json';
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+
+      // Auth modal open/close
+      dom.btnOpenAuth.addEventListener('click', () => {
+        dom.authTokenInput.value = state.bearerToken;
+        inspectTokenInput();
+        dom.authModal.classList.remove('hidden');
+        dom.authTokenInput.focus();
+      });
+
+      dom.btnCloseAuth.addEventListener('click', () => dom.authModal.classList.add('hidden'));
+      dom.btnCancelAuth.addEventListener('click', () => dom.authModal.classList.add('hidden'));
+
+      dom.authTokenInput.addEventListener('input', inspectTokenInput);
+
+      dom.btnSaveAuth.addEventListener('click', () => {
+        let token = dom.authTokenInput.value.trim();
+        token = token.replace(/^Bearer\s+/i, '');
+        state.bearerToken = token;
+        localStorage.setItem('elife_connect_bearer_token', token);
+        updateAuthStatusUI();
+        dom.authModal.classList.add('hidden');
+        showToast(token ? 'Authorization token saved!' : 'Token cleared');
+        if (state.spec) renderEntireUI();
+      });
+
+      dom.btnClearAuth.addEventListener('click', () => {
+        state.bearerToken = '';
+        dom.authTokenInput.value = '';
+        localStorage.removeItem('elife_connect_bearer_token');
+        updateAuthStatusUI();
+        dom.jwtPreview.classList.add('hidden');
+        dom.authModal.classList.add('hidden');
+        showToast('Logged out & cleared token');
+        if (state.spec) renderEntireUI();
+      });
+
+      // Retry & Demo spec
+      dom.btnRetryLoad.addEventListener('click', () => discoverAndLoadSpec(dom.specSelect.value));
+      dom.btnLoadDemoSpec.addEventListener('click', loadDemoSpec);
+    }
+
+    // --- Initialization ---
+    window.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      updateAuthStatusUI();
+      setupEventListeners();
+      discoverAndLoadSpec();
+    });
+  </script>
+</body>
+
+</html>

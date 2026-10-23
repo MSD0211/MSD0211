@@ -1,4 +1,4 @@
-package com.api.eLifeConnect.config;
+package com.api.elifeconnect.config;
 
 import com.api.elifeconnect.config.OpenApiConfig;
 import org.junit.jupiter.api.Test;
@@ -28,19 +28,18 @@ class OpenApiConfigTest {
 
     @Test
     void testKenyaProfileLoadsCorrectGroups() {
-        // Common group should always load
-        assertThat(context.containsBean("commonApi")).isTrue();
-        GroupedOpenApi commonApi = context.getBean("commonApi", GroupedOpenApi.class);
-        assertThat(commonApi.getGroup()).isEqualTo("Common");
+        // Common group should NOT load (common grouping removed)
+        assertThat(context.containsBean("commonApi")).isFalse();
 
         // Kenya group should load under "kenya-dev" profile
         assertThat(context.containsBean("kenyaApi")).isTrue();
         GroupedOpenApi kenyaApi = context.getBean("kenyaApi", GroupedOpenApi.class);
         assertThat(kenyaApi.getGroup()).isEqualTo("Kenya");
 
-        // Lanka and Nepal groups should NOT load under "kenya-dev" profile
+        // Lanka, Nepal, and Mauritius groups should NOT load under "kenya-dev" profile
         assertThat(context.containsBean("lankaApi")).isFalse();
         assertThat(context.containsBean("nepalApi")).isFalse();
+        assertThat(context.containsBean("mauritiusApi")).isFalse();
     }
 
     @TestConfiguration

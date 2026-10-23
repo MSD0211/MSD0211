@@ -21,10 +21,13 @@ import com.api.elifeconnect.dto.premium.summary.PremiumSummaryResponse;
 import com.api.elifeconnect.service.premium.PremiumService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Slf4j
 @RestController("kenyaPremiumController")
 @RequestMapping("/api/v1/kenya/premium")
+@Tag(name = "Premium Services", description = "Endpoints for Kenya premium statement and summary operations")
 public class PremiumController {
 
     private final PremiumService premiumService;
@@ -39,6 +42,14 @@ public class PremiumController {
     @PostMapping("/statement")
     @PreAuthorize("hasAuthority('kenya.api.read')")
     @LogApiCall(value = "Premium Statement API", shortName = ApiShortNames.PREMIUM_STATEMENT)
+    @Operation(summary = "Get Full Premium Statement", description = "Retrieves full historical premium statement for a Kenya policy.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Premium statement generated successfully"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid request payload"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized request"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "Forbidden - insufficient permissions"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public ResponseEntity<ApiResponse<PremiumStatementFullResponse>> getPremiumStatementFull(
             @Valid @RequestBody PremiumStatementFullRequest premiumStatementFullRequest,
             HttpServletRequest request) {
@@ -56,6 +67,14 @@ public class PremiumController {
     @PostMapping("/summary")
     @PreAuthorize("hasAuthority('kenya.api.read')")
     @LogApiCall(value = "Premium Summary API", shortName = ApiShortNames.PREMIUM_SUMMARY)
+    @Operation(summary = "Get Premium Summary", description = "Retrieves premium summary and sum assured details for a Kenya policy.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Premium summary generated successfully"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid request payload"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized request"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "Forbidden - insufficient permissions"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public ResponseEntity<ApiResponse<PremiumSummaryResponse>> getPremiumSummary(
             @Valid @RequestBody PremiumSummaryRequest premiumSummaryRequest,
             HttpServletRequest request) {

@@ -81,7 +81,15 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/public/**").permitAll()
                         .requestMatchers("/actuator/**").permitAll()
-                        .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
+                        .requestMatchers(
+                                "/", "/index.html",
+                                "/v3/api-docs", "/v3/api-docs/**",
+                                "/swagger-ui/**", "/swagger-ui.html",
+                                "/docs", "/docs/**",
+                                "/swagger-custom", "/swagger-custom/**",
+                                "/api-docs-ui",
+                                "/favicon.ico"
+                        ).permitAll()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth -> oauth
                         .jwt(jwt -> jwt

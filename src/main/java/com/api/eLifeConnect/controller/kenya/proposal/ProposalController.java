@@ -30,10 +30,13 @@ import com.api.elifeconnect.validation.groups.KenyaGroup;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.groups.Default;
 import lombok.extern.slf4j.Slf4j;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Slf4j
 @RestController("kenyaProposalController")
 @RequestMapping("/api/v1/kenya/proposal")
+@Tag(name = "Proposal Management", description = "Endpoints for Kenya proposal premium enquiry and submission operations")
 public class ProposalController {
 
     private final ProposalService proposalService;
@@ -48,6 +51,14 @@ public class ProposalController {
     @PostMapping("/premium/enquiry")
     @PreAuthorize("hasAuthority('kenya.api.read')")
     @LogApiCall(value = "Proposal Premium Enquiry API", shortName = ApiShortNames.PROPOSAL_PREMIUM_ENQ)
+    @Operation(summary = "Proposal Premium Enquiry", description = "Calculates installment premium and details for Kenya policy proposal.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Proposal premium enquiry successful"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid request payload"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized request"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "Forbidden - insufficient permissions"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public ResponseEntity<ApiResponse<ProposalPremiumEnquiryResponse>> proposalPremiumEnquiry(
             @Valid @RequestBody ProposalPremiumEnquiryRequest proposalPremiumEnquiryRequest,
             HttpServletRequest request) {
@@ -65,6 +76,14 @@ public class ProposalController {
     @PostMapping("/submission/enquiry")
     @PreAuthorize("hasAuthority('kenya.api.read')")
     @LogApiCall(value = "Proposal Submission Enquiry API", shortName = ApiShortNames.PROPOSAL_SUBMISSION_ENQ)
+    @Operation(summary = "Proposal Submission Enquiry", description = "Checks proposal submission status and retrieves installment premium information.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Proposal submission enquiry successful"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid request payload"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized request"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "Forbidden - insufficient permissions"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public ResponseEntity<ApiResponse<ProposalSubmissionEnquiryResponse>> proposalPremiumEnquiry(
             @Valid @RequestBody ProposalSubmissionEnquiryRequest proposalSubmissionEnquiryRequest,
             HttpServletRequest request) {
@@ -84,6 +103,14 @@ public class ProposalController {
     @PostMapping("/submit")
     @PreAuthorize("hasAuthority('kenya.api.read')")
     @LogApiCall(value = "Proposal Submission API", shortName = ApiShortNames.PROPOSAL_SUBMISSION)
+    @Operation(summary = "Submit New Proposal", description = "Submits a new policy proposal for Kenya.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Proposal successfully submitted"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid request payload"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized request"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "Forbidden - insufficient permissions"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public ResponseEntity<ApiResponse<ProposalSubmitResponse>> proposalSubmit(
             @Validated({ Default.class, KenyaGroup.class }) @RequestBody ProposalSubmitRequest proposalSubmitRequest,
             HttpServletRequest request) {

@@ -19,9 +19,12 @@ import com.api.elifeconnect.dto.employee.EmployeeAuthenticationResponse;
 import com.api.elifeconnect.service.employee.EmployeeAuthenticationService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/v1/kenya/employee")
+@Tag(name = "Employee Services", description = "Endpoints for Kenya employee authentication and details")
 public class EmployeeController {
 
     private final EmployeeAuthenticationService custAuthService;
@@ -37,6 +40,14 @@ public class EmployeeController {
     // @PreAuthorize("hasAnyRole('USER')")
     @PreAuthorize("hasAuthority('kenya.api.read')")
     @LogApiCall(value = "Employee Authentication API", shortName = ApiShortNames.EMPLOYEE_AUTH)
+    @Operation(summary = "Employee Authentication", description = "Authenticates an employee and returns employee profile details.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Employee authentication successful"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid request payload"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized request"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "Forbidden - insufficient permissions"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public ResponseEntity<ApiResponse<EmployeeAuthenticationResponse>> employeeAuthentication(
             @Valid @RequestBody EmployeeAuthenticationRequest empAuthenticationRequest,
             HttpServletRequest request) {

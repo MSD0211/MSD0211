@@ -1,19 +1,36 @@
 package com.api.elifeconnect.config;
 
+import com.api.elifeconnect.annotation.InDevelopment;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import org.springdoc.core.customizers.OperationCustomizer;
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.annotation.AnnotatedElementUtils;
 
 @Configuration
 public class OpenApiConfig {
 
         private static final String SECURITY_SCHEME_NAME = "Bearer Authentication";
+
+        @Bean
+        public OperationCustomizer hideInDevelopmentApisCustomizer() {
+                return (operation, handlerMethod) -> {
+                        if (AnnotatedElementUtils.hasAnnotation(handlerMethod.getMethod(), InDevelopment.class)
+                                        || AnnotatedElementUtils.hasAnnotation(handlerMethod.getBeanType(), InDevelopment.class)
+                                        || AnnotatedElementUtils.hasAnnotation(handlerMethod.getMethod(), Hidden.class)
+                                        || AnnotatedElementUtils.hasAnnotation(handlerMethod.getBeanType(), Hidden.class)) {
+                                return null;
+                        }
+                        return operation;
+                };
+        }
 
         @Bean
         public OpenAPI customOpenAPI() {
@@ -63,16 +80,12 @@ public class OpenApiConfig {
         }
 
         @Bean
-        public GroupedOpenApi commonApi() {
+        @Profile({ "mauritius-dev", "mauritius-test", "mauritius-prod" })
+        public GroupedOpenApi mauritiusApi() {
                 return GroupedOpenApi.builder()
-                                .group("Common")
-                                .packagesToScan("com.api.elifeconnect.controller.common",
-                                                "com.api.elifeconnect.controller")
-                                .packagesToExclude(
-                                                "com.api.elifeconnect.controller.kenya",
-                                                "com.api.elifeconnect.controller.lanka",
-                                                "com.api.elifeconnect.controller.nepal")
-                                .pathsToMatch("/api/token/**", "/api/public/**", "/sample/**")
+                                .group("Mauritius")
+                                .packagesToScan("com.api.elifeconnect.controller.mauritius")
+                                .pathsToMatch("/api/v1/mauritius/**")
                                 .build();
         }
 }

@@ -10,14 +10,19 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
+import com.api.elifeconnect.annotation.InDevelopment;
 import com.api.elifeconnect.dto.authentication.LoginRequest;
 import com.api.elifeconnect.dto.authentication.TokenResponse;
 import com.api.elifeconnect.model.TokenResult;
 import com.api.elifeconnect.service.KeycloakService;
 
+@InDevelopment("Authentication endpoints hidden from public documentation")
 @RestController
 @RequestMapping("/api")
+@Tag(name = "Authentication Services", description = "Endpoints for OAuth2 and Keycloak token generation")
 public class AuthController {
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
     private final KeycloakService keycloakService;
@@ -27,6 +32,11 @@ public class AuthController {
     }
 
    @PostMapping("/token")
+   @Operation(summary = "Get User Token", description = "Generates a JWT token using password grant credentials.")
+   @io.swagger.v3.oas.annotations.responses.ApiResponses(value = {
+           @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Token generated successfully"),
+           @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid request or authentication failed")
+   })
 public ResponseEntity<TokenResult> getToken(@Valid @RequestBody LoginRequest loginRequest) {
 
     logger.debug("Token request received for client: {}", loginRequest.getClientName());
@@ -66,6 +76,11 @@ public ResponseEntity<TokenResult> getToken(@Valid @RequestBody LoginRequest log
 
 
   @PostMapping("/token/client-credentials")
+  @Operation(summary = "Get Client Credentials Token", description = "Generates a token using OAuth2 client credentials grant for machine-to-machine authentication.")
+  @io.swagger.v3.oas.annotations.responses.ApiResponses(value = {
+          @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Client credentials token obtained successfully"),
+          @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Failed to obtain client credentials token")
+  })
 public ResponseEntity<TokenResult> getClientCredentialsToken(@RequestParam String clientName) {
 
     logger.debug("Attempting to get client credentials token for client: {}", clientName);
@@ -86,6 +101,11 @@ public ResponseEntity<TokenResult> getClientCredentialsToken(@RequestParam Strin
 }
 
 @PostMapping("/token/oauth2/code")
+@Operation(summary = "Get Authorization Code Token", description = "Exchanges an authorization code for an OAuth2 access token.")
+@io.swagger.v3.oas.annotations.responses.ApiResponses(value = {
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Authorization code token obtained successfully"),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid request or authorization failed")
+})
 public ResponseEntity<TokenResult> getAuthCodeToken(
         @RequestParam String clientName,
         @RequestParam String code,

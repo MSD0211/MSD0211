@@ -1,15 +1,20 @@
 package com.api.elifeconnect.dto.authentication;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 
+@Schema(description = "Credentials for obtaining OAuth2 / Keycloak token")
 public class LoginRequest {
     @NotBlank(message = "clientName is required")
+    @Schema(description = "OAuth2 registered client identifier", example = "ui-client")
     private String clientName;
 
     @NotBlank(message = "username is required")
+    @Schema(description = "User or service account username", example = "john.doe")
     private String username;
 
     @NotBlank(message = "password is required")
+    @Schema(description = "Account password", example = "P@ssw0rd123!")
     private String password;
 
     public String getUsername() {

@@ -20,10 +20,13 @@ import com.api.elifeconnect.dto.policy.AgentPolicyEnquiryRequest;
 import com.api.elifeconnect.dto.policy.AgentPolicyEnquiryResponse;
 import com.api.elifeconnect.dto.policy.CustomerPolicyEnquiryRequest;
 import com.api.elifeconnect.dto.policy.CustomerPolicyEnquiryResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController("lankaPolicyController")
 @RequestMapping("/api/v1/lanka/policy")
+@Tag(name = "Policy Management", description = "Endpoints for Lanka policy enquiry and policy details")
 public class PolicyController {
 
     private final PolicyService policyService;
@@ -38,6 +41,14 @@ public class PolicyController {
     @PostMapping("/enquiry/customer")
     @PreAuthorize("hasAuthority('lanka.api.read')")
     @LogApiCall(value = "CustomerPolicyEnquiryAPI", shortName = "PLCENQ")
+    @Operation(summary = "Customer Policy Enquiry", description = "Retrieves policy details for a customer based on policy number and verification criteria.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Customer policy enquiry successful"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid request payload"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized request"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "Forbidden - insufficient permissions"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public ResponseEntity<ApiResponse<CustomerPolicyEnquiryResponse>> customerPolicyEnquiry(
             @Valid @RequestBody CustomerPolicyEnquiryRequest customerPolicyEnqRequest,
             HttpServletRequest request) {
@@ -55,6 +66,14 @@ public class PolicyController {
     @PostMapping("/enquiry/agent")
     @PreAuthorize("hasAuthority('lanka.api.read')")
     @LogApiCall(value = "CustomerPolicyEnquiryAPI", shortName = ApiShortNames.POLICY_ENQUIRY)
+    @Operation(summary = "Agent Policy Enquiry", description = "Retrieves policy details on behalf of an agent.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Agent policy enquiry successful"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid request payload"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized request"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "Forbidden - insufficient permissions"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public ResponseEntity<ApiResponse<AgentPolicyEnquiryResponse>> agentPolicyEnquiry(
             @Valid @RequestBody AgentPolicyEnquiryRequest agentPolicyEnqRequest,
             HttpServletRequest request) {

@@ -34,10 +34,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Slf4j
 @RestController("lankaProposalController")
 @RequestMapping("/api/v1/lanka/proposal")
+@Tag(name = "Proposal Management", description = "Endpoints for Lanka proposal enquiry, submission, and deposit operations")
 public class ProposalController {
 
         private final ProposalService proposalService;
@@ -55,6 +58,14 @@ public class ProposalController {
         @PostMapping("/premium/enquiry")
         @PreAuthorize("hasAuthority('lanka.api.read')")
         @LogApiCall(value = "Proposal Premium Enquiry API", shortName = ApiShortNames.PROPOSAL_PREMIUM_ENQ)
+        @Operation(summary = "Proposal Premium Enquiry", description = "Calculates installment premium and details for a proposed policy.")
+        @io.swagger.v3.oas.annotations.responses.ApiResponses(value = {
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Proposal premium enquiry successful"),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid request payload"),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized request"),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "Forbidden - insufficient permissions"),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal server error")
+        })
         public ResponseEntity<ApiResponse<ProposalPremiumEnquiryResponse>> proposalPremiumEnquiry(
                         @Valid @RequestBody ProposalPremiumEnquiryRequest proposalPremiumEnquiryRequest,
                         HttpServletRequest request) {
@@ -73,6 +84,14 @@ public class ProposalController {
         @PostMapping("/submission/enquiry")
         @PreAuthorize("hasAuthority('lanka.api.read')")
         @LogApiCall(value = "Proposal Submission Enquiry API", shortName = ApiShortNames.PROPOSAL_SUBMISSION_ENQ)
+        @Operation(summary = "Proposal Submission Enquiry", description = "Checks proposal submission status and retrieves installment premium information.")
+        @io.swagger.v3.oas.annotations.responses.ApiResponses(value = {
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Proposal submission enquiry successful"),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid request payload"),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized request"),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "Forbidden - insufficient permissions"),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal server error")
+        })
         public ResponseEntity<ApiResponse<ProposalSubmissionEnquiryResponse>> proposalPremiumEnquiry(
                         @Valid @RequestBody ProposalSubmissionEnquiryRequest proposalSubmissionEnquiryRequest,
                         HttpServletRequest request) {
@@ -92,6 +111,14 @@ public class ProposalController {
         @PostMapping("/submit")
         @PreAuthorize("hasAuthority('lanka.api.read')")
         @LogApiCall(value = "Proposal Submission API", shortName = ApiShortNames.PROPOSAL_SUBMISSION)
+        @Operation(summary = "Submit New Proposal", description = "Submits a new policy proposal with required applicant and payment details.")
+        @io.swagger.v3.oas.annotations.responses.ApiResponses(value = {
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Proposal successfully submitted"),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid request payload"),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized request"),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "Forbidden - insufficient permissions"),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal server error")
+        })
         public ResponseEntity<ApiResponse<ProposalSubmitResponse>> proposalSubmit(
                         @Validated({ Default.class,
                                         LankaGroup.class }) @RequestBody ProposalSubmitRequest proposalSubmitRequest,
@@ -112,6 +139,14 @@ public class ProposalController {
         @PostMapping("/deposit/create")
         @PreAuthorize("hasAuthority('lanka.api.read')")
         @LogApiCall(value = "Proposal Deposit Create API", shortName = ApiShortNames.PROPOSAL_DEPOSIT_CREATE)
+        @Operation(summary = "Create Proposal Deposit", description = "Creates a deposit entry for an existing or pending proposal.")
+        @io.swagger.v3.oas.annotations.responses.ApiResponses(value = {
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Proposal deposit successfully created"),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid request payload"),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized request"),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "Forbidden - insufficient permissions"),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal server error")
+        })
         public ResponseEntity<ApiResponse<ProposalDepositCreateResponse>> proposalSubmit(
                         @Valid @RequestBody ProposalDepositCreateRequest proposalDepositCreateRequest,
                         HttpServletRequest request) throws JsonProcessingException {

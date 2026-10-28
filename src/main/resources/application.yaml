@@ -1,6 +1,22 @@
 server:
   port: 8082
 
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+    display-request-duration: true
+    persist-authorization: true
+    enabled: true
+    doc-expansion: none
+    filter: true
+    syntax-highlight:
+      theme: obsidian
+
 management:
   endpoints:
     web:
@@ -61,8 +77,6 @@ elife:
       repayment:
         letter:
           url: /api/v1/loan/repayment/letter
-        online:
-          url: /api/v1/loan/repayment
       quotation:
         url: /api/v1/loan/quotation
 

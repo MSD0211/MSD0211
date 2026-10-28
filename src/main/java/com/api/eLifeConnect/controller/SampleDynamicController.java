@@ -24,14 +24,19 @@ import jakarta.validation.constraints.NotBlank;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.api.elifeconnect.annotation.InDevelopment;
 import com.api.elifeconnect.service.GenericApiService;
 
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
+@InDevelopment("Sample & Dynamic API testing endpoints under development")
 @RestController
 @RequestMapping("/sample")
+@Tag(name = "Testing & Samples", description = "Endpoints for dynamic API execution and multipart testing")
 public class SampleDynamicController {
 
     private final GenericApiService apiService;
@@ -41,6 +46,12 @@ public class SampleDynamicController {
     }
 
     @PostMapping("/dynamic")
+    @Operation(summary = "Call Dynamic API", description = "Sample endpoint for executing dynamic external API requests.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Dynamic API executed successfully"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid request payload"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public Object callDynamicApi(@Valid @RequestBody SampleRequest request) {
         String url = "https://external-api.com/process";
 
@@ -63,6 +74,12 @@ public class SampleDynamicController {
 
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @com.api.elifeconnect.aop.LogApiCall("Document Upload API")
+    @Operation(summary = "Upload Files Multipart", description = "Sample multipart file upload with JSON payload and metadata.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Files uploaded successfully"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid multipart payload"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public Object uploadFiles(
             @RequestPart("files") MultipartFile[] files,
             @RequestPart("data") String jsonString,
@@ -152,6 +169,12 @@ public class SampleDynamicController {
     }
 
     @PostMapping("/download")
+    @Operation(summary = "Download Sample PDF", description = "Sample endpoint for downloading a PDF file generated from request JSON payload.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "PDF downloaded successfully"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid request payload"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public ResponseEntity<byte[]> downloadPdf(@Valid @RequestBody SampleRequest request) {
         String url = "https://external-api.com/download";
 

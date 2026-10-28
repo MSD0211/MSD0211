@@ -22,9 +22,12 @@ import com.api.elifeconnect.common.response.ApiResponseBuilder;
 import com.api.elifeconnect.dto.loan.LoanQuotationRequest;
 import com.api.elifeconnect.dto.loan.LoanRepaymentLetterRequest;
 import com.api.elifeconnect.service.loan.LoanService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/v1/kenya/loan")
+@Tag(name = "Loan Services", description = "Endpoints for Kenya loan quotation and repayment letter downloads")
 public class LoanController {
 
         private final LoanService loanService;
@@ -36,26 +39,17 @@ public class LoanController {
                 this.responseBuilder = new ApiResponseBuilder();
         }
 
-        // @GetMapping("/enquiry")
-        // @PreAuthorize("hasAuthority('kenya.api.read')")
-        // @LogApiCall("LoanEnquiryAPI")
-        // public ResponseEntity<ApiResponse<LoanEnquiryResponse>> loanEnquiry(
-        // @RequestBody LoanEnquiryRequest loanEnqRequest,
-        // HttpServletRequest request) {
-
-        // MDC.put("apiName", "LoanEnquiryAPI");
-        // LoanEnquiryResponse response = loanService.loanEnquiry(loanEnqRequest);
-        // System.out.println("RESPONSE ::"+response.httpStatus());
-        // System.out.println("RESPONSE::"+response.loanAmount());
-        // ApiResponse<LoanEnquiryResponse> body =
-        // responseBuilder.success(request, "Loan enquiry success", response);
-
-        // return ResponseEntity.ok(body);
-        // }
-
         @PostMapping(value = "/quotation/download", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_PDF_VALUE)
         @PreAuthorize("hasAuthority('kenya.api.read')")
         @LogApiCall(value = "LoanQuotationAPI", shortName = ApiShortNames.LOAN_QUOTATION)
+        @Operation(summary = "Download Loan Quotation PDF", description = "Generates and downloads the loan quotation PDF for a policy.")
+        @io.swagger.v3.oas.annotations.responses.ApiResponses(value = {
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Loan quotation PDF generated successfully"),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid request payload"),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized request"),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "Forbidden - insufficient permissions"),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal server error")
+        })
         public ResponseEntity<Resource> downloadLoanQuotationPdf(
                         @Valid @RequestBody LoanQuotationRequest request) throws IOException {
 
@@ -77,6 +71,14 @@ public class LoanController {
         @PostMapping(value = "/repayment/letter/download", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_PDF_VALUE)
         @PreAuthorize("hasAuthority('kenya.api.read')")
         @LogApiCall(value = "LoanRepaymentLetterAPI", shortName = ApiShortNames.LOAN_REPAYMENT_LETTER)
+        @Operation(summary = "Download Loan Repayment Letter PDF", description = "Generates and downloads the loan repayment letter PDF for a policy.")
+        @io.swagger.v3.oas.annotations.responses.ApiResponses(value = {
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Loan repayment letter PDF generated successfully"),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid request payload"),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized request"),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "Forbidden - insufficient permissions"),
+                @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal server error")
+        })
         public ResponseEntity<Resource> downloadLoanRepaymentLetterPdf(
                         @Valid @RequestBody LoanRepaymentLetterRequest request) throws IOException {
 

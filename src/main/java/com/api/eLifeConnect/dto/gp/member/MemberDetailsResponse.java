@@ -5,8 +5,8 @@ import java.sql.Date;
 import java.util.List;
 
 public record MemberDetailsResponse(
-
         String name,
+        String dateOfBirth,
         Date dateJoined,
         BigDecimal fundValue,
         String memberStatus,
@@ -16,5 +16,4 @@ public record MemberDetailsResponse(
         String emailId,
         AddressDetails address,
         List<BeneficiaryDetails> beneficiaryDetails
-
-) {}
+        ) {}
